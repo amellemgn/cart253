@@ -19,13 +19,15 @@ let squareSize = 100;
 let birdImage;
 let birdImageX = 0;
 let birdImageY = 10;
+let orangeImage;
+let orangeImageX =0;
+let orangeImageY = 0;
 
 // preload()
 //
 // Load images
 function preload() {
   //Linking to cute bird pic that i put in my ex1 files
-
   birdImage = loadImage("assets/images/bird.png");
 }
 
@@ -53,7 +55,6 @@ function setup() {
   // We won't have a stroke in this
   noStroke();
 
-  //Set up parameters for bird pic to be left of screen
 
 
 }
@@ -82,8 +83,9 @@ function draw() {
   fill(0,0,255,10);
   // Display the square
   rect(squareX,squareY,squareSize,squareSize);
-
-  birdImageX += 1;
+  background(250);
   image(birdImage, birdImageX,birdImageY);
+  birdImageX += 1;
+
 
 }

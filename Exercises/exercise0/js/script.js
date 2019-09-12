@@ -34,8 +34,8 @@ function setup() {
 
   // Draw the white backgrounds of the eyes
   fill(255);
-  ellipse(200,225,50,50);
-  ellipse(300,225,50,50);
+  ellipse(200,225,150,150);
+  ellipse(300,225,150,150);
 
   // Draw the black pupils
   fill(0);

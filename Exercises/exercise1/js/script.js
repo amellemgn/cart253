@@ -13,13 +13,22 @@ let birdImageY = 10;
 let orangeImage;
 let orangeImageX =0;
 let orangeImageY = 0;
-//let a = 0;
-//let inc;   Note: sinewave variables ended up not being used
+
 let moneyImage;
-let moneyTransparency = 10;
+let moneyTransparency = 45;
 let moneyX = 15;
-//let moneyX = random(100,500); <---- why didn't this work?
+
 let moneyY = 0;
+
+
+let xspacing = 16; // Distance between each horizontal location
+let w; // Width of entire wave
+let theta = 0.0; // Start angle at 0
+let amplitude = 75.0; // Height of wave
+let period = 500.0; // How many pixels before the wave repeats
+let dx; // Value for incrementing x
+let yvalues; // Using an array to store height values for the wave
+let clownImage;
 
 // preload()
 //
@@ -31,7 +40,7 @@ function preload() {
   birdImage = loadImage("assets/images/bird.png");
   orangeImage = loadImage("assets/images/orange.png");
   moneyImage = loadImage("assets/images/money.png");
-  //let inc = TWO_PI / 25.0;
+  clownImage = loadImage("assets/images/clown.png");
 }
 
 
@@ -42,7 +51,9 @@ function preload() {
 function setup() {
   // Create our canvas.
   createCanvas(640,640);
-
+   w = width + 16;
+   dx = (TWO_PI / period) * xspacing;
+   yvalues = new Array(floor(w / xspacing));
 }
 
 
@@ -68,7 +79,31 @@ function draw() {
   moneyY +=10;
 //(How to get the tint to only apply to moneyImage????)
 
-// Failed attempt at sine wave moment
-//image(moneyImage,sin(a), 10);
-// a=a+inc;
+calcWave();
+renderWave();
+
+}
+
+
+
+function calcWave() {
+  // Increment theta (try different values for
+  // 'angular velocity' here)
+  theta += 0.02;
+
+  // For every x value, calculate a y value with sine function
+  let x = theta;
+  for (let i = 0; i < yvalues.length; i++) {
+    yvalues[i] = sin(x) * amplitude;
+    x += dx;
+  }
+}
+
+function renderWave() {
+  noStroke();
+  fill(255);
+  // A simple way to draw the wave with an ellipse at each location
+  for (let x = 0; x < yvalues.length; x++) {
+    image(clownImage, x * xspacing, height / 2 + yvalues[x], 16, 16);
+  }
 }

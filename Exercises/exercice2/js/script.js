@@ -29,9 +29,16 @@ let enemyVX = 5;
 // How many dodges the player has made
 let dodges = 0;
 
+let smileyImage;
+
+// prelouad()
+// Load local images
+function preload(){
+  smileyImage = loadImage("assets/smiley.jpg");
+}
 // setup()
 //
-// Make the canvas, position the avatar and anemy
+// Make the canvas, position the avatar and enemy
 function setup() {
   // Create our playing area
   createCanvas(500,500);
@@ -54,12 +61,22 @@ function setup() {
 // game over situations.
 function draw() {
   // A pink background
-  background(255,220,220);
+  background(243,243,21);
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   avatarVX = 0;
   avatarVY = 0;
 
+//Display number of successful dodges
+
+  //text('OK', 250, 250);
+  textSize(520);
+  fill(0, 0, 0, 30);
+  stroke(0,);
+  strokeWeight(3);
+  textAlign(CENTER,CENTER);
+  text(dodges,width,250);
+  textFont('Futura');
   // Check which keys are down and set the avatar's velocity based on its
   // speed appropriately
 
@@ -104,7 +121,9 @@ function draw() {
     // Reset the dodge counter
     dodges = 0;
   }
-
+  else {
+    dodges +=1;
+  }
   // Check if the avatar has gone off the screen (cheating!)
   if (avatarX < 0 || avatarX > width || avatarY < 0 || avatarY > height) {
     // If they went off the screen they lose in the same way as above.
@@ -138,6 +157,6 @@ function draw() {
   // The enemy is red
   fill(255,0,0);
   // Draw the enemy as a circle
-  ellipse(enemyX,enemyY,enemySize,enemySize);
+  image(smileyImage,enemyX,enemyY,enemySize,enemySize);
 
 }

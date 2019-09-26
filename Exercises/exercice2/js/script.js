@@ -142,9 +142,10 @@ function draw() {
     // This means the player dodged so update its dodge statistic
     dodges = dodges + 1;
 
-    //The enemy gets bigger
-    enemySize +=60;
-    enemySpeed += 4;
+    //The enemy gets bigger with each successful dodge
+    enemySize +=40;
+    // The enemy gets faster with each successful dodge
+    enemySpeed += 2;
     // Tell them how many dodges they have made
     console.log(dodges + " DODGES!");
     // Reset the enemy's position to the left at a random height
@@ -152,6 +153,10 @@ function draw() {
     enemyY = random(0,height);
   }
 
+else {
+  enemySpeed = 5;
+  enemySize = 50;
+}
 
   // Display the number of successful dodges in the console
   console.log(dodges);
@@ -166,32 +171,32 @@ function draw() {
   // The enemy is a little X
   image(crossImage,enemyX,enemyY,enemySize,enemySize);
 
-  if (dodges = 1){
+  if (dodges == 1){
     stroke(3);
-    textSize(100);
+    textSize(20);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
     text("color me impressed",random(100,200),random(200,300));
   }
 
-  else if (dodges = 2){
+ if (dodges == 2){
     stroke(3);
-    textSize(100);
+    textSize(20);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
     text("what an improvement",random(100,200),random(200,300));
   }
 
-  else if (dodges = 3){
+ if (dodges ==3){
     stroke(3);
-    textSize(100);
+    textSize(20);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
     text("very cool",random(100,200),random(200,300));
   }
-  else if (dodges > 3){
+  if(dodges > 3){
     stroke(3);
-    textSize(100);
+    textSize(20);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
     text("what am i getting out of this?",random(100,200),random(200,300));

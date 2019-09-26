@@ -124,6 +124,12 @@ function draw() {
     avatarY = height/2;
     // Reset the dodge counter
     dodges = 0;
+    // Reset enemy speed
+    enemySpeed = 5;
+    // Reset enemy size
+    enemySize = 50;
+    // Reset player size
+    avatarSize = 50;
   }
 
   // Check if the avatar has gone off the screen (cheating!)
@@ -146,19 +152,14 @@ function draw() {
     enemySize +=40;
     // The enemy gets faster with each successful dodge
     enemySpeed += 2;
+    //Also player size gets bigger for ~visual effect
+    avatarSize += 10;
     // Tell them how many dodges they have made
     console.log(dodges + " DODGES!");
     // Reset the enemy's position to the left at a random height
     enemyX = 0;
     enemyY = random(0,height);
   }
-// If the player has failed to dodge enemy, or gone off screen, or the enemy
-//hasn't comepltely made their way across screen
-else {
-//Reset enemy speed and size (to restart game)
-  enemySpeed = 5;
-  enemySize = 50;
-}
 
   // Display the number of successful dodges in the console
   console.log(dodges);

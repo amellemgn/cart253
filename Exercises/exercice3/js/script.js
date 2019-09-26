@@ -16,6 +16,11 @@ https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal
 let targetX;
 let targetY;
 let targetImage;
+let guideImage;
+
+//coordinates for our rectangle
+let rectX = windowWidth * 0.8;
+let rectY = windowHeight * 0.2;
 
 // The ten decoy images
 let decoyImage1;
@@ -41,6 +46,8 @@ let gameOver = false;
 // Loads the target and decoy images before the program starts
 function preload() {
   targetImage = loadImage("assets/images/animals-target.png");
+
+  guideImage = loadImage("assets/images/animals-target.png");
 
   decoyImage1 = loadImage("assets/images/animals-01.png");
   decoyImage2 = loadImage("assets/images/animals-02.png");
@@ -106,12 +113,22 @@ function setup() {
     }
   }
 
+  //Set up "missing dog" display image
+  fill(0);
+  rectMode(CORNER);
+  rect(rectX,rectY,300,100);
+  targetX = 400;
+  targetY = 50;
+  image(guideImage,targetX,targetY);
+
   // Once we've displayed all decoys, we choose a random location for the target
   targetX = random(0,width);
   targetY = random(0,height);
 
   // And draw it (because it's the last thing drawn, it will always be on top)
   image(targetImage,targetX,targetY);
+
+
 }
 
 

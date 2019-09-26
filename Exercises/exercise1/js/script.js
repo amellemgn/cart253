@@ -72,8 +72,11 @@ function draw() {
   image(orangeImage,mouseX,mouseY,60, 50);
 
 //Set Money to move from top to bottom of canvas, fairly quickly.
-  image(moneyImage, moneyX, moneyY);
+  pushMatrix();
   tint(255,moneyTransparency);
+  image(moneyImage, moneyX, moneyY);
+  popMatrix();
+  
 //Attempt to make Money gradually less transparent but end up affecting all images
   moneyTransparency += 10;
   moneyY +=10;

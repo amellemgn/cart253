@@ -13,7 +13,7 @@ let avatarY;
 let avatarSize = 50;
 
 // The speed and velocity of our avatar circle
-let avatarSpeed = 10;
+let avatarSpeed = 20;
 let avatarVX = 0;
 let avatarVY = 0;
 
@@ -29,11 +29,14 @@ let enemyVX = 5;
 // How many dodges the player has made
 let dodges = 0;
 
+//Images for player, enemy
+let crossImage;
 let smileyImage;
 
-// prelouad()
+// preload()
 // Load local images
 function preload(){
+  crossImage = loadImage("assets/cross.png");
   smileyImage = loadImage("assets/smiley.jpg");
 }
 // setup()
@@ -60,7 +63,7 @@ function setup() {
 // Handle moving the avatar and enemy and checking for dodges and
 // game over situations.
 function draw() {
-  // A pink background
+  // A yelllow background
   background(243,243,21);
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
@@ -69,14 +72,15 @@ function draw() {
 
 //Display number of successful dodges
 
-  //text('OK', 250, 250);
-  textSize(520);
+//Create score (dodges) display. High transparency, cute font, big numbers
+  textSize(700);
   fill(0, 0, 0, 30);
   stroke(0,);
   strokeWeight(3);
   textAlign(CENTER,CENTER);
-  text(dodges,width,250);
   textFont('Futura');
+  text(dodges,200,340);
+
   // Check which keys are down and set the avatar's velocity based on its
   // speed appropriately
 
@@ -121,9 +125,7 @@ function draw() {
     // Reset the dodge counter
     dodges = 0;
   }
-  else {
-    dodges +=1;
-  }
+
   // Check if the avatar has gone off the screen (cheating!)
   if (avatarX < 0 || avatarX > width || avatarY < 0 || avatarY > height) {
     // If they went off the screen they lose in the same way as above.
@@ -139,6 +141,10 @@ function draw() {
   if (enemyX > width) {
     // This means the player dodged so update its dodge statistic
     dodges = dodges + 1;
+
+    //The enemy gets bigger
+    enemySize +=60;
+    enemySpeed += 4;
     // Tell them how many dodges they have made
     console.log(dodges + " DODGES!");
     // Reset the enemy's position to the left at a random height
@@ -146,17 +152,48 @@ function draw() {
     enemyY = random(0,height);
   }
 
+
   // Display the number of successful dodges in the console
   console.log(dodges);
 
-  // The player is black
-  fill(0);
-  // Draw the player as a circle
-  ellipse(avatarX,avatarY,avatarSize,avatarSize);
 
-  // The enemy is red
-  fill(255,0,0);
-  // Draw the enemy as a circle
-  image(smileyImage,enemyX,enemyY,enemySize,enemySize);
 
+  // The player is a smiley face
+  image(smileyImage,avatarX,avatarY,avatarSize,avatarSize);
+
+  // Full opacity
+  fill(0,0,0,255);
+  // The enemy is a little X
+  image(crossImage,enemyX,enemyY,enemySize,enemySize);
+
+  if (dodges = 1){
+    stroke(3);
+    textSize(100);
+    textAlign(CENTER,CENTER);
+    textFont('Futura Thin');
+    text("color me impressed",random(100,200),random(200,300));
+  }
+
+  else if (dodges = 2){
+    stroke(3);
+    textSize(100);
+    textAlign(CENTER,CENTER);
+    textFont('Futura Thin');
+    text("what an improvement",random(100,200),random(200,300));
+  }
+
+  else if (dodges = 3){
+    stroke(3);
+    textSize(100);
+    textAlign(CENTER,CENTER);
+    textFont('Futura Thin');
+    text("very cool",random(100,200),random(200,300));
+  }
+  else if (dodges > 3){
+    stroke(3);
+    textSize(100);
+    textAlign(CENTER,CENTER);
+    textFont('Futura Thin');
+    text("what am i getting out of this?",random(100,200),random(200,300));
+}
 }

@@ -152,8 +152,10 @@ function draw() {
     enemyX = 0;
     enemyY = random(0,height);
   }
-
+// If the player has failed to dodge enemy, or gone off screen, or the enemy
+//hasn't comepltely made their way across screen
 else {
+//Reset enemy speed and size (to restart game)
   enemySpeed = 5;
   enemySize = 50;
 }
@@ -170,35 +172,51 @@ else {
   fill(0,0,0,255);
   // The enemy is a little X
   image(crossImage,enemyX,enemyY,enemySize,enemySize);
-
+//Extra if condition: text appears every succesful dodge
+//If player has only dodged enemy once
   if (dodges == 1){
-    stroke(3);
+//First text appears, jittery (somewhat randomly generated)
+    strokeWeight(1);
     textSize(20);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
-    text("color me impressed",random(100,200),random(200,300));
+    text("haha ~ wow ~ amazing",random(225,250),random(225,250));
   }
-
+//If a player has dodged twice
  if (dodges == 2){
-    stroke(3);
+// Second text appears. Same conditions as first
+    strokeWeight(1);
     textSize(20);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
-    text("what an improvement",random(100,200),random(200,300));
+    text("lil bit proud",random(225,250),random(225,250));
   }
-
+// If a player dodges thrice
  if (dodges ==3){
-    stroke(3);
+// Third text appears
+    strokeWeight(1);
     textSize(20);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
-    text("very cool",random(100,200),random(200,300));
+    text("very cool",random(225,250),random(225,250));
   }
+// Player dodges more than thrice, same text gets repeated over and over
   if(dodges > 3){
-    stroke(3);
-    textSize(20);
+    stroke(100);
+    textSize(30);
     textAlign(CENTER,CENTER);
     textFont('Futura Thin');
-    text("what am i getting out of this?",random(100,200),random(200,300));
+    text("what are u getting out of this?",random(225,250),random(200,250));
 }
+//On top of the text that gets repeated once the player has dodged three or more times
+//Create a dark screen visual effect for ~edginess~ and ~amateur game creation~ 's sake
+//But only if a player has dodged more than 8 times
+  if(dodges > 8){
+// The Stroke Weight is canvas sized, meaning that it'll fill up the screen immediately
+    strokeWeight(500);
+    textSize(30);
+    textAlign(CENTER,CENTER);
+    textFont('Futura Thin');
+    text("what are u getting out of this?",random(225,250),random(200,250));
+  }
 }

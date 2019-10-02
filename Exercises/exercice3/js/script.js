@@ -1,13 +1,12 @@
+
 "use strict";
 
 /******************************************************************************
 Where's Sausage Dog?
 by Pippin Barr
-
 An algorithmic version of a Where's Wally/Waldo searching game where you
 need to click on the sausage dog you're searching for in amongst all
 the visual noise of other animals.
-
 Animal images from:
 https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal-icon-set/
 ******************************************************************************/
@@ -16,11 +15,9 @@ https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal
 let targetX;
 let targetY;
 let targetImage;
-let guideImage;
 
-//coordinates for our rectangle
-let rectX = windowWidth * 0.8;
-let rectY = windowHeight * 0.2;
+// Declare the guide Sausage Dog image
+let guideImage;
 
 // The ten decoy images
 let decoyImage1;
@@ -43,7 +40,7 @@ let gameOver = false;
 
 // preload()
 //
-// Loads the target and decoy images before the program starts
+// Loads the target, guide, and decoy images before the program starts
 function preload() {
   targetImage = loadImage("assets/images/animals-target.png");
 
@@ -63,12 +60,15 @@ function preload() {
 
 // setup()
 //
-// Creates the canvas, sets basic modes, draws correct number
+// Creates the canvas, sets basic modes, draws the guide image, the correct number
 // of decoys in random positions, then the target
 function setup() {
   createCanvas(windowWidth,windowHeight);
   background("#ffff00");
   imageMode(CENTER);
+
+
+
 
   // Use a for loop to draw as many decoys as we need
   for (let i = 0; i < numDecoys; i++) {
@@ -113,13 +113,15 @@ function setup() {
     }
   }
 
-  //Set up "missing dog" display image
-  fill(0);
-  rectMode(CORNER);
-  rect(rectX,rectY,300,100);
-  targetX = 400;
-  targetY = 50;
-  image(guideImage,targetX,targetY);
+  // Let's draw the guide images
+  //Create a pink and green rectangle in top-right corner of screen
+  fill(50,205,50);
+  stroke(255,105,180);
+  strokeWeight(5);
+  rectMode(CENTER);
+  rect(width-95,63,180,120);
+  //Add the image of Sausage Dog
+  image(guideImage,width-84,60);
 
   // Once we've displayed all decoys, we choose a random location for the target
   targetX = random(0,width);
@@ -127,8 +129,6 @@ function setup() {
 
   // And draw it (because it's the last thing drawn, it will always be on top)
   image(targetImage,targetX,targetY);
-
-
 }
 
 

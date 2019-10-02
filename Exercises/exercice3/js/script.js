@@ -123,6 +123,13 @@ function setup() {
   //Add the image of Sausage Dog
   image(guideImage,width-84,60);
 
+  // Add instruction text
+  textFont("Futura");
+  textSize(30);
+  textAlign(CENTER,CENTER);
+  noStroke();
+  fill(255,105,180);
+  text("find me!",width-84,65);
   // Once we've displayed all decoys, we choose a random location for the target
   targetX = random(0,width);
   targetY = random(0,height);

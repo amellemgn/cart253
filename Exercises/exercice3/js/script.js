@@ -16,6 +16,10 @@ let targetX;
 let targetY;
 let targetImage;
 
+//Make other position variables for ellipse
+let ellipseX = targetX;
+let ellipseY = targetY;
+
 // Declare the guide Sausage Dog image
 let guideImage;
 
@@ -31,12 +35,21 @@ let decoyImage8;
 let decoyImage9;
 let decoyImage10;
 
+
 // The number of decoys to show on the screen, randomly
 // chosen from the decoy images
-let numDecoys = 100;
+let numDecoys = 350;
 
 // Keep track of whether they've won
 let gameOver = false;
+
+//Speed and velocity of Sausage dog
+let targetSpeed = 9;
+let targetVX;
+let targetVY;
+
+// Keep track of wins
+let winCounter;
 
 // preload()
 //
@@ -68,8 +81,6 @@ function setup() {
   imageMode(CENTER);
 
 
-
-
   // Use a for loop to draw as many decoys as we need
   for (let i = 0; i < numDecoys; i++) {
     // Choose a random location on the canvas for this decoy
@@ -82,34 +93,34 @@ function setup() {
     // We'll talk more about this nice quality of random soon enough.
     // But basically each "if" and "else if" has a 10% chance of being true
     if (r < 0.1) {
-      image(decoyImage1,x,y);
+      image(decoyImage1,x,y,50, 50);
     }
     else if (r < 0.2) {
-      image(decoyImage2,x,y);
+      image(decoyImage2,x,y,50, 50);
     }
     else if (r < 0.3) {
-      image(decoyImage3,x,y);
+      image(decoyImage3,x,y,50, 50);
     }
     else if (r < 0.4) {
-      image(decoyImage4,x,y);
+      image(decoyImage4,x,y,50, 50);
     }
     else if (r < 0.5) {
-      image(decoyImage5,x,y);
+      image(decoyImage5,x,y,50, 50);
     }
     else if (r < 0.6) {
-      image(decoyImage6,x,y);
+      image(decoyImage6,x,y,50, 50);
     }
     else if (r < 0.7) {
-      image(decoyImage7,x,y);
+      image(decoyImage7,x,y,50, 50);
     }
     else if (r < 0.8) {
-      image(decoyImage8,x,y);
+      image(decoyImage8,x,y,50, 50);
     }
     else if (r < 0.9) {
-      image(decoyImage9,x,y);
+      image(decoyImage9,x,y,50, 50);
     }
     else if (r < 1.0) {
-      image(decoyImage10,x,y);
+      image(decoyImage10,x,y,50, 50);
     }
   }
 
@@ -120,8 +131,8 @@ function setup() {
   strokeWeight(5);
   rectMode(CENTER);
   rect(width-95,63,180,120);
-  //Add the image of Sausage Dog
-  image(guideImage,width-84,60);
+  //Add the full size image of Sausage Dog
+  image(guideImage,width-84,60,);
 
   // Add instruction text
   textFont("Futura");
@@ -135,7 +146,7 @@ function setup() {
   targetY = random(0,height);
 
   // And draw it (because it's the last thing drawn, it will always be on top)
-  image(targetImage,targetX,targetY);
+  image(targetImage,targetX,targetY,50, 50);
 }
 
 
@@ -146,21 +157,46 @@ function setup() {
 function draw() {
   if (gameOver) {
     // Prepare our typography
-    textFont("Helvetica");
-    textSize(128);
+    textFont("Futura");
+    textSize(100);
     textAlign(CENTER,CENTER);
     noStroke();
     fill(random(255));
 
     // Tell them they won!
     text("YOU WINNED!",width/2,height/2);
+    //winCounter += 1;
 
     // Draw a circle around the sausage dog to show where it is (even though
     // they already know because they found it!)
     noFill();
     stroke(random(255));
     strokeWeight(10);
-    ellipse(targetX,targetY,targetImage.width,targetImage.height);
+    ellipse(ellipseX,ellipseY,targetImage.width,targetImage.height);
+
+    tint(255,105,180);
+    image(targetImage,targetX,targetY,40, 40);
+    targetVX = random(-targetSpeed, targetSpeed); // why can't i just random the target speed when i'm declaring variables
+    targetVY = random(-targetSpeed, targetSpeed);
+    targetX += targetVX;
+    targetY += targetVY;
+
+// Wrap the moving dog if it goes off-screen
+    if(targetX <0 ){
+      targetX += width;
+    }
+      else if(targetX > width){
+        targetX -=width;
+      }
+
+    if(targetY <0){
+      targetY+=height;
+    }
+      else if(targetY > height){
+        targetY-=height;
+      }
+
+
   }
 }
 
@@ -177,6 +213,7 @@ function mousePressed() {
     // i.e. check if it's within the top and bottom of the image
     if (mouseY > targetY - targetImage.height/2 && mouseY < targetY + targetImage.height/2) {
       gameOver = true;
+
     }
   }
 }

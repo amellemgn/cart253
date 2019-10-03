@@ -24,7 +24,7 @@ let playerY;
 let playerRadius = 25;
 let playerVX = 0;
 let playerVY = 0;
-let playerMaxSpeed = 2;
+let playerMaxSpeed = 10;
 // Player health
 let playerHealth;
 let playerMaxHealth = 255;

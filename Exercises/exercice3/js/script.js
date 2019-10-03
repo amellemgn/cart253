@@ -38,15 +38,18 @@ let decoyImage10;
 
 // The number of decoys to show on the screen, randomly
 // chosen from the decoy images
-let numDecoys = 350;
+let numDecoys = 1;
 
 // Keep track of whether they've won
 let gameOver = false;
 
-//Speed and velocity of Sausage dog
+//Speed and velocity of Sausage dog + time variables for noise()
 let targetSpeed = 9;
-let targetVX;
-let targetVY;
+let targetVX =0;
+let targetVY=0;
+let tx = 0;
+let ty = 100;
+
 
 // Keep track of wins
 let winCounter;
@@ -174,12 +177,27 @@ function draw() {
     strokeWeight(10);
     ellipse(ellipseX,ellipseY,targetImage.width,targetImage.height);
 
+    // Give the dog image that will be repeated after victory a red tint
     tint(255,105,180);
     image(targetImage,targetX,targetY,40, 40);
-    targetVX = random(-targetSpeed, targetSpeed); // why can't i just random the target speed when i'm declaring variables
-    targetVY = random(-targetSpeed, targetSpeed);
-    targetX += targetVX;
+
+  // Code bit i'm leaving in in case i need reference later. Basing the repeated dogs' positions based on random velocity
+  //  targetVX = random(-targetSpeed, targetSpeed); // why can't i just random the target speed when i'm declaring variables?
+  //  targetVY = random(-targetSpeed, targetSpeed);
+  //  targetX += targetVX;
+  //  targetY += targetVY;
+
+  // Basing the repeated dogs' positions based on noise();. Increment the t variable by 0.2 to create movement
+    targetVX = map(noise(tx),0,1,-9,9);
+    targetVY = map(noise(ty),0,1,-9,9);
     targetY += targetVY;
+    targetX += targetVX;
+    tx += 0.2;
+    ty += 0.2;
+
+
+
+
 
 // Wrap the moving dog if it goes off-screen
     if(targetX <0 ){

@@ -38,7 +38,7 @@ let decoyImage10;
 
 // The number of decoys to show on the screen, randomly
 // chosen from the decoy images
-let numDecoys = 1;
+let numDecoys = 350;
 
 // Keep track of whether they've won
 let gameOver = false;

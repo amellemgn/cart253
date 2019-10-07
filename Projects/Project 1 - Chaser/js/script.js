@@ -137,6 +137,14 @@ function handleInput() {
   }
   else {
     playerVY = 0;
+
+  if (keyIsDown(SHIFT)){
+  playerMaxSpeed = 20;
+  }
+  else{
+  playerMaxSpeed = 10;
+} // check this??? for some reason near end of life hitting shift doesn't work 100%
+
   }
 }
 

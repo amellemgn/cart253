@@ -49,8 +49,10 @@ let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
 let preyEaten = 0;
 
+// t values for noise() function
 let preytx = 0;
-let pretyty = 0;
+let preyty = 0;
+
 // setup()
 //
 // Sets up the basic elements of the game
@@ -217,33 +219,20 @@ function checkEating() {
 //
 // Moves the prey based on random velocity changes
 function movePrey() {
-  // Change the prey's velocity at random intervals
-  // random() will be < 0.05 5% of the time, so the prey
-  // will change direction on 5% of frames
-  // if (random() < 0.05) {
-    // Set velocity based on random values to get a new direction
-    // and speed of movement
-    //
-    // Use map() to convert from the 0-1 range of the random() function
-    // to the appropriate range of velocities for the prey
-    //  preyVX = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-    //  preyVY = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
+  // Change the prey's velocity based on Perlin noise and the noise() function
+  // Set velocity based on noise values to get new direction and speed of movement
+  // Use map() to convert from the 0-1 range of the noise() function to the appropriate range of velocities for the prey
 
     preyVX = map(noise(preytx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
     preyVY = map(noise(preyty), 0, 1, -preyMaxSpeed, preyMaxSpeed);
 
     // Update prey position based on velocity
-    preyX += preytx;
-    preyY += preyty;
+    preyX += preyVX;
+    preyY += preyVY;
 
-    ty += 0.2;
-    tx += 0.2;
+    preyty += 0.01;
+    preytx += 0.01;
 
-  }
-
-
-  //preyX = preyX + preyVX;
-  //preyY = preyY + preyVY;
 
   // Screen wrapping
   if (preyX < 0) {
@@ -258,6 +247,8 @@ function movePrey() {
   }
   else if (preyY > height) {
     preyY = preyY - height;
+  }
+
 }
 
 // drawPrey()

@@ -3,7 +3,7 @@
 /******************************************************
 
 Game - Chaser
-Pippin Barr
+Amelle Margaron
 
 A "simple" game of cat and mouse. The player is a circle and can move with keys,
 if they overlap the (randomly moving) prey they "eat it" by sucking out its life
@@ -13,6 +13,8 @@ eating to stay alive.
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
 
+<div>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
+<div>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
 ******************************************************/
 
 // Track whether the game is over
@@ -53,6 +55,14 @@ let preyEaten = 0;
 let preytx = 0;
 let preyty = 0;
 
+//Set up images
+let playerImage;
+let preyImage1;
+let preyImage2;
+let preyImage3;
+let preyImage4;
+let backgroundImage;
+
 // setup()
 //
 // Sets up the basic elements of the game
@@ -60,12 +70,24 @@ function setup() {
   createCanvas(500, 500);
 
   noStroke();
-
   // We're using simple functions to separate code out
+  setupImages();
+
   setupPrey();
   setupPlayer();
+
+
 }
 
+//setupImages()
+//
+// Initialises images that are in project files
+function setupImages() {
+  playerImage = loadImage("assets/images/pigeon.png");
+  preyImage1 = loadImage("assets/images/mushroom1.png");
+  preyImage2 = loadImage("assets/images/mushroom2.png");
+  preyImage3 = loadImage("assets/images/mushroom3.png");
+}
 // setupPrey()
 //
 // Initialises prey's position, velocity, and health
@@ -107,8 +129,7 @@ function draw() {
 
     drawPrey();
     drawPlayer();
-  }
-  else {
+  } else {
     showGameOver();
   }
 }
@@ -120,30 +141,25 @@ function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
-  }
-  else if (keyIsDown(RIGHT_ARROW)) {
+  } else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
-  }
-  else {
+  } else {
     playerVX = 0;
   }
 
   // Check for vertical movement
   if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
-  }
-  else if (keyIsDown(DOWN_ARROW)) {
+  } else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
-  }
-  else {
+  } else {
     playerVY = 0;
 
-  if (keyIsDown(SHIFT)){
-  playerMaxSpeed = 20;
-  }
-  else{
-  playerMaxSpeed = 10;
-} // check this??? for some reason near end of life hitting shift doesn't work 100%
+    if (keyIsDown(SHIFT)) {
+      playerMaxSpeed = 20;
+    } else {
+      playerMaxSpeed = 10;
+    } // check this??? for some reason near end of life hitting shift doesn't work 100%
 
   }
 }
@@ -161,8 +177,7 @@ function movePlayer() {
   if (playerX < 0) {
     // Off the left side, so add the width to reset to the right
     playerX = playerX + width;
-  }
-  else if (playerX > width) {
+  } else if (playerX > width) {
     // Off the right side, so subtract the width to reset to the left
     playerX = playerX - width;
   }
@@ -170,8 +185,7 @@ function movePlayer() {
   if (playerY < 0) {
     // Off the top, so add the height to reset to the bottom
     playerY = playerY + height;
-  }
-  else if (playerY > height) {
+  } else if (playerY > height) {
     // Off the bottom, so subtract the height to reset to the top
     playerY = playerY - height;
   }
@@ -231,29 +245,27 @@ function movePrey() {
   // Set velocity based on noise values to get new direction and speed of movement
   // Use map() to convert from the 0-1 range of the noise() function to the appropriate range of velocities for the prey
 
-    preyVX = map(noise(preytx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-    preyVY = map(noise(preyty), 0, 1, -preyMaxSpeed, preyMaxSpeed);
+  preyVX = map(noise(preytx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
+  preyVY = map(noise(preyty), 0, 1, -preyMaxSpeed, preyMaxSpeed);
 
-    // Update prey position based on velocity
-    preyX += preyVX;
-    preyY += preyVY;
+  // Update prey position based on velocity
+  preyX += preyVX;
+  preyY += preyVY;
 
-    preyty += 0.01;
-    preytx += 0.01;
+  preyty += 0.01;
+  preytx += 0.01;
 
 
   // Screen wrapping
   if (preyX < 0) {
     preyX = preyX + width;
-  }
-  else if (preyX > width) {
+  } else if (preyX > width) {
     preyX = preyX - width;
   }
 
   if (preyY < 0) {
     preyY = preyY + height;
-  }
-  else if (preyY > height) {
+  } else if (preyY > height) {
     preyY = preyY - height;
   }
 
@@ -264,7 +276,18 @@ function movePrey() {
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
   fill(preyFill, preyHealth);
-  ellipse(preyX, preyY, preyRadius * 2);
+  if (preyHealth === 0){
+
+    if (random()<0.05){
+        image(preyImage3, preyX, preyY, preyRadius * 2);
+      }
+    if ( 0.6 > random()>0.05){
+    image(preyImage2, preyX, preyY, preyRadius * 2);
+      }
+    if (random() > 0.6){
+    image(preyImage1, preyX, preyY, preyRadius * 2);
+      }
+  }
 }
 
 // drawPlayer()
@@ -272,7 +295,7 @@ function drawPrey() {
 // Draw the player as an ellipse with alpha value based on health
 function drawPlayer() {
   fill(playerFill, playerHealth);
-  ellipse(playerX, playerY, playerRadius * 2);
+  image(playerImage, playerX, playerY, playerRadius * 2);
 }
 
 // showGameOver()
@@ -280,13 +303,14 @@ function drawPlayer() {
 // Display text about the game being over!
 function showGameOver() {
   // Set up the font
-  textSize(32);
+  textFont(Futura);
+  textSize(20);
   textAlign(CENTER, CENTER);
   fill(0);
   // Set up the text to display
   let gameOverText = "GAME OVER\n"; // \n means "new line"
-  gameOverText = gameOverText + "You ate " + preyEaten + " prey\n";
-  gameOverText = gameOverText + "before you died."
+  gameOverText = gameOverText + "In hindsight, your life might not have been so bad. You're thankfl, notably, for your life at the nature park. You ate " + preyEaten + " prey\n";
+  gameOverText = gameOverText + "before you died. But let it not be said that you did not push your human frontiers. This glory, you carry with you into another life."
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
 }

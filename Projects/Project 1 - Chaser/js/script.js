@@ -57,13 +57,15 @@ let preyty = 0;
 
 //Set up images
 let playerImage;
-let preyImage1;
-let preyImage2;
-let preyImage3;
-let preyImage4;
+let redMushroom;
+let greenMushroom;
+let brownMushroom;
 let backgroundImage;
 
 let mushroomImage;
+let showTint =false;
+let randomSize = false;
+let playerSwitch = false;
 
 // setup()
 //
@@ -88,9 +90,9 @@ function setup() {
 // Initialises images that are in project files
 function setupImages() {
   playerImage = loadImage("assets/images/pigeon.png");
-  preyImage1 = loadImage("assets/images/mushroom1.png");
-  preyImage2 = loadImage("assets/images/mushroom2.png");
-  preyImage3 = loadImage("assets/images/mushroom3.png");
+  redMushroom = loadImage("assets/images/mushroom1.png");
+  greenMushroom = loadImage("assets/images/mushroom2.png");
+  brownMushroom = loadImage("assets/images/mushroom3.png");
   backgroundImage = loadImage("assets/images/background.png");
 }
 // setupPrey()
@@ -102,7 +104,7 @@ function setupPrey() {
   preyVX = -preyMaxSpeed;
   preyVY = preyMaxSpeed;
   preyHealth = preyMaxHealth;
-  mushroomImage = preyImage1;
+  mushroomImage = redMushroom;
 }
 
 // setupPlayer()
@@ -195,6 +197,11 @@ function movePlayer() {
     // Off the bottom, so subtract the height to reset to the top
     playerY = playerY - height;
   }
+
+  //if(mushroomImage == brownMushroom){
+  //  playerVX = random(-playerMaxspeed, playerMaxSpeed);
+  //  preyVY = random(-playerMaxSpeed, playerMaxSpeed);
+  //}
 }
 
 // updateHealth()
@@ -241,14 +248,28 @@ function checkEating() {
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
 
-      if (random()<0.05){
-          mushroomImage = preyImage1;
+      if (mushroomImage == greenMushroom){
+        showTint = true;
+        randomSize = true;
+      }
+      else{
+        showTint = false;
+        randomSize = false;
+      }
+
+      if(mushroomImage == redMushroom && preyEaten > 5){
+        playerSwitch = true;
+      }
+
+
+      if (random()<0.15){
+      mushroomImage = redMushroom;
         }
-      if ( 0.6 > random()>0.05){
-      mushroomImage = preyImage2;
+      if ( 0.6 > random()>0.15){
+      mushroomImage = greenMushroom;
         }
       if (random() > 0.6){
-      mushroomImage = preyImage3;
+      mushroomImage = brownMushroom;
         }
     }
   }
@@ -294,7 +315,18 @@ function movePrey() {
 function drawPrey() {
   background(backgroundImage);
   fill(preyFill, preyHealth);
+
+  if(showTint == true){
+    tint(random(0,255), random(0,255), random(0,255));
+  }
+
+  if(randomSize == true){
+  playerRadius = random(1,50);
+  }
+
   image(mushroomImage, preyX, preyY, preyRadius * 2);
+
+
 
 }
 
@@ -304,6 +336,10 @@ function drawPrey() {
 function drawPlayer() {
   fill(playerFill, playerHealth);
   image(playerImage, playerX, playerY, playerRadius * 2);
+
+if(playerSwitch == true){
+  playerImage = redMushroom;
+  }
 }
 
 // showGameOver()

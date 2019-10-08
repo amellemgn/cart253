@@ -63,11 +63,15 @@ let preyImage3;
 let preyImage4;
 let backgroundImage;
 
+let mushroomImage;
+
 // setup()
 //
 // Sets up the basic elements of the game
 function setup() {
   createCanvas(500, 500);
+
+
 
   noStroke();
   // We're using simple functions to separate code out
@@ -87,6 +91,7 @@ function setupImages() {
   preyImage1 = loadImage("assets/images/mushroom1.png");
   preyImage2 = loadImage("assets/images/mushroom2.png");
   preyImage3 = loadImage("assets/images/mushroom3.png");
+  backgroundImage = loadImage("assets/images/background.png");
 }
 // setupPrey()
 //
@@ -97,6 +102,7 @@ function setupPrey() {
   preyVX = -preyMaxSpeed;
   preyVY = preyMaxSpeed;
   preyHealth = preyMaxHealth;
+  mushroomImage = preyImage1;
 }
 
 // setupPlayer()
@@ -116,7 +122,7 @@ function setupPlayer() {
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
-  background(100, 100, 200);
+  background(backgroundImage);
 
   if (!gameOver) {
     handleInput();
@@ -229,10 +235,21 @@ function checkEating() {
       // Move the "new" prey to a random position
       preyX = random(0, width);
       preyY = random(0, height);
+
       // Give it full health
       preyHealth = preyMaxHealth;
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
+
+      if (random()<0.05){
+          mushroomImage = preyImage1;
+        }
+      if ( 0.6 > random()>0.05){
+      mushroomImage = preyImage2;
+        }
+      if (random() > 0.6){
+      mushroomImage = preyImage3;
+        }
     }
   }
 }
@@ -275,19 +292,10 @@ function movePrey() {
 //
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
+  background(backgroundImage);
   fill(preyFill, preyHealth);
-  if (preyHealth === 0){
+  image(mushroomImage, preyX, preyY, preyRadius * 2);
 
-    if (random()<0.05){
-        image(preyImage3, preyX, preyY, preyRadius * 2);
-      }
-    if ( 0.6 > random()>0.05){
-    image(preyImage2, preyX, preyY, preyRadius * 2);
-      }
-    if (random() > 0.6){
-    image(preyImage1, preyX, preyY, preyRadius * 2);
-      }
-  }
 }
 
 // drawPlayer()
@@ -303,7 +311,7 @@ function drawPlayer() {
 // Display text about the game being over!
 function showGameOver() {
   // Set up the font
-  textFont(Futura);
+  textFont("Courier");
   textSize(20);
   textAlign(CENTER, CENTER);
   fill(0);

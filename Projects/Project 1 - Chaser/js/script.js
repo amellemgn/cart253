@@ -15,6 +15,10 @@ random movement, screen wrap.
 
 <div>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
 <div>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
+https://freesound.org/people/hiddenpersuader/sounds/158192/
+https://www.partnersinrhyme.com/soundfx/human_sounds/human_aud-chomp_wav.shtml
+https://freesound.org/people/wjoojoo/sounds/262236/
+https://freesound.org/people/klankbeeld/sounds/125919/
 ******************************************************/
 
 // Track whether the game is over
@@ -66,6 +70,11 @@ let mushroomImage;
 let showTint =false;
 let randomSize = false;
 let playerSwitch = false;
+let chomp;
+let opera;
+let haiku;
+let horror;
+let soundClip;
 
 // setup()
 //
@@ -94,6 +103,11 @@ function setupImages() {
   greenMushroom = loadImage("assets/images/mushroom2.png");
   brownMushroom = loadImage("assets/images/mushroom3.png");
   backgroundImage = loadImage("assets/images/background.png");
+
+  chomp = loadSound("assets/sounds/chomp.mp3");
+  opera = loadSound("assets/sounds/opera.mp3");
+  haiku = loadSound("assets/sounds/haiku.mp3");
+  horror = loadSound("assets/sounds/horror.mp3");
 }
 // setupPrey()
 //
@@ -248,6 +262,38 @@ function checkEating() {
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
 
+      if(preyEaten < 3){
+        soundClip = chomp;
+      }
+
+      if(preyEaten >3){
+        if(random() < 0.3){
+          soundClip = haiku;
+        }
+
+        if( 0.3 < random() < 0.6){
+          soundClip = horror;
+        }
+
+        if( random()> 0.6){
+          soundClip = opera;
+        }
+      }
+
+      if(soundClip == chomp){
+        chomp.play();
+      }
+      if(soundClip == horror){
+        horror.play();
+      }
+      if(soundClip == haiku){
+        haiku.play();
+      }
+      if(soundClip == opera){
+        opera.play();
+      }
+
+
       if (mushroomImage == greenMushroom){
         showTint = true;
         randomSize = true;
@@ -269,7 +315,7 @@ function checkEating() {
       mushroomImage = greenMushroom;
         }
       if (random() > 0.6){
-      mushroomImage = brownMushroom;
+      mushroomImage = brownMushroom; //brown mushroom has no effect
         }
     }
   }
@@ -340,6 +386,7 @@ function drawPlayer() {
 if(playerSwitch == true){
   playerImage = redMushroom;
   }
+
 }
 
 // showGameOver()

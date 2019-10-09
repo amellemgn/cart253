@@ -78,6 +78,9 @@ let horror;
 let soundClip;
 let wing;
 
+let menuImage;
+let gameStarted =false;
+
 // setup()
 //
 // Sets up the basic elements of the game
@@ -105,6 +108,7 @@ function setupImages() {
   greenMushroom = loadImage("assets/images/mushroom2.png");
   brownMushroom = loadImage("assets/images/mushroom3.png");
   backgroundImage = loadImage("assets/images/background.png");
+  menuImage = loadImage("assets/images/gamemenu.png");
 
   chomp = loadSound("assets/sounds/chomp.mp3");
   opera = loadSound("assets/sounds/opera.mp3");
@@ -141,6 +145,12 @@ function setupPlayer() {
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
+
+  if(gameStarted==false){
+    background(menuImage);
+  }
+  else {
+
   background(backgroundImage);
 
   if (!gameOver) {
@@ -156,6 +166,7 @@ function draw() {
     drawPlayer();
   } else {
     showGameOver();
+  }
   }
 }
 
@@ -412,4 +423,10 @@ function showGameOver() {
   gameOverText = gameOverText + "This peace of mind, you shall carry into your next life. \n \n GAME OVER";
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
+}
+
+function mousePressed(){
+  if(gameStarted == false){
+    gameStarted = true;
+  }
 }

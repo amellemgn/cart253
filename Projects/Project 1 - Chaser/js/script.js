@@ -89,6 +89,7 @@ function setup() {
 
 
 
+
   noStroke();
   // We're using simple functions to separate code out
   setupImages();
@@ -103,7 +104,7 @@ function setup() {
 //
 // Initialises images that are in project files
 function setupImages() {
-  playerImage = loadImage("assets/images/pixelpigeon.png");
+  playerImage = loadImage("assets/images/pixelpigeonbig.png");
   redMushroom = loadImage("assets/images/mushroom1.png");
   greenMushroom = loadImage("assets/images/mushroom2.png");
   brownMushroom = loadImage("assets/images/mushroom3.png");
@@ -164,6 +165,7 @@ function draw() {
 
     drawPrey();
     drawPlayer();
+  //  drawUI();
   } else {
     showGameOver();
   }
@@ -197,9 +199,10 @@ function handleInput() {
 
     if (keyIsDown(SHIFT)) {
       playerMaxSpeed = 20;
+      playerHealth -= 5;
     } else {
       playerMaxSpeed = 10;
-    } // check this??? for some reason near end of life hitting shift doesn't work 100%
+    }
 
   }
 }
@@ -336,6 +339,15 @@ function checkEating() {
       if (random() > 0.6){
       mushroomImage = brownMushroom; //brown mushroom has no effect
         }
+
+      if (preyEaten > 10){
+        playerRadius +=20;
+        preyRadius +=20;
+
+        if(playerRadius * 2 > width || preyRadius*2 > width){
+          gameOver = true;
+        }
+      }
     }
   }
 }
@@ -400,13 +412,22 @@ function drawPrey() {
 // Draw the player as an ellipse with alpha value based on health
 function drawPlayer() {
   fill(playerFill, playerHealth);
-  image(playerImage, playerX, playerY, playerRadius * 2);
+  image(playerImage, playerX, playerY, playerRadius * 2,playerRadius * 2);
 
 if(playerSwitch == true){
   playerImage = redMushroom;
   }
 
 }
+
+/* function drawUI(){
+fill(0);
+rect(0,0,width-1,height/8);
+textSize(20);
+fill(255);
+text("Player Health: " + playerHealth + "/" + playerMaxHealth, width/50, height/20);
+text("Prey Eaten: " + preyEaten, width/2-width/20, height/10);
+} */
 
 // showGameOver()
 //
@@ -420,7 +441,7 @@ function showGameOver() {
   // Set up the text to display
   let gameOverText = "  You ate " + preyEaten + " mushrooms ";
   gameOverText = gameOverText + "before you died.\n But in doing so, you also surpassed the mental and \n physical frontiers of birdkind. \n";
-  gameOverText = gameOverText + "This peace of mind, you shall carry into your next life. \n \n GAME OVER";
+  gameOverText = gameOverText + "This higher consciousness, you shall carry into your next life. \n \n GAME OVER";
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
 }

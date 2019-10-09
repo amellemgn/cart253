@@ -80,6 +80,7 @@ let wing;
 
 let menuImage;
 let gameStarted =false;
+let duarteFont;
 
 // setup()
 //
@@ -116,6 +117,8 @@ function setupImages() {
   haiku = loadSound("assets/sounds/haiku.mp3");
   horror = loadSound("assets/sounds/horror.mp3");
   wing = loadSound("assets/sounds/flap.mp3");
+
+  duarteFont = loadFont("assets/fonts/Duarte Juramento.ttf");
 }
 // setupPrey()
 //
@@ -434,14 +437,14 @@ text("Prey Eaten: " + preyEaten, width/2-width/20, height/10);
 // Display text about the game being over!
 function showGameOver() {
   // Set up the font
-  textFont("Duarte Centenario");
+  textFont(duarteFont);
   textSize(12);
   textAlign(CENTER, CENTER);
   fill(255);
   // Set up the text to display
   let gameOverText = "  You ate " + preyEaten + " mushrooms ";
   gameOverText = gameOverText + "before you died.\n But in doing so, you also surpassed the mental and \n physical frontiers of birdkind. \n";
-  gameOverText = gameOverText + "This higher consciousness, \n you shall carry into your next life. \n \n GAME OVER";
+  gameOverText = gameOverText + "This higher consciousness, \n you shall carry into your next life. \n \n GAME OVER?";
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
 }
@@ -450,4 +453,9 @@ function mousePressed(){
   if(gameStarted == false){
     gameStarted = true;
   }
+
+  else if(gameStarted == true){
+   gameStarted = false;
+  }
+
 }

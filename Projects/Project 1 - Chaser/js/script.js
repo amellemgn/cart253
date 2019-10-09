@@ -19,6 +19,7 @@ https://freesound.org/people/hiddenpersuader/sounds/158192/
 https://www.partnersinrhyme.com/soundfx/human_sounds/human_aud-chomp_wav.shtml
 https://freesound.org/people/wjoojoo/sounds/262236/
 https://freesound.org/people/klankbeeld/sounds/125919/
+https://freesound.org/people/ani_music/sounds/244977/
 ******************************************************/
 
 // Track whether the game is over
@@ -75,6 +76,7 @@ let opera;
 let haiku;
 let horror;
 let soundClip;
+let wing;
 
 // setup()
 //
@@ -98,7 +100,7 @@ function setup() {
 //
 // Initialises images that are in project files
 function setupImages() {
-  playerImage = loadImage("assets/images/pigeon.png");
+  playerImage = loadImage("assets/images/pixelpigeon.png");
   redMushroom = loadImage("assets/images/mushroom1.png");
   greenMushroom = loadImage("assets/images/mushroom2.png");
   brownMushroom = loadImage("assets/images/mushroom3.png");
@@ -108,6 +110,7 @@ function setupImages() {
   opera = loadSound("assets/sounds/opera.mp3");
   haiku = loadSound("assets/sounds/haiku.mp3");
   horror = loadSound("assets/sounds/horror.mp3");
+  wing = loadSound("assets/sounds/flap.mp3");
 }
 // setupPrey()
 //
@@ -163,8 +166,10 @@ function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
+    wing.play();
   } else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
+    wing.play();
   } else {
     playerVX = 0;
   }
@@ -172,8 +177,10 @@ function handleInput() {
   // Check for vertical movement
   if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
+    wing.play();
   } else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
+    wing.play();
   } else {
     playerVY = 0;
 
@@ -263,11 +270,11 @@ function checkEating() {
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
 
-      if(preyEaten < 3){
+      if(preyEaten < 7){
         soundClip = chomp;
       }
 
-      if(preyEaten >3){
+      if(preyEaten > 7){
         if(random() < 0.3){
           soundClip = haiku;
         }

@@ -402,14 +402,14 @@ if(playerSwitch == true){
 // Display text about the game being over!
 function showGameOver() {
   // Set up the font
-  textFont("Courier");
-  textSize(20);
+  textFont("Futura");
+  textSize(16);
   textAlign(CENTER, CENTER);
-  fill(0);
+  fill(255);
   // Set up the text to display
-  let gameOverText = "GAME OVER\n"; // \n means "new line"
-  gameOverText = gameOverText + "In hindsight, your life might not have been so bad. You're thankfl, notably, for your life at the nature park. You ate " + preyEaten + " prey\n";
-  gameOverText = gameOverText + "before you died. But let it not be said that you did not push your human frontiers. This glory, you carry with you into another life."
+  let gameOverText = "  You ate " + preyEaten + " mushrooms ";
+  gameOverText = gameOverText + "before you died.\n But in doing so, you also surpassed the mental and \n physical frontiers of birdkind. \n";
+  gameOverText = gameOverText + "This peace of mind, you shall carry into your next life. \n \n GAME OVER";
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
 }

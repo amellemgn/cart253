@@ -67,8 +67,9 @@ let chompToOther = 7;
 //Mushroom quantity at which point player and prey size automatically increase
 let shroomQuantity = 10;
 
+// Elements to keep track of time in program
 let timePast = 0;
-let startTime =0;
+let startTime = 0;
 let timerStarted = false;
 
 //All game images
@@ -171,11 +172,12 @@ function draw() {
       drawPlayer();
       //  drawUI();
 
-      if (timerStarted == true){
+      //If a timer has been activated (find this in the checkEating()), check time and end timer at 1sec
+      if (timerStarted == true) {
         timePast = millis() - startTime;
-          if (timePast > 1000){
-            timerStarted = false;
-          }
+        if (timePast > 1000) {
+          timerStarted = false;
+        }
       }
 
     } else {
@@ -271,9 +273,10 @@ function checkEating() {
   // Get distance of player to prey
   let d = dist(playerX, playerY, preyX, preyY);
   // Check if it's an overlap
-
   if (d < playerRadius + preyRadius) {
-    if (timerStarted == false){
+    //If there is no active timer, start one and generate a mushroom (the timer ends at 1sec, which you can see in the draw() function
+    // This is to ensure that a mushroom is generated only once per player/prey collision, otherwise there would be multiple generations as a collision takes several frames )
+    if (timerStarted == false) {
       startTime = millis();
       timerStarted = true;
       timePast = 0;
@@ -349,6 +352,15 @@ function checkEating() {
       if (mushroomImage == redMushroom && preyEaten > 5) {
         playerSwitch = true;
       }
+      // If the player has eaten a certain amount of mushrooms, they start to increase in size (along with prey)
+      if (preyEaten > shroomQuantity) {
+        playerRadius += 10;
+        preyRadius += 10;
+        // If the player or prey exceeds screen size
+        if (playerRadius * 2 > width || preyRadius * 2 > width) {
+          gameOver = true;
+        }
+      }
     }
   }
 }
@@ -397,30 +409,28 @@ function drawPrey() {
 
   // If the player has "eaten" the correct prey and triggered this condition, the screen
   // flashes random colors
-    if (showTint == true) {
-      console.log("in tint");
-      tint(random(0, 255), random(0, 255), random(0, 255));
-    }
+  if (showTint == true) {
+    console.log("in tint");
+    tint(random(0, 255), random(0, 255), random(0, 255));
+  }
   // If the player has "eaten" the correct prey and triggered this condition, the
   // player sizes changes randomly
-    if (randomSize == true) {
-      playerRadius = random(1, 50);
-    }
+  if (randomSize == true) {
+    playerRadius = random(1, 50);
+  }
 }
 
 
 
-  function generateMushrooms(){
-    // Generate mushroom rates for prey. Green and brown mushrooms are close to equal, red mushrooms are rarer.
-    if (random() < 0.15) {
-      mushroomImage = redMushroom;
-    }
-    else  if (0.6 > random() > 0.15) {
-      mushroomImage = greenMushroom;
-    }
-    else{
-      mushroomImage = brownMushroom; //brown mushroom has no effect
-    }
+function generateMushrooms() {
+  // Generate mushroom rates for prey. Green and brown mushrooms are close to equal, red mushrooms are rarer.
+  if (random() < 0.15) {
+    mushroomImage = redMushroom;
+  } else if (0.6 > random() > 0.15) {
+    mushroomImage = greenMushroom;
+  } else {
+    mushroomImage = brownMushroom; //brown mushroom has no effect
+  }
 
 }
 
@@ -431,8 +441,8 @@ function drawPlayer() {
   fill(playerFill, playerHealth);
   image(playerImage, playerX, playerY, playerRadius * 2, playerRadius * 2);
 
-// If the player has "eaten" the correct prey and triggered this condition, the
-// player switches to the image of a prey
+  // If the player has "eaten" the correct prey and triggered this condition, the
+  // player switches to the image of a prey
   if (playerSwitch == true) {
     playerImage = redMushroom;
   }
@@ -460,8 +470,7 @@ function mousePressed() {
   if (gameStarted == false) {
     gameStarted = true;
     console.log("game start");
-  }
-  else if (gameOver == true) {
+  } else if (gameOver == true) {
     restartGame();
   }
 }
@@ -477,7 +486,7 @@ function restartGame() {
   showTint = false;
   randomSize = false;
   playerSwitch = false;
-  tint(255,255);
+  tint(255, 255);
   playerRadius = 25;
   preyRadius = 25;
   playerImage = loadImage("assets/images/pixelpigeonbig.png");

@@ -5,25 +5,31 @@
 Game - Chaser
 Amelle Margaron
 
-A "simple" game of cat and mouse. The player is a circle and can move with keys,
-if they overlap the (randomly moving) prey they "eat it" by sucking out its life
-and adding it to their own. The player "dies" slowly over time so they have to keep
-eating to stay alive.
+A "simple" game of cat and mouse. The player is a pigeon and can move with keys,
+if they overlap with the (randomly moving) mushrooms they "eat it". The player "dies" slowly over time
+ as an unfortunate side effect of excessive hallucinogen consumption. However, eating mushrooms also temporarily boosts
+ the player's health.
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
 
-<div>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
-<div>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
-https://freesound.org/people/hiddenpersuader/sounds/158192/
-https://www.partnersinrhyme.com/soundfx/human_sounds/human_aud-chomp_wav.shtml
-https://freesound.org/people/wjoojoo/sounds/262236/
-https://freesound.org/people/klankbeeld/sounds/125919/
-https://freesound.org/people/ani_music/sounds/244977/
+Opera sound: https://freesound.org/people/hiddenpersuader/sounds/158192/
+Chomp sound: https://www.partnersinrhyme.com/soundfx/human_sounds/human_aud-chomp_wav.shtml
+Haiku sound: https://freesound.org/people/wjoojoo/sounds/262236/
+Horror sound: https://freesound.org/people/klankbeeld/sounds/125919/
+Wing sound: https://freesound.org/people/ani_music/sounds/244977/
 ******************************************************/
 
 // Track whether the game is over
 let gameOver = false;
+//Track whether tint has been applied to screen
+let showTint = false;
+//Track whether player size can/will change
+let randomSize = false;
+//Track whether player can turn from pigeon to mushroom image
+let playerSwitch = false;
+//Track whether game has started
+let gameStarted = false;
 
 // Player position, size, velocity
 let playerX;
@@ -37,7 +43,6 @@ let playerHealth;
 let playerMaxHealth = 255;
 // Player fill color
 let playerFill = 50;
-
 // Prey position, size, velocity
 let preyX;
 let preyY;
@@ -50,27 +55,28 @@ let preyHealth;
 let preyMaxHealth = 100;
 // Prey fill color
 let preyFill = 200;
-
 // Amount of health obtained per frame of "eating" (overlapping) the prey
 let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
 let preyEaten = 0;
-
 // t values for noise() function
 let preytx = 0;
 let preyty = 0;
+// Sound rate at which sounds change
+let chompToOther = 7;
+//Mushroom quantity at which point player and prey size automatically increase
+let shroomQuantity = 10;
 
-//Set up images
+//All game images
 let playerImage;
 let redMushroom;
 let greenMushroom;
 let brownMushroom;
 let backgroundImage;
-
 let mushroomImage;
-let showTint =false;
-let randomSize = false;
-let playerSwitch = false;
+let menuImage;
+
+//All game sounds
 let chomp;
 let opera;
 let haiku;
@@ -78,33 +84,27 @@ let horror;
 let soundClip;
 let wing;
 
-let menuImage;
-let gameStarted =false;
+//Imported font
 let duarteFont;
 
 // setup()
 //
 // Sets up the basic elements of the game
 function setup() {
+  //Create canvas
   createCanvas(500, 500);
-
-
-
-
-  noStroke();
   // We're using simple functions to separate code out
-  setupImages();
-
+  setupResources();
   setupPrey();
   setupPlayer();
 
 
 }
 
-//setupImages()
+//setupResources()
 //
-// Initialises images that are in project files
-function setupImages() {
+// Initialises images and sounds and fonts that are in project files
+function setupResources() {
   playerImage = loadImage("assets/images/pixelpigeonbig.png");
   redMushroom = loadImage("assets/images/mushroom1.png");
   greenMushroom = loadImage("assets/images/mushroom2.png");
@@ -120,6 +120,7 @@ function setupImages() {
 
   duarteFont = loadFont("assets/fonts/Duarte Juramento.ttf");
 }
+
 // setupPrey()
 //
 // Initialises prey's position, velocity, and health
@@ -142,36 +143,33 @@ function setupPlayer() {
 }
 
 // draw()
-//
-// While the game is active, checks input
+// Sets game default setting (inactive) to be a menu.
+// Otherwise, while the game is active, checks input
 // updates positions of prey and player,
 // checks health (dying), checks eating (overlaps)
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
 
-  if(gameStarted==false){
+  if (gameStarted == false) {
     background(menuImage);
-  }
-  else {
-
-  background(backgroundImage);
-
-  if (!gameOver) {
-    handleInput();
-
-    movePlayer();
-    movePrey();
-
-    updateHealth();
-    checkEating();
-
-    drawPrey();
-    drawPlayer();
-  //  drawUI();
   } else {
-    showGameOver();
-  }
+
+    background(backgroundImage);
+
+    if (!gameOver) {
+      handleInput();
+      movePlayer();
+      movePrey();
+      updateHealth();
+      checkEating();
+      drawPrey();
+      drawPlayer();
+      //  drawUI();
+
+    } else {
+      showGameOver();
+    }
   }
 }
 
@@ -200,13 +198,13 @@ function handleInput() {
   } else {
     playerVY = 0;
 
+    // Increases player speed and  decreases player health when shift key is held down
     if (keyIsDown(SHIFT)) {
       playerMaxSpeed = 20;
       playerHealth -= 5;
     } else {
       playerMaxSpeed = 10;
     }
-
   }
 }
 
@@ -235,11 +233,6 @@ function movePlayer() {
     // Off the bottom, so subtract the height to reset to the top
     playerY = playerY - height;
   }
-
-  //if(mushroomImage == brownMushroom){
-  //  playerVX = random(-playerMaxspeed, playerMaxSpeed);
-  //  preyVY = random(-playerMaxSpeed, playerMaxSpeed);
-  //}
 }
 
 // updateHealth()
@@ -287,175 +280,185 @@ function checkEating() {
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
 
-      if(preyEaten < 7){
+      // If more than a certain amount of prey are eaten, the sound changes from a chomp sound
+      // to something random and weird
+      if (preyEaten < chompToOther) {
         soundClip = chomp;
       }
 
-      if(preyEaten > 7){
-        if(random() < 0.3){
+      if (preyEaten > chompToOther) {
+        if (random() < 0.3) {
           soundClip = haiku;
         }
 
-        if( 0.3 < random() < 0.6){
+        if (0.3 < random() < 0.6) {
           soundClip = horror;
         }
 
-        if( random()> 0.6){
+        if (random() > 0.6) {
           soundClip = opera;
         }
       }
-
-      if(soundClip == chomp){
+      if (soundClip == chomp) {
         chomp.play();
       }
-      if(soundClip == horror){
+      if (soundClip == horror) {
         horror.play();
       }
-      if(soundClip == haiku){
+      if (soundClip == haiku) {
         haiku.play();
       }
-      if(soundClip == opera){
+      if (soundClip == opera) {
         opera.play();
       }
 
 
-      if (mushroomImage == greenMushroom){
+      // If the prey that the player has collided into is a green mushroom, the pigeon experiences
+      //  ~psychadelic effects~ which include flashing colorful screen and flashing size
+      if (mushroomImage == greenMushroom) {
         showTint = true;
         randomSize = true;
       }
-      else{
+      else {
         showTint = false;
         randomSize = false;
       }
-
-      if(mushroomImage == redMushroom && preyEaten > 5){
+      // If the prey that player has collided with is red mushroom and pigeon has already eaten a certain quantity
+      // of shrooms, the pigeon ~~becomes a shroom~~
+      if (mushroomImage == redMushroom && preyEaten > 5) {
         playerSwitch = true;
       }
 
+    }
 
-      if (random()<0.15){
+    // Generate mushroom rates for prey. Green and brown mushrooms are close to equal, red mushrooms are rarer.
+    if (random() < 0.15) {
       mushroomImage = redMushroom;
-        }
-      if ( 0.6 > random()>0.15){
+    }
+    if (0.6 > random() > 0.15) {
       mushroomImage = greenMushroom;
-        }
-      if (random() > 0.6){
+    }
+    if (random() > 0.6) {
       mushroomImage = brownMushroom; //brown mushroom has no effect
-        }
+    }
 
-      if (preyEaten > 10){
-        playerRadius +=20;
-        preyRadius +=20;
-
-        if(playerRadius * 2 > width || preyRadius*2 > width){
-          gameOver = true;
-        }
+    // If the player has eaten a certain amount of mushrooms, they start to increase in size (along with prey)
+    // This represents...
+    if (preyEaten > shroomQuantity) {
+      playerRadius += 20;
+      preyRadius += 20;
+      // If the player or prey exceeds screen size
+      if (playerRadius * 2 > width || preyRadius * 2 > width) {
+        gameOver = true;
       }
     }
   }
 }
 
-// movePrey()
-//
-// Moves the prey based on random velocity changes
-function movePrey() {
-  // Change the prey's velocity based on Perlin noise and the noise() function
-  // Set velocity based on noise values to get new direction and speed of movement
-  // Use map() to convert from the 0-1 range of the noise() function to the appropriate range of velocities for the prey
+  // movePrey()
+  //
+  // Moves the prey based on random velocity changes
+  function movePrey() {
+    // Change the prey's velocity based on Perlin noise and the noise() function
+    // Set velocity based on noise values to get new direction and speed of movement
+    // Use map() to convert from the 0-1 range of the noise() function to the appropriate range of velocities for the prey
 
-  preyVX = map(noise(preytx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-  preyVY = map(noise(preyty), 0, 1, -preyMaxSpeed, preyMaxSpeed);
+    preyVX = map(noise(preytx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
+    preyVY = map(noise(preyty), 0, 1, -preyMaxSpeed, preyMaxSpeed);
 
-  // Update prey position based on velocity
-  preyX += preyVX;
-  preyY += preyVY;
+    // Update prey position based on velocity
+    preyX += preyVX;
+    preyY += preyVY;
 
-  preyty += 0.01;
-  preytx += 0.01;
+    preyty += 0.01;
+    preytx += 0.01;
 
 
-  // Screen wrapping
-  if (preyX < 0) {
-    preyX = preyX + width;
-  } else if (preyX > width) {
-    preyX = preyX - width;
+    // Screen wrapping
+    if (preyX < 0) {
+      preyX = preyX + width;
+    } else if (preyX > width) {
+      preyX = preyX - width;
+    }
+
+    if (preyY < 0) {
+      preyY = preyY + height;
+    } else if (preyY > height) {
+      preyY = preyY - height;
+    }
+
   }
 
-  if (preyY < 0) {
-    preyY = preyY + height;
-  } else if (preyY > height) {
-    preyY = preyY - height;
+  // drawPrey()
+  //
+  // Draw the prey as an ellipse with alpha based on health
+  function drawPrey() {
+    background(backgroundImage);
+    fill(preyFill, preyHealth);
+
+    if (showTint == true) {
+      tint(random(0, 255), random(0, 255), random(0, 255));
+    }
+
+    if (randomSize == true) {
+      playerRadius = random(1, 50);
+    }
+
+    image(mushroomImage, preyX, preyY, preyRadius * 2);
+
+
+
   }
 
-}
+  // drawPlayer()
+  //
+  // Draw the player as an ellipse with alpha value based on health
+  function drawPlayer() {
+    fill(playerFill, playerHealth);
+    image(playerImage, playerX, playerY, playerRadius * 2, playerRadius * 2);
 
-// drawPrey()
-//
-// Draw the prey as an ellipse with alpha based on health
-function drawPrey() {
-  background(backgroundImage);
-  fill(preyFill, preyHealth);
-
-  if(showTint == true){
-    tint(random(0,255), random(0,255), random(0,255));
+    if (playerSwitch == true) {
+      playerImage = redMushroom;
+    }
   }
 
-  if(randomSize == true){
-  playerRadius = random(1,50);
-  }
-
-  image(mushroomImage, preyX, preyY, preyRadius * 2);
-
-
-
-}
-
-// drawPlayer()
-//
-// Draw the player as an ellipse with alpha value based on health
-function drawPlayer() {
-  fill(playerFill, playerHealth);
-  image(playerImage, playerX, playerY, playerRadius * 2,playerRadius * 2);
-
-if(playerSwitch == true){
-  playerImage = redMushroom;
-  }
-
-}
-
-/* function drawUI(){
-fill(0);
-rect(0,0,width-1,height/8);
-textSize(20);
-fill(255);
-text("Player Health: " + playerHealth + "/" + playerMaxHealth, width/50, height/20);
-text("Prey Eaten: " + preyEaten, width/2-width/20, height/10);
-} */
-
-// showGameOver()
-//
-// Display text about the game being over!
-function showGameOver() {
-  // Set up the font
-  textFont(duarteFont);
-  textSize(12);
-  textAlign(CENTER, CENTER);
+  /* function drawUI(){
+  fill(0);
+  rect(0,0,width-1,height/8);
+  textSize(20);
   fill(255);
-  // Set up the text to display
-  let gameOverText = "  You ate " + preyEaten + " mushrooms ";
-  gameOverText = gameOverText + "before you died.\n But in doing so, you also surpassed the mental and \n physical frontiers of birdkind. \n";
-  gameOverText = gameOverText + "This higher consciousness, \n you shall carry into your next life. \n \n GAME OVER?";
-  // Display it in the centre of the screen
-  text(gameOverText, width / 2, height / 2);
-}
+  text("Player Health: " + playerHealth + "/" + playerMaxHealth, width/50, height/20);
+  text("Prey Eaten: " + preyEaten, width/2-width/20, height/10);
+  } */
 
-function mousePressed(){
-  if(gameStarted == false){
-    gameStarted = true;
+  // showGameOver()
+  //
+  // Display text about the game being over!
+  function showGameOver() {
+    // Set up the font
+    textFont(duarteFont);
+    textSize(12);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    // Set up the text to display
+    let gameOverText = "  You ate " + preyEaten + " mushrooms ";
+    gameOverText = gameOverText + "before you died.\n But in doing so, you also surpassed the mental and \n physical frontiers of birdkind. \n";
+    gameOverText = gameOverText + "This higher consciousness, \n you shall carry into your next life. \n \n GAME OVER?";
+    // Display it in the centre of the screen
+    text(gameOverText, width / 2, height / 2);
   }
 
-  else if(gameStarted == true){
-   gameStarted = false;
-  }
+  function mousePressed() {
+    if (gameStarted == false) {
+      gameStarted = true;
+      console.log("game start");
+    }
+     else if (gameOver == true) {
+    }
 
-}
+    function restartGame(){
+      gameStarted = false;
+      gameOver = false;
+
+    }
+  }

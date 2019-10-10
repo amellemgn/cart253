@@ -9,6 +9,8 @@ A "simple" game of cat and mouse. The player is a pigeon and can move with keys,
 if they overlap with the (randomly moving) mushrooms they "eat it" which can cause strange effects. The player "dies" slowly over time
  as an unfortunate side effect of excessive hallucinogen consumption. However, eating mushrooms also temporarily boosts
  the player's health.
+ This is not meant to be a difficult game! The player is meant to get throuh ~20 shrooms easily so they
+ can check out all the effects and experience the audio/visual layering that occurs.
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
@@ -62,7 +64,7 @@ let preyEaten = 0;
 // t values for noise() function
 let preytx = 0;
 let preyty = 0;
-// Sound rate at which sounds change
+// Mushroom quantity at which sounds change
 let chompToOther = 7;
 //Mushroom quantity at which point player and prey size automatically increase
 let shroomQuantity = 10;
@@ -102,8 +104,6 @@ function setup() {
   setupResources();
   setupPrey();
   setupPlayer();
-
-
 }
 
 //setupResources()
@@ -283,7 +283,6 @@ function checkEating() {
       generateMushrooms();
     }
 
-
     // Increase the player health
     playerHealth = playerHealth + eatHealth;
     // Constrain to the possible range
@@ -292,8 +291,6 @@ function checkEating() {
     preyHealth = preyHealth - eatHealth;
     // Constrain to the possible range
     preyHealth = constrain(preyHealth, 0, preyMaxHealth);
-
-
 
     // Check if the prey died (health 0)
     if (preyHealth === 0) {
@@ -306,61 +303,71 @@ function checkEating() {
       // Track how many prey were eaten
       preyEaten = preyEaten + 1;
 
-      // If more than a certain amount of prey are eaten, the sound changes from a chomp sound
-      // to something random and weird
-      if (preyEaten < chompToOther) {
-        soundClip = chomp;
-      }
+      psychadelicEffects();
+      playSounds();
+    }
+  }
+}
 
-      if (preyEaten > chompToOther) {
-        if (random() < 0.3) {
-          soundClip = haiku;
-        }
+function playSounds() {
 
-        if (0.3 < random() < 0.6) {
-          soundClip = horror;
-        }
+  // If more than a certain amount of prey are eaten, the sound changes from a chomp sound
+  // to something random and weird
+  if (preyEaten < chompToOther) {
+    soundClip = chomp;
+  }
 
-        if (random() > 0.6) {
-          soundClip = opera;
-        }
-      }
-      if (soundClip == chomp) {
-        chomp.play();
-      }
-      if (soundClip == horror) {
-        horror.play();
-      }
-      if (soundClip == haiku) {
-        haiku.play();
-      }
-      if (soundClip == opera) {
-        opera.play();
-      }
+  if (preyEaten > chompToOther) {
+    if (random() < 0.3) {
+      soundClip = haiku;
+    }
 
-      // If the prey that the player has collided into is a green mushroom, the pigeon experiences
-      //  ~psychadelic effects~ which include flashing colorful screen and flashing size
-      if (mushroomImage == greenMushroom) {
-        showTint = true;
-        randomSize = true;
-      } else {
-        showTint = false;
-        randomSize = false;
-      }
-      // If the prey that player has collided with is red mushroom and pigeon has already eaten a certain quantity
-      // of shrooms, the pigeon ~~becomes a shroom~~
-      if (mushroomImage == redMushroom && preyEaten > 5) {
-        playerSwitch = true;
-      }
-      // If the player has eaten a certain amount of mushrooms, they start to increase in size (along with prey)
-      if (preyEaten > shroomQuantity) {
-        playerRadius += 10;
-        preyRadius += 10;
-        // If the player or prey exceeds screen size
-        if (playerRadius * 2 > width || preyRadius * 2 > width) {
-          gameOver = true;
-        }
-      }
+    if (0.3 < random() < 0.6) {
+      soundClip = horror;
+    }
+
+    if (random() > 0.6) {
+      soundClip = opera;
+    }
+  }
+  if (soundClip == chomp) {
+    chomp.play();
+  }
+  if (soundClip == horror) {
+    horror.play();
+  }
+  if (soundClip == haiku) {
+    haiku.play();
+  }
+  if (soundClip == opera) {
+    opera.play();
+  }
+}
+
+function psychadelicEffects() {
+  // If the prey that the player has collided into is a green mushroom, the pigeon experiences
+  //  ~psychadelic effects~ which include flashing colorful screen and flashing size
+  if (mushroomImage == greenMushroom) {
+    showTint = true;
+    randomSize = true;
+  } else {
+    showTint = false;
+    randomSize = false;
+  }
+
+  // If the prey that player has collided with is red mushroom and pigeon has already eaten a certain quantity
+  // of shrooms, the pigeon ~~becomes a shroom~~
+  if (mushroomImage == redMushroom && preyEaten > 5) {
+    playerSwitch = true;
+  }
+
+  // If the player has eaten a certain amount of mushrooms, they start to increase in size (along with prey)
+  if (preyEaten > shroomQuantity) {
+    playerRadius += 10;
+    preyRadius += 10;
+    // If the player or prey exceeds screen size
+    if (playerRadius * 2 > width || preyRadius * 2 > width) {
+      gameOver = true;
     }
   }
 }
@@ -382,7 +389,6 @@ function movePrey() {
 
   preyty += 0.01;
   preytx += 0.01;
-
 
   // Screen wrapping
   if (preyX < 0) {

@@ -13,54 +13,62 @@
 let playing = false;
 
 // Game colors (using hexadecimal)
-let bgColor = 0;
-let fgColor = 255;
+let bgColor = 255;
+
 
 // BALL
 
 // A ball object with the properties of
-// position, size, velocity, and speed
+// position, size, velocity, speed
 let ball = {
   x: 0,
   y: 0,
-  size: 20,
+  size: 80,
   vx: 0,
   vy: 0,
   speed: 5
+
 }
 
 // PADDLES
 
 // Basic definition of a left paddle object with its key properties of
-// position, size, velocity, and speed
+// position, size, velocity, speed, and score
 let leftPaddle = {
   x: 0,
   y: 0,
-  w: 20,
-  h: 70,
+  w: 125,
+  h: 200,
   vy: 0,
   speed: 5,
   upKey: 87,
-  downKey: 83
+  downKey: 83,
+  score: 0
 }
 
 // RIGHT PADDLE
 
 // Basic definition of a left paddle object with its key properties of
-// position, size, velocity, and speed
+// position, size, velocity, speed, and score
 let rightPaddle = {
   x: 0,
   y: 0,
-  w: 20,
-  h: 70,
+  w: 125,
+  h: 200,
   vy: 0,
   speed: 5,
   upKey: 38,
-  downKey: 40
+  downKey: 40,
+  score: 0
 }
 
 // A variable to hold the beep sound we will play on bouncing
 let beepSFX;
+
+//All game images
+let leftPaddleImage;
+let rightPaddleImage;
+let ballImage;
 
 // preload()
 //
@@ -79,12 +87,20 @@ function setup() {
   createCanvas(640, 480);
   rectMode(CENTER);
   noStroke();
-  fill(fgColor);
 
+  setupImages();
   setupPaddles();
   resetBall();
 }
 
+//setupImages()
+//
+// Loads images
+function setupImages(){
+  leftPaddleImage = loadImage("assets/images/lefthand.png");
+  rightPaddleImage = loadImage("assets/images/righthand.png");
+  ballImage = loadImage("assets/images/nose.png")
+}
 // setupPaddles()
 //
 // Sets the starting positions of the two paddles
@@ -118,14 +134,15 @@ function draw() {
     checkBallPaddleCollision(leftPaddle);
     checkBallPaddleCollision(rightPaddle);
 
+
+
     // Check if the ball went out of bounds and respond if so
     // (Note how we can use a function that returns a truth value
     // inside a conditional!)
-    if (ballIsOutOfBounds()) {
+    if (ballIsOutOfBounds()) { // how does this work??? only operates if condition is true?
       // If it went off either side, reset it
       resetBall();
-      // This is where we would likely count points, depending on which side
-      // the ball went off...
+
     }
   }
   else {
@@ -133,10 +150,10 @@ function draw() {
     displayStartMessage();
   }
 
-  // We always display the paddles and ball so it looks like Pong!
-  displayPaddle(leftPaddle);
-  displayPaddle(rightPaddle);
+  // We always display the paddles and ball  and score so it looks like Pong!
+  displayPaddle();
   displayBall();
+  displayScore();
 }
 
 // handleInput()
@@ -186,6 +203,12 @@ function ballIsOutOfBounds() {
   // Check for ball going off the sides
   if (ball.x < 0 || ball.x > width) {
     return true;
+      if(ball.x < 0){
+        rightPaddle.score += 1;
+      }
+    else if (ball.x > width){
+      leftPaddle.score += 1;
+    }
   }
   else {
     return false;
@@ -243,9 +266,11 @@ function checkBallPaddleCollision(paddle) {
 // displayPaddle(paddle)
 //
 // Draws the specified paddle
-function displayPaddle(paddle) {
+function displayPaddle() {
   // Draw the paddles
-  rect(paddle.x, paddle.y, paddle.w, paddle.h);
+
+image(leftPaddleImage, leftPaddle.x, leftPaddle.y, leftPaddle.w, leftPaddle.h);
+image(rightPaddleImage,rightPaddle.x, rightPaddle.y, rightPaddle.w, rightPaddle.h);
 }
 
 // displayBall()
@@ -253,9 +278,21 @@ function displayPaddle(paddle) {
 // Draws the ball on screen as a square
 function displayBall() {
   // Draw the ball
-  rect(ball.x, ball.y, ball.size, ball.size);
+  image(ballImage,ball.x, ball.y);
 }
 
+function displayScore(){
+  push();
+  textAlign(LEFT, TOP);
+  textSize(300);
+  fill(164, 240, 149);
+  text(leftPaddle.score,0, 0);
+
+  textAlign(RIGHT, TOP);
+  textSize(300);
+  text(rightPaddle.score, width, 0);
+  pop();
+}
 // resetBall()
 //
 // Sets the starting position and velocity of the ball
@@ -272,9 +309,10 @@ function resetBall() {
 // Shows a message about how to start the game
 function displayStartMessage() {
   push();
+  fill(4, 250, 0);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("CLICK TO START", width / 2, height / 2);
+  text("LICK", width / 2, height / 2);
   pop();
 }
 

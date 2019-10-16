@@ -27,7 +27,6 @@ let ball = {
   vx: 0,
   vy: 0,
   speed: 5
-
 }
 
 // PADDLES
@@ -84,7 +83,7 @@ function preload() {
 // and velocities.
 function setup() {
   // Create canvas and set drawing modes
-  createCanvas(640, 480);
+  createCanvas(500, 480);
   rectMode(CENTER);
   noStroke();
 
@@ -106,9 +105,7 @@ function setupImages(){
 // Sets the starting positions of the two paddles
 function setupPaddles() {
   // Initialise the left paddle position
-  leftPaddle.x = 0 + leftPaddle.w;
   leftPaddle.y = height / 2;
-
   // Initialise the right paddle position
   rightPaddle.x = width - rightPaddle.w;
   rightPaddle.y = height / 2;
@@ -154,6 +151,7 @@ function draw() {
   displayPaddle();
   displayBall();
   displayScore();
+
 }
 
 // handleInput()
@@ -200,15 +198,18 @@ function updateBall() {
 // Checks if the ball has gone off the left or right
 // Returns true if so, false otherwise
 function ballIsOutOfBounds() {
+  console.log(ball.x);
   // Check for ball going off the sides
-  if (ball.x < 0 || ball.x > width) {
-    return true;
+  if (ball.x < 0 || ball.x > width - ball.size) {
+
       if(ball.x < 0){
         rightPaddle.score += 1;
       }
-    else if (ball.x > width){
+    else if (ball.x > width - ball.size){
+      console.log("left score:: "+  leftPaddle.score);
       leftPaddle.score += 1;
     }
+    return true; // return has to be afer the code: after a return element you leave the function
   }
   else {
     return false;
@@ -270,7 +271,7 @@ function displayPaddle() {
   // Draw the paddles
 
 image(leftPaddleImage, leftPaddle.x, leftPaddle.y, leftPaddle.w, leftPaddle.h);
-image(rightPaddleImage,rightPaddle.x, rightPaddle.y, rightPaddle.w, rightPaddle.h);
+image(rightPaddleImage, rightPaddle.x, rightPaddle.y, rightPaddle.w, rightPaddle.h);
 }
 
 // displayBall()
@@ -312,7 +313,7 @@ function displayStartMessage() {
   fill(4, 250, 0);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("LICK", width / 2, height / 2);
+  text("CLICK", width / 2, height / 2);
   pop();
 }
 

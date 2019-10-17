@@ -1,11 +1,11 @@
 "use strict";
 
 // Pong
-// by Pippin Barr
+// by Amelle Margaron
 //
-// A "simple" implementation of Pong with no scoring system
-// just the ability to play the game with the keyboard.
-//
+// A "simple" implementation of Pong with a scoring system
+// and the ability to play the game with the keyboard.
+//Certain conditions are triggered by either paddle scoring points.
 // Up and down keys control the right hand paddle, W and S keys control
 // the left hand paddle
 
@@ -18,6 +18,10 @@ let bgColor = 255;
 //Text appaear conditon
 let textAppearLeft = false;
 let textAppearRight = false;
+
+//Velocity direction condition
+let velocityRight = false;
+
 
 // BALL
 
@@ -39,8 +43,8 @@ let ball = {
 let leftPaddle = {
   x: 0,
   y: 0,
-  w: 125,
-  h: 200,
+  w: 100,
+  h: 130,
   vy: 0,
   speed: 5,
   upKey: 87,
@@ -53,10 +57,10 @@ let leftPaddle = {
 // Basic definition of a left paddle object with its key properties of
 // position, size, velocity, speed, and score
 let rightPaddle = {
-  x: 0,
+  x: 53,
   y: 0,
-  w: 125,
-  h: 200,
+  w: 100,
+  h: 130,
   vy: 0,
   speed: 5,
   upKey: 38,
@@ -73,6 +77,7 @@ let rightPaddleImage;
 let ballImage;
 let sparkleImage;
 
+//game sounds
 let leftSound;
 let rightSound;
 
@@ -89,9 +94,9 @@ function preload() {
 // Sets initial values for paddle and ball positions
 // and velocities.
 function setup() {
-  // Create canvas and set drawing modes
+  // Create canvas and set drawing modes and set up resources
   createCanvas(500, 480);
-  rectMode(CENTER);
+  imageMode(CENTER);
   noStroke();
 
   setupResources();
@@ -101,7 +106,7 @@ function setup() {
 
 //setupImages()
 //
-// Loads images
+// Loads images and sounds
 function setupResources(){
   leftPaddleImage = loadImage("assets/images/lefthand.png");
   rightPaddleImage = loadImage("assets/images/righthand.png");
@@ -111,15 +116,17 @@ function setupResources(){
   leftSound = loadSound("assets/sounds/ohno.mp3");
   rightSound = loadSound("assets/sounds/woah.mp3");
 }
+
 // setupPaddles()
 //
 // Sets the starting positions of the two paddles
 function setupPaddles() {
   // Initialise the left paddle position
-  leftPaddle.y = height / 2;
+  leftPaddle.y = height-leftPaddle.h;
+  leftPaddle.x = 50;
   // Initialise the right paddle position
-  rightPaddle.x = width - rightPaddle.w;
-  rightPaddle.y = height / 2;
+  rightPaddle.x = width - 50;
+  rightPaddle.y = height-leftPaddle.h;
 }
 
 // draw()
@@ -210,13 +217,19 @@ function updateBall() {
 // Returns true if so, false otherwise
 function ballIsOutOfBounds() {
   console.log(ball.x);
-  // Check for ball going off the sides
+  // Check for ball going off the sides. If ball has gone off left side, it's right paddle point
+  // If it goes off right side, its left paddle point
+  // When a paddle scores, a particular sound and text appears (as well as the point display of that paddle increasing by one point)
   if (ball.x < 0 || ball.x > width - ball.size) {
 
       if(ball.x < 0){
         rightPaddle.score += 1;
         textAppearRight = true
         rightSound.play();
+
+        // If right paddle scores, we're setting the condition for the velocity to move towards
+        // the right paddle when the ball resets
+        velocityRight = true;
 
       }
     else if (ball.x > width - ball.size){
@@ -225,12 +238,9 @@ function ballIsOutOfBounds() {
       textAppearLeft = true;
       leftSound.play();
     }
-
-    return true; // return has to be afer the code: after a return element you leave the function
+    return true; // !!!! return has to be afer the code: after a return element you leave the function
   }
   else {
-   textAppearRight = false;
-   textAppearLeft = false;
     return false;
   }
 }
@@ -301,43 +311,57 @@ function displayBall() {
   image(ballImage,ball.x, ball.y);
 }
 
+//displayScore()
+//
+// Displays scores at the top of the screen.
+// If either side has scored, a text saying so will appear
 function displayScore(){
   push();
   textAlign(LEFT, TOP);
-  textSize(300);
+  textSize(200);
   fill(164, 240, 149);
   text(leftPaddle.score,0, 0);
 
   textAlign(RIGHT, TOP);
-  textSize(300);
+  textSize(200);
   text(rightPaddle.score, width, 0);
   pop();
 
   if (textAppearRight == true){
-
-    fill(182, 102, 210);
-    textSize(150);
-    text("YES", random(250,500), random(0, 500));
-
+        fill(4, 250, 0);
+        textSize(30);
+        textAlign(CENTER);
+        text("right point", 250, 340);
+        textAppearRight = false;
   }
 
   if (textAppearLeft == true){
 
-    fill(255, 229, 180);
-    textSize(150);
-    text("YES", random(0,250), random(0, 500));
-
+    fill(4, 250, 0);
+    textSize(30);
+    text("left point", 250, 340);
+    textAppearLeft = false;
   }
 }
+
 // resetBall()
 //
 // Sets the starting position and velocity of the ball
 function resetBall() {
   // Initialise the ball's position and velocity
+  // If the right paddle has won the last round, then the velocity 'goes' right
+  // If not, that means that left paddle got the point, the velocity 'goes' left
   ball.x = width / 2;
   ball.y = height / 2;
-  ball.vx = ball.speed;
   ball.vy = ball.speed;
+
+  if(velocityRight == true){
+    ball.vx = ball.speed;
+    velocityRight = false;
+  }
+  else{
+    ball.vx = -ball.speed;
+  }
 }
 
 // displayStartMessage()
@@ -348,8 +372,8 @@ function displayStartMessage() {
   push();
   fill(4, 250, 0);
   textAlign(CENTER, CENTER);
-  textSize(32);
-  text("clik", width / 2, height / 2);
+  textSize(80);
+  text("click???", width / 2, height / 2);
   pop();
 
 }

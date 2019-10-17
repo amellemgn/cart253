@@ -15,6 +15,9 @@ let playing = false;
 // Game colors (using hexadecimal)
 let bgColor = 255;
 
+//Text appaear conditon
+let textAppearLeft = false;
+let textAppearRight = false;
 
 // BALL
 
@@ -68,6 +71,10 @@ let beepSFX;
 let leftPaddleImage;
 let rightPaddleImage;
 let ballImage;
+let sparkleImage;
+
+let leftSound;
+let rightSound;
 
 // preload()
 //
@@ -87,7 +94,7 @@ function setup() {
   rectMode(CENTER);
   noStroke();
 
-  setupImages();
+  setupResources();
   setupPaddles();
   resetBall();
 }
@@ -95,10 +102,14 @@ function setup() {
 //setupImages()
 //
 // Loads images
-function setupImages(){
+function setupResources(){
   leftPaddleImage = loadImage("assets/images/lefthand.png");
   rightPaddleImage = loadImage("assets/images/righthand.png");
-  ballImage = loadImage("assets/images/nose.png")
+  ballImage = loadImage("assets/images/nose.png");
+  sparkleImage = loadImage("assets/images/sparkles.gif");
+
+  leftSound = loadSound("assets/sounds/ohno.mp3");
+  rightSound = loadSound("assets/sounds/woah.mp3");
 }
 // setupPaddles()
 //
@@ -204,14 +215,22 @@ function ballIsOutOfBounds() {
 
       if(ball.x < 0){
         rightPaddle.score += 1;
+        textAppearRight = true
+        rightSound.play();
+
       }
     else if (ball.x > width - ball.size){
       console.log("left score:: "+  leftPaddle.score);
       leftPaddle.score += 1;
+      textAppearLeft = true;
+      leftSound.play();
     }
+
     return true; // return has to be afer the code: after a return element you leave the function
   }
   else {
+   textAppearRight = false;
+   textAppearLeft = false;
     return false;
   }
 }
@@ -293,6 +312,22 @@ function displayScore(){
   textSize(300);
   text(rightPaddle.score, width, 0);
   pop();
+
+  if (textAppearRight == true){
+
+    fill(182, 102, 210);
+    textSize(150);
+    text("YES", random(250,500), random(0, 500));
+
+  }
+
+  if (textAppearLeft == true){
+
+    fill(255, 229, 180);
+    textSize(150);
+    text("YES", random(0,250), random(0, 500));
+
+  }
 }
 // resetBall()
 //
@@ -309,12 +344,14 @@ function resetBall() {
 //
 // Shows a message about how to start the game
 function displayStartMessage() {
+
   push();
   fill(4, 250, 0);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("CLICK", width / 2, height / 2);
+  text("clik", width / 2, height / 2);
   pop();
+
 }
 
 // mousePressed()

@@ -10,7 +10,7 @@ class Prey {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, radius) {
+  constructor(x, y, speed, radius, preyImage) {
     // Position
     this.x = x;
     this.y = y;
@@ -24,11 +24,13 @@ class Prey {
     // Health properties
     this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
+  
     // Display properties
 
     this.radius = this.health;
 
-    humanImage = loadImage("assets/images/man1");
+    this.preyImage = preyImage;
+
 
   }
 
@@ -80,8 +82,7 @@ class Prey {
     noStroke();
 
     this.width = this.health;
-    image(humanImage, this.x, this.y);
-
+    image(this.preyImage,this.x, this.y, this.radius * 2);
 
   }
 

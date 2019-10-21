@@ -24,7 +24,7 @@ class Predator {
     // Health properties
     this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
-    this.healthLossPerMove = 0.1;
+    this.healthLossPerMove = 1;
     this.healthGainPerEat = 1;
     // Display properties
 
@@ -37,6 +37,8 @@ class Predator {
     this.sprintKey = sprintKey;
 
     this.predatorImage = predatorImage; //ensure that property for specific constction
+
+    this.preyEaten = 0;
   }
 
   // handleInput
@@ -120,12 +122,15 @@ class Predator {
     // Check if the distance is less than their two radii (an overlap)
     if (d < this.radius + prey.radius) {
       // Increase predator health and constrain it to its possible range
+      console.log("got a prey");
       this.health += this.healthGainPerEat;
       this.health = constrain(this.health, 0, this.maxHealth);
       // Decrease prey health by the same amount
       prey.health -= this.healthGainPerEat;
       // Check if the prey died and reset it if so
       if (prey.health < 0) {
+        console.log("ate one enemy");
+        this.preyEaten +=1;
         prey.reset();
       }
     }
@@ -135,11 +140,18 @@ class Predator {
   //
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
+
   display() {
     push();
     noStroke();
     this.radius = this.health;
     image(this.predatorImage,this.x, this.y, this.radius * 2);
+    pop();
+    push();
+    textAlign(CENTER, CENTER);
+    textSize(19);
+    fill(255);
+    text(this.preyEaten, this.x, this.y-height/20);
     pop();
   }
 }

@@ -26,7 +26,7 @@ let preyImage2;
 let torchImage;
 
 function preload(){
-backgroundImage = loadImage("assets/images/background.jpeg");
+backgroundImage = loadImage("assets/images/sand.jpeg");
  predatorImage1 = loadImage("assets/images/ostrich.png");
  predatorImage2 = loadImage("assets/images/flamingo.png");
 
@@ -43,9 +43,9 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   ostrich = new Predator(width/2-width/3, height/2, 5, 10, predatorImage1, 38, 40, 37, 39, 13);
   flamingo = new Predator (width/2+width/3, height/2, 5, 10, predatorImage2, 87, 83, 65, 68, SHIFT);
-  man1 = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  man2 = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  torch = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  man1 = new Prey(100, 100, 7,20,  preyImage1);
+  man2 = new Prey(100, 100, 7, 30, preyImage2);
+  torch = new Prey(100, 100, 7, 35, torchImage);
 }
 
 // draw()

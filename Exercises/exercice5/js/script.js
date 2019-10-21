@@ -40,6 +40,7 @@ backgroundImage = loadImage("assets/images/sand.jpeg");
 
  beachSound = loadSound("assets/sounds/beach.mp3");
  eatSound = loadSound("assets/sounds/eat.wav");
+ screamSound = loadSound("assets/sounds/scream.wav");
 }
 
 // setup()
@@ -49,8 +50,8 @@ backgroundImage = loadImage("assets/images/sand.jpeg");
 function setup() {
   createCanvas(windowWidth, windowHeight);
   beachSound.loop();
-  ostrich = new Predator(width/2-width/3, height/2, 5, 10, predatorImage1, 38, 40, 37, 39, 13, eatSound);
-  flamingo = new Predator (width/2+width/3, height/2, 5, 10, predatorImage2, 87, 83, 65, 68, SHIFT, eatSound);
+  ostrich = new Predator(width/2-width/3, height/2, 5, 40, predatorImage1, 38, 40, 37, 39, 13, eatSound, screamSound);
+  flamingo = new Predator (width/2+width/3, height/2, 5, 40, predatorImage2, 87, 83, 65, 68, SHIFT, eatSound, screamSound);
   man1 = new Prey(100, 100, 7,20,  preyImage1);
   man2 = new Prey(100, 100, 7, 30, preyImage2);
   torch = new Prey(100, 100, 7, 35, torchImage);

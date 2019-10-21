@@ -12,7 +12,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, radius, predatorImage, upKey, downKey, leftKey, rightKey, sprintKey, eatSound) {
+  constructor(x, y, speed, radius, predatorImage, upKey, downKey, leftKey, rightKey, sprintKey, eatSound, screamSound) {
     // Position
     this.x = x;
     this.y = y;
@@ -24,8 +24,8 @@ class Predator {
     // Health properties
     this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
-    this.healthLossPerMove = 1;
-    this.healthGainPerEat = 1;
+    this.healthLossPerMove = 0.01;
+    this.healthGainPerEat = 0.4;
     // Display properties
 
     this.radius = this.health; // Radius is defined in terms of health
@@ -41,6 +41,7 @@ class Predator {
     this.preyEaten = 0;
 
     this.eatSound = eatSound;
+    this.screamSound = screamSound;
   }
 
   // handleInput
@@ -86,8 +87,7 @@ class Predator {
     this.x += this.vx;
     this.y += this.vy;
     // Update health
-    this.health = this.health - this.healthLossPerMove;
-    this.health = constrain(this.health, 0, this.maxHealth);
+
     // Handle wrapping
     this.handleWrapping();
   }
@@ -136,6 +136,10 @@ class Predator {
         this.eatSound.play();
         prey.reset();
       }
+      if(prey.preyImage == torchImage){
+        this.screamSound.play();
+        this.health = 0;
+      }
     }
   }
 
@@ -145,8 +149,11 @@ class Predator {
   // with a radius the same size as its current health.
 
   display() {
+    this.health = this.health - this.healthLossPerMove;
+    this.health = constrain(this.health, 0.01, this.maxHealth);
     push();
     noStroke();
+    console.log(this.radius);
     this.radius = this.health;
     image(this.predatorImage,this.x, this.y, this.radius * 2);
     pop();

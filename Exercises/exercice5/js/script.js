@@ -15,6 +15,10 @@ let man2;
 let torch;
 
 let backgroundImage;
+
+let beachSound;
+let eatSound;
+let screamSound;
 //preload()
 //
 // loads the resources that will then be passed on through the constructor
@@ -33,6 +37,9 @@ backgroundImage = loadImage("assets/images/sand.jpeg");
  preyImage1 = loadImage("assets/images/man1.png");
  preyImage2 = loadImage("assets/images/man2.png");
  torchImage = loadImage("assets/images/torchman.png")
+
+ beachSound = loadSound("assets/sounds/beach.mp3");
+ eatSound = loadSound("assets/sounds/eat.wav");
 }
 
 // setup()
@@ -41,8 +48,9 @@ backgroundImage = loadImage("assets/images/sand.jpeg");
 // Creates objects for the predator and three prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  ostrich = new Predator(width/2-width/3, height/2, 5, 10, predatorImage1, 38, 40, 37, 39, 13);
-  flamingo = new Predator (width/2+width/3, height/2, 5, 10, predatorImage2, 87, 83, 65, 68, SHIFT);
+  beachSound.loop();
+  ostrich = new Predator(width/2-width/3, height/2, 5, 10, predatorImage1, 38, 40, 37, 39, 13, eatSound);
+  flamingo = new Predator (width/2+width/3, height/2, 5, 10, predatorImage2, 87, 83, 65, 68, SHIFT, eatSound);
   man1 = new Prey(100, 100, 7,20,  preyImage1);
   man2 = new Prey(100, 100, 7, 30, preyImage2);
   torch = new Prey(100, 100, 7, 35, torchImage);

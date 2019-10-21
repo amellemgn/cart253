@@ -12,7 +12,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, radius, predatorImage, upKey, downKey, leftKey, rightKey, sprintKey) {
+  constructor(x, y, speed, radius, predatorImage, upKey, downKey, leftKey, rightKey, sprintKey, eatSound) {
     // Position
     this.x = x;
     this.y = y;
@@ -39,6 +39,8 @@ class Predator {
     this.predatorImage = predatorImage; //ensure that property for specific constction
 
     this.preyEaten = 0;
+
+    this.eatSound = eatSound;
   }
 
   // handleInput
@@ -131,6 +133,7 @@ class Predator {
       if (prey.health < 0) {
         console.log("ate one enemy");
         this.preyEaten +=1;
+        this.eatSound.play();
         prey.reset();
       }
     }

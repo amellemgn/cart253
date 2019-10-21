@@ -3,7 +3,7 @@
 // A class that represents a simple prey that moves
 // on screen based on a noise() function. It can move around
 // the screen and be consumed by Predator objects.
-
+let humanImage;
 class Prey {
 
   // constructor
@@ -25,8 +25,11 @@ class Prey {
     this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
     // Display properties
-  
+
     this.radius = this.health;
+
+    humanImage = loadImage("assets/images/man1");
+
   }
 
   // move
@@ -73,12 +76,13 @@ class Prey {
   // Draw the prey as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    push();
+
     noStroke();
-    fill(this.fillColor);
-    this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
-    pop();
+
+    this.width = this.health;
+    image(humanImage, this.x, this.y);
+
+
   }
 
   // reset

@@ -4,13 +4,15 @@
 // controlled by the arrow keys. It can move around
 // the screen and consume Prey objects to maintain its health.
 
+
+
 class Predator {
 
   // constructor
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, radius) {
+  constructor(x, y, speed, radius, predatorImage, upKey, downKey, leftKey, rightKey, sprintKey) {
     // Position
     this.x = x;
     this.y = y;
@@ -18,6 +20,7 @@ class Predator {
     this.vx = 0;
     this.vy = 0;
     this.speed = speed;
+    this.originalSpeed = speed;
     // Health properties
     this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
@@ -27,10 +30,13 @@ class Predator {
 
     this.radius = this.health; // Radius is defined in terms of health
     // Input properties
-    this.upKey = UP_ARROW;
-    this.downKey = DOWN_ARROW;
-    this.leftKey = LEFT_ARROW;
-    this.rightKey = RIGHT_ARROW;
+    this.upKey = upKey;
+    this.downKey = downKey;
+    this.leftKey = leftKey;
+    this.rightKey = rightKey;
+    this.sprintKey = sprintKey;
+
+    this.predatorImage = predatorImage; //ensure that property for specific constction
   }
 
   // handleInput
@@ -57,6 +63,12 @@ class Predator {
     }
     else {
       this.vy = 0;
+    }
+    if(keyIsDown(this.sprintKey)){
+      this.speed += 3;
+    }
+    else{
+      this.speed = this.originalSpeed;
     }
   }
 
@@ -127,7 +139,7 @@ class Predator {
     push();
     noStroke();
     this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
+    image(this.predatorImage,this.x, this.y, this.radius * 2);
     pop();
   }
 }

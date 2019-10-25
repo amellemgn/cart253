@@ -4,8 +4,6 @@
 // controlled by the arrow keys. It can move around
 // the screen and consume Prey objects to maintain its health.
 
-
-
 class Predator {
 
   // constructor
@@ -27,7 +25,6 @@ class Predator {
     this.healthLossPerMove = 0.01;
     this.healthGainPerEat = 0.4;
     // Display properties
-
     this.radius = this.health; // Radius is defined in terms of health
     // Input properties
     this.upKey = upKey;
@@ -35,11 +32,11 @@ class Predator {
     this.leftKey = leftKey;
     this.rightKey = rightKey;
     this.sprintKey = sprintKey;
-
-    this.predatorImage = predatorImage; //ensure that property for specific constction
-
+    //Image of predator
+    this.predatorImage = predatorImage;
+    // Number of prey eaten
     this.preyEaten = 0;
-
+    //Particular sounds attached to predator
     this.eatSound = eatSound;
     this.screamSound = screamSound;
   }
@@ -86,8 +83,6 @@ class Predator {
     // Update position
     this.x += this.vx;
     this.y += this.vy;
-    // Update health
-
     // Handle wrapping
     this.handleWrapping();
   }
@@ -129,31 +124,31 @@ class Predator {
       this.health = constrain(this.health, 0, this.maxHealth);
       // Decrease prey health by the same amount
       prey.health -= this.healthGainPerEat;
-      // Check if the prey died and reset it if so
+      // Check if the prey died and reset it if so. Also, in that case increase the prey eaten count, play a sound
       if (prey.health < 0) {
         console.log("ate one enemy");
         this.preyEaten +=1;
         this.eatSound.play();
         prey.reset();
       }
+      //However if the predator eats a torch prey, they 'die' as their health goes to zero. An especially annoying sound plays.
+      // Normally, this would end the game and so forth, but I've managed to mess that up somewhere along the way so I removed that bit from the game.
       if(prey.preyImage == torchImage){
         this.screamSound.play();
         this.health = 0;
       }
     }
   }
-
   // display
   //
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
-
+  //Display the number of prey eaten by each predator as it moves around onscreen. 
   display() {
     this.health = this.health - this.healthLossPerMove;
     this.health = constrain(this.health, 0.01, this.maxHealth);
     push();
     noStroke();
-    console.log(this.radius);
     this.radius = this.health;
     image(this.predatorImage,this.x, this.y, this.radius * 2);
     pop();

@@ -1,5 +1,5 @@
 // Predator-Prey Simulation
-// by Pippin Barr
+// by Amelle Margaron
 //
 // Creates a predator and three prey (of different sizes and speeds)
 // The predator chases the prey using the arrow keys and consumes them.
@@ -61,33 +61,37 @@ function setup() {
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
-  // Clear the background to white
-  background(backgroundImage);
+    // Clear the background to white
+    background(backgroundImage);
 
-  // Handle input for the ostrich
-  ostrich.handleInput();
-  flamingo.handleInput();
+    // Handle input for the ostrich
+    ostrich.handleInput();
+    flamingo.handleInput();
 
-  // Move all the "animals"
-  ostrich.move();
-  flamingo.move();
-  man1.move();
-  man2.move();
-  torch.move();
+    // Move all the "animals"
+    ostrich.move();
+    flamingo.move();
+    man1.move();
+    man2.move();
+    torch.move();
 
-  // Handle the ostrich eating any of the prey
-  ostrich.handleEating(man1);
-  ostrich.handleEating(man2);
-  ostrich.handleEating(torch);
+    // Handle the ostrich eating any of the prey
+    ostrich.handleEating(man1);
+    ostrich.handleEating(man2);
+    ostrich.handleEating(torch);
 
-  flamingo.handleEating(man1);
-  flamingo.handleEating(man2);
-  flamingo.handleEating(torch);
+    flamingo.handleEating(man1);
+    flamingo.handleEating(man2);
+    flamingo.handleEating(torch);
 
-  // Display all the "animals"
-  ostrich.display();
-  flamingo.display();
-  man1.display();
-  man2.display();
-  torch.display();
-}
+    // Display all the "animals"
+    ostrich.display();
+    flamingo.display();
+    man1.display();
+    man2.display();
+    torch.display();
+
+  //  if (ostrich.isDead || flamingo.isDead){
+  //    gameOver = true; (Leaving here for reference, symbolic of a bunch more stuff that I remove bc dysfunctional)
+    
+  }

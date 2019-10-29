@@ -7,13 +7,14 @@
 /////////////////////////
 // ~10 ERRORS IN HERE
 /////////////////////////
-
+//Fixed: spelled class wrong
 class Prey {
 
   // constructor
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
+  //Fixed: replaced w and why with x and y for location coordinates
   constructor(x, y, speed, fillColor, radius) {
     // Position
     this.x = x;
@@ -21,8 +22,10 @@ class Prey {
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
+    //Fixed: speed spelled wrong
     this.speed = speed;
     // Time properties for noise() function
+    //Fixed: changed random properties from (0,0) to (0,1)
     this.tx = random(0, 1); // To make x and y noise different
     this.ty = random(0, 1); // we use random starting values
     // Health properties
@@ -37,6 +40,7 @@ class Prey {
   //
   // Sets velocity based on the noise() function and the Prey's speed
   // Moves based on the resulting velocity and handles wrapping
+  //Fixed: spelled move right
   move() {
     // Set velocity via noise()
     this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
@@ -48,7 +52,9 @@ class Prey {
     this.tx += 0.01;
     this.ty += 0.01;
     // Handle wrapping
+    //Fixed: spelled handleWrapping() wrong
     this.handleWrapping();
+    //Fixed: added end bracket to move() function
   }
 
     // handleWrapping
@@ -57,6 +63,7 @@ class Prey {
     // wraps it to the other side if so
     handleWrapping() {
       // Off the left or right
+      //Fixed: the equation didn't make sense. Replaced this.x > 0 to this.x <0
       if (this.x < 0) {
         this.x += width;
       }
@@ -68,6 +75,7 @@ class Prey {
         this.y += height;
       }
       else if (this.y > height) {
+        //Fixed: spelled height wrong
         this.y -= height;
       }
     }
@@ -81,6 +89,7 @@ class Prey {
       noStroke();
       fill(this.fillColor);
       this.radius = this.health;
+      //Fixed: replaced 'two' with 2 so equation works
       ellipse(this.x, this.y, this.radius * 2);
       pop();
     }

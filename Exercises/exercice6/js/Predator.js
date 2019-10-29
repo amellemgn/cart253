@@ -60,7 +60,7 @@ class Predator {
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
     }
-    //Fixed: Spell keyIsDown correctly 
+    //Fixed: Spell keyIsDown correctly
     else if (keyIsDown(this.downKey)) {
       this.vy = this.speed;
     }
@@ -76,8 +76,9 @@ class Predator {
   // Handles wrapping
   move() {
     // Update position
-    this.x = this.vx;
-    this.y = this.vy;
+    //Fixed: added += to following two equations so tiger can be moved
+    this.x += this.vx;
+    this.y += this.vy;
     // Update health
     this.health = this.health - this.healthLossPerMove;
     this.health = constrain(this.health, 0, this.maxHealth);
@@ -113,6 +114,7 @@ class Predator {
   // the predator's. If the prey dies, it gets reset.
   handleEating(prey) {
     // Calculate distance from this predator to the prey
+    // Fixed: changed this.x and this.y from thisX and thisY
     let d = dist(this.x, this.y, prey.x, prey.y);
     // Check if the distance is less than their two radii (an overlap)
     if (d < this.radius + prey.radius) {
@@ -123,6 +125,7 @@ class Predator {
       prey.health -= this.healthGainPerEat;
       // Check if the prey died and reset it if so
       if (prey.health < 0) {
+        //Fixed: prey.reset spelled right
         prey.reset();
       }
     }
@@ -133,11 +136,13 @@ class Predator {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
+    //Fixed: spelled push right
     push();
     noStroke();
     fill(this.fillColor);
     this.radius = this.health;
     ellipse(this.x, this.y, this.radius * 2);
+    //Fixed: spelled pop right
     pop();
   }
 }

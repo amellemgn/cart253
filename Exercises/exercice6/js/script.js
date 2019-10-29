@@ -39,6 +39,7 @@ function draw() {
   background(0);
 
   // Handle input for the tiger
+  tiger.handleInput();
 
   // Move all the "animals"
   tiger.move();

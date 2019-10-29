@@ -14,6 +14,8 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
+  //Fixed: spelled constructor correctly
+  // Fixed: changed feltColor to fillColor
   constructor(x, y, speed, fillColor, radius) {
     // Position
     this.x = x;
@@ -29,8 +31,10 @@ class Predator {
     this.healthGainPerEat = 1;
     // Display properties
     this.fillColor = fillColor;
+    //Fixed: spelled radius right
     this.radius = this.health; // Radius is defined in terms of health
     // Input properties
+    //Fixed: spell upKey right
     this.upKey = UP_ARROW;
     this.downKey = DOWN_ARROW;
     this.leftKey = LEFT_ARROW;
@@ -56,6 +60,7 @@ class Predator {
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
     }
+    //Fixed: Spell keyIsDown correctly 
     else if (keyIsDown(this.downKey)) {
       this.vy = this.speed;
     }

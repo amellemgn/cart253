@@ -41,6 +41,9 @@ let babyThudSound;
 let backgroundImages = [];
 let currentBackgroundImage = 0;
 
+//Extra fonts
+let pixelFont;
+
 // setup()
 //
 // Sets up a canvas
@@ -84,6 +87,9 @@ function resourceSetup(){
 
 //Load sounds
   killSound = loadSound("assets/sounds/killSound.wav");
+
+//Load fonts
+  pixelFont = loadFont("assets/fonts/vt323.regular.ttf");
 }
 
 function createGameObjects(){
@@ -121,4 +127,13 @@ function draw() {
   bat.display();
   rat.display();
   centipede.display();
+
+  //Change background
+  updateBackground();
+}
+
+function updateBackground(){
+  //for (let i = 0; i +=5; i++){
+
+//  }
 }

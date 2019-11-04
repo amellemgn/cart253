@@ -129,15 +129,19 @@ class Predator {
       let d = dist(this.x, this.y, prey.x, prey.y);
     // Check if the distance is less than their two radii (an overlap)
     if (d < this.predatorImage.width + prey.radius) {
+      if(keyIsDown(this.shiftKey)){
+        this.killSound.play();
+        //   Increase predator health and constrain it to its possible range
+        this.health += this.healthGainPerEat;
+        this.health = constrain(this.health, 0, this.maxHealth);
 
-      //   Increase predator health and constrain it to its possible range
-      this.health += this.healthGainPerEat;
-      this.health = constrain(this.health, 0, this.maxHealth);
-      //   Decrease prey health by the same amount
-      prey.health -= this.healthGainPerEat;
-      // Check if the prey died and reset it if so
-      if (prey.health < 0) {
-        prey.reset();
+        //   Decrease prey health by the same amount
+        prey.health -= 100;
+        // Check if the prey died and reset it if so
+        if (prey.health < 0) {
+          this.preyKilled +=1;
+          prey.reset();
+        }
       }
     }
   }
@@ -152,5 +156,14 @@ class Predator {
     //this.predatorImage.width = this.health;
     image(this.predatorImage, this.x, this.y);
     pop();
+    //Display player health
+    push();
+   textFont(pixelFont);
+   textAlign(CENTER, CENTER);
+   textSize(20);
+   fill(255);
+   text(this.preyKilled, this.x + 50, this.y - 45);
+   pop();
+
   }
 }

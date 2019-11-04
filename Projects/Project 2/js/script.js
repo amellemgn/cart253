@@ -5,6 +5,11 @@
 // The predator chases the prey using the arrow keys and consumes them.
 // The predator loses health over time, so must keep eating to survive.
 
+// crash.wav sound effect: https://freesound.org/people/sandyrb/sounds/95078/
+// horror.wav: https://freesound.org/people/Hoerspielwerkstatt_HEF/sounds/270632/
+// shrillBaby: https://freesound.org/people/Robinhood76/sounds/91294/
+//killSound:
+
 // Our predator
 let woman;
 
@@ -91,7 +96,9 @@ function resourceSetup(){
   womanImageRight = loadImage("assets/images/womanright.png");
 
 //Load sounds
-  killSound = loadSound("assets/sounds/killSound.wav");
+  killSound = loadSound("assets/sounds/evisceratedFruit.wav");
+  babyThudSound = loadSound("assets/sounds/horror.wav");
+  babyCryingSound = loadSound("assets/sounds/shrillBaby.wav");
 
 //Load fonts
   pixelFont = loadFont("assets/fonts/vt323.regular.ttf");
@@ -147,6 +154,8 @@ function updateBackground(){
 
     backgroundImagesIndex += 1 ;
     currentBackgroundImage = backgroundImages[backgroundImagesIndex];
+    babyThudSound.play();
+    babyCryingSound.play();
 
 
 }

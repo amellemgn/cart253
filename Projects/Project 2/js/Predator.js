@@ -10,7 +10,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, facingLeftImage, facingLeftSwordImage, facingRightImage, facingRightSwordImage, killSound) {
     // Position
     this.x = x;
     this.y = y;
@@ -19,18 +19,32 @@ class Predator {
     this.vy = 0;
     this.speed = speed;
     // Health properties
-    this.maxHealth = radius;
+    //  this.maxHealth = radius;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
-    this.healthLossPerMove = 0.1;
+    //this.healthLossPerMove = 0.1;
     this.healthGainPerEat = 1;
-    // Display properties
-    this.fillColor = fillColor;
-    this.radius = this.health; // Radius is defined in terms of health
+
+    //Display properties
+    this.facingLeftImage = facingLeftImage;
+    this.facingLeftSwordImage = facingLeftSwordImage;
+    this.facingRightImage = facingRightImage;
+    this.facingRightSwordImage = facingRightSwordImage;
+    //Initial diplay image
+    this.predatorImage = this.facingLeftImage;
+
     // Input properties
     this.upKey = UP_ARROW;
     this.downKey = DOWN_ARROW;
     this.leftKey = LEFT_ARROW;
     this.rightKey = RIGHT_ARROW;
+    this.shiftKey = SHIFT;
+
+    //Count properties
+    //Number of prey killed (this adds a kill count that can be displayed later)
+    this.preyKilled = 0;
+
+    //Sound properties
+    this.killSound = killSound;
   }
 
   // handleInput
@@ -41,22 +55,28 @@ class Predator {
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
       this.vx = -this.speed;
-    }
-    else if (keyIsDown(this.rightKey)) {
+      this.predatorImage = this.facingLeftImage;
+    } else if (keyIsDown(this.rightKey)) {
       this.vx = this.speed;
-    }
-    else {
+      this.predatorImage = this.facingRightImage;
+    } else {
       this.vx = 0;
     }
     // Vertical movement
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
-    }
-    else if (keyIsDown(this.downKey)) {
+    } else if (keyIsDown(this.downKey)) {
       this.vy = this.speed;
-    }
-    else {
+    } else {
       this.vy = 0;
+    }
+
+    if (keyIsDown(this.shiftKey)) {
+      if (this.predatorImage == this.facingLeftImage) {
+        this.predatorImage = this.facingLeftSwordImage;
+      } else {
+        this.predatorImage = this.facingRightSwordImage;
+      }
     }
   }
 
@@ -67,16 +87,20 @@ class Predator {
   // Handles wrapping
   move() {
     // Update position
+    //Since I created a foreground that I want my playable character to interact with, I constrained its movement
+    // to the dimensions of the foreground (minus width and height of player)
     this.x += this.vx;
+    this.x = constrain(this.x, 0, 940);
     this.y += this.vy;
+    this.y = constrain(this.y, 350, 490);
     // Update health
-    this.health = this.health - this.healthLossPerMove;
-    this.health = constrain(this.health, 0, this.maxHealth);
+    //  this.health = this.health - this.healthLossPerMove;
+    //  this.health = constrain(this.health, 0, this.maxHealth);
     // Handle wrapping
-    this.handleWrapping();
+  //  this.handleWrapping();
   }
 
-  // handleWrapping
+  /*// handleWrapping
   //
   // Checks if the predator has gone off the canvas and
   // wraps it to the other side if so
@@ -84,19 +108,17 @@ class Predator {
     // Off the left or right
     if (this.x < 0) {
       this.x += width;
-    }
-    else if (this.x > width) {
+    } else if (this.x > width) {
       this.x -= width;
     }
     // Off the top or bottom
     if (this.y < 0) {
       this.y += height;
-    }
-    else if (this.y > height) {
+    } else if (this.y > height) {
       this.y -= height;
     }
   }
-
+*/
   // handleEating
   //
   // Takes a Prey object as an argument and checks if the predator
@@ -104,13 +126,14 @@ class Predator {
   // the predator's. If the prey dies, it gets reset.
   handleEating(prey) {
     // Calculate distance from this predator to the prey
-    let d = dist(this.x, this.y, prey.x, prey.y);
+      let d = dist(this.x, this.y, prey.x, prey.y);
     // Check if the distance is less than their two radii (an overlap)
-    if (d < this.radius + prey.radius) {
-      // Increase predator health and constrain it to its possible range
+    if (d < this.predatorImage.width + prey.radius) {
+
+      //   Increase predator health and constrain it to its possible range
       this.health += this.healthGainPerEat;
       this.health = constrain(this.health, 0, this.maxHealth);
-      // Decrease prey health by the same amount
+      //   Decrease prey health by the same amount
       prey.health -= this.healthGainPerEat;
       // Check if the prey died and reset it if so
       if (prey.health < 0) {
@@ -122,13 +145,12 @@ class Predator {
   // display
   //
   // Draw the predator as an ellipse on the canvas
-  // with a radius the same size as its current health.
+  // with a predatorImage.width the same size as its current health.
   display() {
     push();
     noStroke();
-    fill(this.fillColor);
-    this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
+    //this.predatorImage.width = this.health;
+    image(this.predatorImage, this.x, this.y);
     pop();
   }
 }

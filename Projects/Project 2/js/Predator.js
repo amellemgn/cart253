@@ -20,7 +20,9 @@ class Predator {
     this.speed = speed;
     // Health properties
     //  this.maxHealth = radius;
-    this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
+    this.maxHealth = 100;// Must be AFTER defining this.maxHealth
+    this.health = this.maxHealth;
+
     //this.healthLossPerMove = 0.1;
     this.healthGainPerEat = 1;
 
@@ -45,6 +47,8 @@ class Predator {
 
     //Sound properties
     this.killSound = killSound;
+
+    this.preyDeath = false;
   }
 
   // handleInput
@@ -132,7 +136,6 @@ class Predator {
       if(keyIsDown(this.shiftKey)){
         this.killSound.play();
         //   Increase predator health and constrain it to its possible range
-        this.health += this.healthGainPerEat;
         this.health = constrain(this.health, 0, this.maxHealth);
 
         //   Decrease prey health by the same amount
@@ -140,6 +143,7 @@ class Predator {
         // Check if the prey died and reset it if so
         if (prey.health < 0) {
           this.preyKilled +=1;
+          this.preyDeath = true;
           prey.reset();
         }
       }
@@ -162,7 +166,8 @@ class Predator {
    textAlign(CENTER, CENTER);
    textSize(20);
    fill(255);
-   text(this.preyKilled, this.x + 50, this.y - 45);
+   text("KILL: " + this.preyKilled, this.x + 50, this.y - 45);
+   text("HEALTH: " + this.health + "%", this.x + 50, this.y - 65);
    pop();
 
   }

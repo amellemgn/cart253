@@ -39,7 +39,9 @@ let babyThudSound;
 
 //All game arrrays + related variables for counting though arrays
 let backgroundImages = [];
-let currentBackgroundImage = 0;
+let currentBackgroundImage;
+let backgroundImagesIndex = 0;
+
 
 //Extra fonts
 let pixelFont;
@@ -79,6 +81,9 @@ function resourceSetup(){
   backgroundImages.push(backgroundImage4);
   backgroundImages.push(backgroundImage5);
 
+  currentBackgroundImage = backgroundImage0;
+
+
 //Load other images
   womanImageLeft = loadImage("assets/images/womanleft.png");
   womanImageLeftSword = loadImage("assets/images/womankilleft.png");
@@ -105,8 +110,10 @@ function createGameObjects(){
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
+
+
   // Clear the background to black
-  background(backgroundImage0);
+  background(currentBackgroundImage);
 
   // Handle input for the woman
   woman.handleInput();
@@ -128,12 +135,18 @@ function draw() {
   rat.display();
   centipede.display();
 
-  //Change background
-  updateBackground();
+if(woman.preyDeath == true){
+  if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) {  //Change background
+    updateBackground();
+  }
+  woman.preyDeath = false;
+  }
 }
 
 function updateBackground(){
-  //for (let i = 0; i +=5; i++){
 
-//  }
+    backgroundImagesIndex += 1 ;
+    currentBackgroundImage = backgroundImages[backgroundImagesIndex];
+
+
 }

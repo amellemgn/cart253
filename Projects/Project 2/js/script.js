@@ -5,6 +5,11 @@
 // The predator chases the prey using the arrow keys and consumes them.
 // The predator loses health over time, so must keep eating to survive.
 
+// crash.wav sound effect: https://freesound.org/people/sandyrb/sounds/95078/
+// horror.wav: https://freesound.org/people/Hoerspielwerkstatt_HEF/sounds/270632/
+// shrillBaby: https://freesound.org/people/Robinhood76/sounds/91294/
+//killSound:
+
 // Our predator
 let woman;
 
@@ -39,7 +44,9 @@ let babyThudSound;
 
 //All game arrrays + related variables for counting though arrays
 let backgroundImages = [];
-let currentBackgroundImage = 0;
+let currentBackgroundImage;
+let backgroundImagesIndex = 0;
+
 
 //Extra fonts
 let pixelFont;
@@ -79,6 +86,9 @@ function resourceSetup(){
   backgroundImages.push(backgroundImage4);
   backgroundImages.push(backgroundImage5);
 
+  currentBackgroundImage = backgroundImage0;
+
+
 //Load other images
   womanImageLeft = loadImage("assets/images/womanleft.png");
   womanImageLeftSword = loadImage("assets/images/womankilleft.png");
@@ -86,7 +96,9 @@ function resourceSetup(){
   womanImageRight = loadImage("assets/images/womanright.png");
 
 //Load sounds
-  killSound = loadSound("assets/sounds/killSound.wav");
+  killSound = loadSound("assets/sounds/evisceratedFruit.wav");
+  babyThudSound = loadSound("assets/sounds/horror.wav");
+  babyCryingSound = loadSound("assets/sounds/shrillBaby.wav");
 
 //Load fonts
   pixelFont = loadFont("assets/fonts/vt323.regular.ttf");
@@ -105,8 +117,10 @@ function createGameObjects(){
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
+
+
   // Clear the background to black
-  background(backgroundImage0);
+  background(currentBackgroundImage);
 
   // Handle input for the woman
   woman.handleInput();
@@ -128,12 +142,20 @@ function draw() {
   rat.display();
   centipede.display();
 
-  //Change background
-  updateBackground();
+if(woman.preyDeath == true){
+  if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) {  //Change background
+    updateBackground();
+  }
+  woman.preyDeath = false;
+  }
 }
 
 function updateBackground(){
-  //for (let i = 0; i +=5; i++){
 
-//  }
+    backgroundImagesIndex += 1 ;
+    currentBackgroundImage = backgroundImages[backgroundImagesIndex];
+    babyThudSound.play();
+    babyCryingSound.play();
+
+
 }

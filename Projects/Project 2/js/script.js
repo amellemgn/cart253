@@ -8,7 +8,7 @@
 // crash.wav sound effect: https://freesound.org/people/sandyrb/sounds/95078/
 // horror.wav: https://freesound.org/people/Hoerspielwerkstatt_HEF/sounds/270632/
 // shrillBaby: https://freesound.org/people/Robinhood76/sounds/91294/
-//killSound:
+// backgroundMusic: https://freesound.org/people/zagi2/sounds/342931/
 
 // Our predator
 let woman;
@@ -51,12 +51,21 @@ let menuImages = [];
 let currentMenuImage;
 let menuImageIndex = 0;
 
+let menuImage1;
+let menuImage2;
+let menuImage3;
+let endImage1;
+let endImage2;
+
+let gameOver = false;
+let gameStarted = false;
+
 //Extra fonts
 let pixelFont;
 
-function preload(){
+function preload() {
   //Calls function that sets up linked resources
-    resourceSetup();
+  resourceSetup();
 }
 // setup()
 //
@@ -65,20 +74,20 @@ function preload(){
 function setup() {
 
 
-//Setting canvas height and width and deliberately choosing to sacrifice canvas responsiveness
-// because I've made my assets with fixed height/width.
+  //Setting canvas height and width and deliberately choosing to sacrifice canvas responsiveness
+  // because I've made my assets with fixed height/width.
   createCanvas(960, 540);
 
-// Set some nice background backgroundMusic
+  // Set some nice background backgroundMusic
   backgroundMusic.loop();
-//Create Prey and Predators
+  //Create Prey and Predators
   createGameObjects();
 
 }
 
-function resourceSetup(){
+function resourceSetup() {
 
-//Load all background images, and then push them into my background image array
+  //Load all background images, and then push them into my background image array
   backgroundImage0 = loadImage("assets/images/Background0.png");
   backgroundImage1 = loadImage("assets/images/Background1.png");
   backgroundImage2 = loadImage("assets/images/Background2.png");
@@ -96,29 +105,42 @@ function resourceSetup(){
   currentBackgroundImage = backgroundImage0;
 
 
-//Load other images
+  //Load other images
   womanImageLeft = loadImage("assets/images/womanleft.png");
   womanImageLeftSword = loadImage("assets/images/womankilleft.png");
   womanImageRightSword = loadImage("assets/images/womankillright.png");
   womanImageRight = loadImage("assets/images/womanright.png");
 
-//Load sounds
+  menuImage1 = loadImage("assets/images/menu1.png");
+  menuImage2 = loadImage("assets/images/menu2.png");
+  menuImage3 = loadImage("assets/images/menu3.png");
+  endImage1 = loadImage("assets/images/goodend.png");
+  endImage2 = loadImage("assets/images/badend.png");
+
+  // Load menu images and push them into my menu image array
+  menuImages.push(menuImage1);
+  menuImages.push(menuImage2);
+  menuImages.push(menuImage3);
+
+  currentMenuImage = menuImage1;
+
+  //Load sounds
   killSound = loadSound("assets/sounds/evisceratedFruit.wav");
   babyThudSound = loadSound("assets/sounds/horror.wav");
   babyCryingSound = loadSound("assets/sounds/shrillBaby.wav");
   backgroundMusic = loadSound("assets/sounds/backgroundMusic.wav");
 
-//Load fonts
+  //Load fonts
   pixelFont = loadFont("assets/fonts/vt323.regular.ttf");
 }
 
-function createGameObjects(){
+function createGameObjects() {
 
   //Create Prey and Predators by calling constructors
-    woman = new Predator(100, 390, 5, womanImageLeft, womanImageLeftSword, womanImageRight, womanImageRightSword,killSound);
-    bat = new Prey(100, 540, 10, color(255, 100, 10), 50);
-    rat = new Prey(100, 540, 8, color(255, 255, 255), 60);
-    centipede = new Prey(100, 540, 20, color(255, 255, 0), 10);
+  woman = new Predator(100, 390, 5, womanImageLeft, womanImageLeftSword, womanImageRight, womanImageRightSword, killSound);
+  bat = new Prey(100, 540, 10, color(255, 100, 10), 50);
+  rat = new Prey(100, 540, 8, color(255, 255, 255), 60);
+  centipede = new Prey(100, 540, 20, color(255, 255, 0), 10);
 
 }
 // draw()
@@ -126,44 +148,67 @@ function createGameObjects(){
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
 
+  if (gameStarted == false)
 
-  // Clear the background to black
-  background(currentBackgroundImage);
-
-  // Handle input for the woman
-  woman.handleInput();
-
-  // Move all the "animals"
-  woman.move();
-  bat.move();
-  rat.move();
-  centipede.move();
-
-  // Handle the woman eating any of the prey
-  woman.handleEating(bat);
-  woman.handleEating(rat);
-  woman.handleEating(centipede);
-
-  // Display all the "animals"
-  woman.display();
-  bat.display();
-  rat.display();
-  centipede.display();
-
-if(woman.preyDeath == true){
-  if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) {  //Change background
-    updateBackground();
+  if (gameOver == true || currentMenuImage < menuImageIndex && gameStarted == false) {
+    let menuImage = menuImages[currentMenuImage];
+    image(menuImage, 0,0, width, height);
   }
-  woman.preyDeath = false;
+
+  else  if (){
+    // Clear the background to black
+    background(currentBackgroundImage);
+
+    // Handle input for the woman
+    woman.handleInput();
+
+    // Move all the "animals"
+    woman.move();
+    bat.move();
+    rat.move();
+    centipede.move();
+
+    // Handle the woman eating any of the prey
+    woman.handleEating(bat);
+    woman.handleEating(rat);
+    woman.handleEating(centipede);
+
+    // Display all the "animals"
+    woman.display();
+    bat.display();
+    rat.display();
+    centipede.display();
+
+    if (woman.isDead){
+      gameOver = true;
+    }
+
+    if (woman.preyDeath == true) {
+      if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) { //Change background
+        updateBackground();
+      }
+      woman.preyDeath = false;
+    }
   }
 }
 
-function updateBackground(){
+function updateBackground() {
+  backgroundImagesIndex += 1;
+  currentBackgroundImage = backgroundImages[backgroundImagesIndex];
+  babyThudSound.play();
+  babyCryingSound.play();
+}
 
-    backgroundImagesIndex += 1 ;
-    currentBackgroundImage = backgroundImages[backgroundImagesIndex];
-    babyThudSound.play();
-    babyCryingSound.play();
+function reloadGame(){
+// Reload background + music
+  background(currentBackgroundImage);
+  backgroundMusic.loop();
+}
 
-
+function mousePressed(){
+  currentMenuImage +=1;
+  if (currentMenuImage >= menuImageIndex){
+    gameOver = false;
+    gameStarted = true;
+  }
 }

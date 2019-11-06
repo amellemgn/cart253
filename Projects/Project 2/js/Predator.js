@@ -23,8 +23,7 @@ class Predator {
     this.maxHealth = 100;// Must be AFTER defining this.maxHealth
     this.health = this.maxHealth;
 
-    //this.healthLossPerMove = 0.1;
-    this.healthGainPerEat = 1;
+
 
     //Display properties
     this.facingLeftImage = facingLeftImage;
@@ -99,7 +98,7 @@ class Predator {
     this.y = constrain(this.y, 350, 490);
     // Update health
     //  this.health = this.health - this.healthLossPerMove;
-    //  this.health = constrain(this.health, 0, this.maxHealth);
+    //
     // Handle wrapping
   //  this.handleWrapping();
   }
@@ -131,8 +130,9 @@ class Predator {
   handleEating(prey) {
     // Calculate distance from this predator to the prey
       let d = dist(this.x, this.y, prey.x, prey.y);
-    // Check if the distance is less than their two radii (an overlap)
-    if (d < this.predatorImage.width + prey.radius) {
+    // Check if the distance is less than their two radii (an overlap) + some time
+    // in order to give player the time to strike
+    if (d < this.predatorImage.width + prey.radius + 20 /*arbitrary amount*/) {
       if(keyIsDown(this.shiftKey)){
         this.killSound.play();
         //   Increase predator health and constrain it to its possible range
@@ -148,6 +148,15 @@ class Predator {
         }
       }
     }
+    if (d < this.predatorImage.width + prey.radius){ // actual player prey overlap
+      this.health = constrain(this.health, 0, this.maxHealth); // this line is already used above
+      this.health -= 25;
+
+    }
+  }
+
+  isDead(){
+    return this.health <= 0;
   }
 
   // display

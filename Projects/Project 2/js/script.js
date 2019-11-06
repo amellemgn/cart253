@@ -47,23 +47,30 @@ let backgroundImages = [];
 let currentBackgroundImage;
 let backgroundImagesIndex = 0;
 
+let menuImages = [];
+let currentMenuImage;
+let menuImageIndex = 0;
 
 //Extra fonts
 let pixelFont;
 
+function preload(){
+  //Calls function that sets up linked resources
+    resourceSetup();
+}
 // setup()
 //
 // Sets up a canvas
 // Creates objects for the predator and three prey
 function setup() {
 
+
 //Setting canvas height and width and deliberately choosing to sacrifice canvas responsiveness
 // because I've made my assets with fixed height/width.
   createCanvas(960, 540);
 
-  //Calls function that sets up linked resources
-  resourceSetup();
-
+// Set some nice background backgroundMusic
+  backgroundMusic.loop();
 //Create Prey and Predators
   createGameObjects();
 
@@ -99,6 +106,7 @@ function resourceSetup(){
   killSound = loadSound("assets/sounds/evisceratedFruit.wav");
   babyThudSound = loadSound("assets/sounds/horror.wav");
   babyCryingSound = loadSound("assets/sounds/shrillBaby.wav");
+  backgroundMusic = loadSound("assets/sounds/backgroundMusic.wav");
 
 //Load fonts
   pixelFont = loadFont("assets/fonts/vt323.regular.ttf");

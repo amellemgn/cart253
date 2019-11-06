@@ -131,7 +131,7 @@ class Predator {
       let d = dist(this.x, this.y, prey.x, prey.y);
     // Check if the distance is less than their two radii (an overlap) + some time
     // in order to give player the time to strike
-    if (d < this.predatorImage.width + prey.radius + 20 /*arbitrary amount*/) {
+    if (d < this.predatorImage.width + prey.preyImage.width + 20 /*arbitrary amount*/) {
       if(keyIsDown(this.shiftKey)){
         this.killSound.play();
         //   Increase predator health and constrain it to its possible range
@@ -147,9 +147,9 @@ class Predator {
         }
       }
     }
-    if (d < this.predatorImage.width + prey.radius){ // actual player prey overlap
+    if (d < this.predatorImage.width + prey.preyImage.width){ // actual player prey overlap
       this.health -= 0.5;
-      this.health = constrain(this.health, 0, this.maxHealth); // this line is already used above
+      this.health = constrain(this.health, 0, this.maxHealth); 
 
 
     }

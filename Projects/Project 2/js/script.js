@@ -123,6 +123,10 @@ function resourceSetup() {
 
   currentMenuImage = menuImage1;
 
+  batImage = loadImage("assets/images/bat.png");
+  ratImage = loadImage("assets/images/rat1.png");
+  centipedeImage = loadImage("assets/images/centipede.png");
+
   //Load sounds
   killSound = loadSound("assets/sounds/evisceratedFruit.wav");
   babyThudSound = loadSound("assets/sounds/horror.wav");
@@ -137,9 +141,9 @@ function createGameObjects() {
 
   //Create Prey and Predators by calling constructors
   woman = new Predator(100, 390, 5, womanImageLeft, womanImageLeftSword, womanImageRight, womanImageRightSword, killSound);
-  bat = new Prey(100, 540, 10, color(255, 100, 10), 50);
-  rat = new Prey(100, 540, 8, color(255, 255, 255), 60);
-  centipede = new Prey(100, 540, 20, color(255, 255, 0), 10);
+  bat = new Bat(100, 540, 10, batImage);
+  rat = new Rat(100, 540, 8, ratImage);
+//  centipede = new Prey(100, 540, 20, centipedeImage);
 
 }
 // draw()
@@ -163,18 +167,18 @@ function draw() {
     woman.move();
     bat.move();
     rat.move();
-    centipede.move();
+    //centipede.move();
 
     // Handle the woman eating any of the prey
     woman.handleEating(bat);
     woman.handleEating(rat);
-    woman.handleEating(centipede);
+    //woman.handleEating(centipede);
 
     // Display all the "animals"
     woman.display();
     bat.display();
     rat.display();
-    centipede.display();
+    //centipede.display();
 
     if (woman.preyDeath == true) {
       if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) { //Change background

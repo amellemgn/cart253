@@ -46,7 +46,6 @@ class Predator {
 
     //Sound properties
     this.killSound = killSound;
-
     this.preyDeath = false;
   }
 
@@ -149,8 +148,9 @@ class Predator {
       }
     }
     if (d < this.predatorImage.width + prey.radius){ // actual player prey overlap
+      this.health -= 0.5;
       this.health = constrain(this.health, 0, this.maxHealth); // this line is already used above
-      this.health -= 25;
+
 
     }
   }

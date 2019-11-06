@@ -57,8 +57,7 @@ let menuImage3;
 let endImage1;
 let endImage2;
 
-let gameOver = false;
-let gameStarted = false;
+let gameState = 0;
 
 //Extra fonts
 let pixelFont;
@@ -147,15 +146,13 @@ function createGameObjects() {
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
-
-  if (gameStarted == false)
-
-  if (gameOver == true || currentMenuImage < menuImageIndex && gameStarted == false) {
-    let menuImage = menuImages[currentMenuImage];
-    image(menuImage, 0,0, width, height);
+  // If the game has not yet started
+  if (gameState == 0) {
+    let menuImage = menuImages[menuImageIndex];
+    //console.log(menuImage);
+    image(menuImage, 0, 0, 960, 540);
   }
-
-  else  if (){
+  if (gameState == 1) {
     // Clear the background to black
     background(currentBackgroundImage);
 
@@ -179,15 +176,23 @@ function draw() {
     rat.display();
     centipede.display();
 
-    if (woman.isDead){
-      gameOver = true;
-    }
-
     if (woman.preyDeath == true) {
       if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) { //Change background
         updateBackground();
       }
       woman.preyDeath = false;
+    }
+    if (woman.isDead()) {
+      gameState = 2;
+    }
+  }
+
+  if (gameState ==2){
+    if(woman.preyKilled > 5){
+      image(endImage1, 0, 0, width, height);
+    }
+    else {
+      image(endImage2, 0, 0, width, height);
     }
   }
 }
@@ -199,16 +204,23 @@ function updateBackground() {
   babyCryingSound.play();
 }
 
-function reloadGame(){
-// Reload background + music
+function reloadGame() {
+  // Reload background + music
   background(currentBackgroundImage);
   backgroundMusic.loop();
 }
 
-function mousePressed(){
-  currentMenuImage +=1;
-  if (currentMenuImage >= menuImageIndex){
-    gameOver = false;
-    gameStarted = true;
+function mousePressed() {
+console.log(gameState);
+  if (gameState === 0) {
+    menuImageIndex += 1;
+    if (menuImageIndex>= menuImages.length) {
+      gameState = 1;
+    }
+  }
+
+  if (gameState ===2){
+    menuImageIndex =0;
+    gameState = 0;
   }
 }

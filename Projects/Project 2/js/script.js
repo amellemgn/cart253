@@ -60,15 +60,23 @@ let endImage2;
 let gameState = 0;
 
 preyArray = [];
-let numberOfPrey = 6;
+let numberOfPrey = 10;
 
 let sparkle;
+
+let sparkle2;
+
+let sparkle3;
+
+let sparkle4;
 let colorImage;
 
 let firstAid;
 let medicalBoxImage;
 
 let sparkleSound;
+
+let babyPercentage;
 //Extra fonts
 let pixelFont;
 
@@ -123,8 +131,8 @@ function resourceSetup() {
   menuImage1 = loadImage("assets/images/newmenu1.png");
   menuImage2 = loadImage("assets/images/menu2.png");
   menuImage3 = loadImage("assets/images/menu3.png");
-  endImage1 = loadImage("assets/images/goodend.png");
-  endImage2 = loadImage("assets/images/badend.png");
+  endImage1 = loadImage("assets/images/newnewgoodend.png");
+  endImage2 = loadImage("assets/images/newbadend.png");
 
   // Load menu images and push them into my menu image array
   menuImages.push(menuImage1);
@@ -154,13 +162,13 @@ function createGameObjects() {
 
   //Create Predator and non-killable prey by calling constructors
   woman = new Predator(100, 390, 5, womanImageLeft, womanImageLeftSword, womanImageRight, womanImageRightSword, killSound);
-  sparkle = new Color(340, 250, 10, colorImage, sparkleSound);
+  sparkle = new Color(340, 250, 20, colorImage, sparkleSound);
   firstAid = new FirstAid(100, 200, 6, medicalBoxImage);
 
   //Create killable Prey using a loop to generate randomly based on set values and prey amounts
   for (let i = 0; i < numberOfPrey; i++) {
     let r = random(0, 1);
-    if (r > 0.3) {
+    if (r > 0.5) {
       bat = new Bat(100, 540, 10, batImage);
       preyArray.push(bat);
     } else {
@@ -198,30 +206,31 @@ function draw() {
     // Handle the woman eating any of the prey
     //  woman.handleEating(bat);
     //  woman.handleEating(rat);
-    //woman.handleEating(centipede);
+
 
     // Display all the "animals"
     woman.display();
     sparkle.display();
-    firstAid.display();
+  //  firstAid.display();
     //  bat.display();
     //  rat.display();
-    //centipede.display();
+
+
+    woman.handleColorChange(sparkle);
+  //  woman.handleHealing(firstAid);
 
     //  Move, display, and handle eating for all prey part of the 'prey' array
 
     for (let i = 0; i < preyArray.length; i++) {
       preyArray[i].move();
       preyArray[i].display();
-      //woman.handleEating(sparkle);
-      //woman.handleEating(color);
-    //  woman.handleEating(preyArray[i]);
-      //woman.handleEating(preyArray[i]);
+      woman.handleEating(preyArray[i]);
     }
 
     if (woman.preyDeath == true) {
       if (woman.preyKilled % 20 == 0 && woman.preyKilled != 0) { //Change background
         updateBackground();
+        babyPercentage += 20;
       }
       woman.preyDeath = false;
     }
@@ -231,8 +240,16 @@ function draw() {
   }
 
   if (gameState == 2) {
+      noTint();
     if (woman.preyKilled > 99) {
-      image(endImage1, 0, 0, width, height);
+     image(endImage1, 0, 0, width, height);
+     push();
+     textFont(pixelFont);
+     textAlign(CENTER, CENTER);
+     textSize(40);
+     fill(255);
+  //   text("You completed " + babyPercentage + "% of your baby."\n "You killed " + woman.preyKilled + " demons.", width/2, height/2);
+     pop();
     } else {
       image(endImage2, 0, 0, width, height);
     }
@@ -249,7 +266,11 @@ function updateBackground() {
 function reloadGame() {
   // Reload background + music
   background(currentBackgroundImage);
-  backgroundMusic.loop();
+  currentBackgroundImage = backgroundImage0;
+  currentMenuImage = menuImage1;
+  createGameObjects();
+
+
 }
 
 function mousePressed() {
@@ -263,6 +284,7 @@ function mousePressed() {
 
   if (gameState === 2) {
     menuImageIndex = 0;
+    reloadGame();
     gameState = 0;
   }
 }

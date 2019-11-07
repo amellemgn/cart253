@@ -67,14 +67,14 @@ checkCanvasCollision() {
     this.vy = -this.vy;
     // Play our bouncing sound effect by rewinding and then playing
     this.sparkleSound.currentTime = 0;
-    this.sparkleSound.play();
+  //  this.sparkleSound.play();
   }
   //Check for collisions with left or right
   if (this.x < 10 || this.x > width- 10){
     this.vx = -this.vx;
   // Play our bouncing sound effect by rewinding and then playing
     this.sparkleSound.currentTime = 0;
-    this.sparkleSound.play();
+  //  this.sparkleSound.play();
   }
 }
   // display
@@ -101,7 +101,7 @@ checkCanvasCollision() {
     this.y = random(0, height);
     // Default health
     this.health = this.maxHealth;
-    //  this.fillColor = tint(random(100,255), random(100, 255), random(100,255));
+  
 
   }
 }

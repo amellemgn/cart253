@@ -28,6 +28,9 @@ class Prey {
     this.preyImage = preyImage;
     this.preyImage.width = this.health;
 
+    this.angle = 0;
+    this.radius = this.preyImage.width/2;
+
   }
 
   // move
@@ -74,10 +77,12 @@ class Prey {
   // Draw the prey as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
+
     push();
     noStroke();
-    image(this.preyImage, this.x, this.y);
+    image(this.preyImage, this.x,this.y); 
     pop();
+
   }
 
   // reset

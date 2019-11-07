@@ -18,5 +18,6 @@ class Rat extends Prey {
 
     super.handleWrapping();
   }
-  
+
+
 }

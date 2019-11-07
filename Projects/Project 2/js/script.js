@@ -76,9 +76,12 @@ let medicalBoxImage;
 
 let sparkleSound;
 
-let babyPercentage;
+let babyPercentage = 0;
 //Extra fonts
 let pixelFont;
+
+let megaPrey;
+
 
 function preload() {
   //Calls function that sets up linked resources
@@ -211,13 +214,15 @@ function draw() {
     // Display all the "animals"
     woman.display();
     sparkle.display();
-  //  firstAid.display();
+    firstAid.display();
     //  bat.display();
     //  rat.display();
 
 
     woman.handleColorChange(sparkle);
-  //  woman.handleHealing(firstAid);
+    woman.handleHealing(firstAid);
+
+    bat.handleMerging(firstAid);
 
     //  Move, display, and handle eating for all prey part of the 'prey' array
 
@@ -225,6 +230,14 @@ function draw() {
       preyArray[i].move();
       preyArray[i].display();
       woman.handleEating(preyArray[i]);
+    }
+    if (bat.createMegaPrey == true){
+      megaPrey = new MegaPrey(100, 200, 10, 300);
+      console.log("megaprey created");
+      megaPrey.move();
+      megaPrey.display();
+      woman.handleEating(megaPrey);
+      //bat.createMegaPrey = false;
     }
 
     if (woman.preyDeath == true) {
@@ -242,16 +255,18 @@ function draw() {
   if (gameState == 2) {
       noTint();
     if (woman.preyKilled > 99) {
-     image(endImage1, 0, 0, width, height);
-     push();
-     textFont(pixelFont);
-     textAlign(CENTER, CENTER);
-     textSize(40);
-     fill(255);
-  //   text("You completed " + babyPercentage + "% of your baby."\n "You killed " + woman.preyKilled + " demons.", width/2, height/2);
-     pop();
+      image(endImage1, 0, 0, width, height);
+
     } else {
       image(endImage2, 0, 0, width, height);
+      push();
+      textFont(pixelFont);
+      textAlign(CENTER, CENTER);
+      textSize(20);
+      fill(255);
+      noTint();
+      text("You completed " + babyPercentage + "% of your baby. \n " + "You killed " + woman.preyKilled + " demons.", width/2, height/2);
+      pop();
     }
   }
 }

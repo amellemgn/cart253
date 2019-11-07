@@ -159,11 +159,12 @@ class Predator {
   // overlaps it. If so, reduces the prey's health and increases
   // the predator's. If the prey dies, it gets reset.
   handleHealing(firstAid){
+
     let d = dist(this.x, this.y, firstAid.x, firstAid.y);
-    if(d < this.predatorImage.width + firstAid.firstAidImage.width){
+    if(d < this.predatorImage.width + firstAid.preyImage.width){
       this.health += 20;
-      this.health = constrain(this.health, 0, this.maxhealth);
-      firstAid.health = 0;
+      this.health = constrain(this.health, 0, this.maxHealth);
+    
       firstAid.reset();
     }
   }
@@ -175,9 +176,7 @@ class Predator {
   handleColorChange(sparkle){
     let d = dist(this.x, this.y, sparkle.x, sparkle.y);
     if(d < this.predatorImage.width + sparkle.sparkleImage.width){
-      tint(random(100, 255), random(100, 255), random(100, 255));
-      this.health = constrain(this.health, 0, this.maxhealth);
-    
+      tint(random(0, 200), random(0, 200), random(0, 200));
       sparkle.reset();
     }
   }
@@ -192,12 +191,12 @@ class Predator {
   // with a predatorImage.width the same size as its current health.
   display() {
     push();
-    noStroke();
+  //  noStroke();
     //this.predatorImage.width = this.health;
     image(this.predatorImage, this.x, this.y);
     pop();
     //Display player health
-    push();
+   push();
    textFont(pixelFont);
    textAlign(CENTER, CENTER);
    textSize(20);

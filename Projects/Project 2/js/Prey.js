@@ -10,7 +10,8 @@ class Prey {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, preyImage) {
+  //If there is no prey image given batImage is default
+  constructor(x, y, speed, preyImage = batImage) {
     // Position
     this.x = x;
     this.y = y;
@@ -80,7 +81,7 @@ class Prey {
 
     push();
     noStroke();
-    image(this.preyImage, this.x,this.y); 
+    image(this.preyImage, this.x,this.y);
     pop();
 
   }

@@ -213,8 +213,10 @@ function draw() {
     for (let i = 0; i < preyArray.length; i++) {
       preyArray[i].move();
       preyArray[i].display();
-      woman.handleEating(preyArray[i]);
-      woman.handleEating(preyArray[i]);
+      //woman.handleEating(sparkle);
+      //woman.handleEating(color);
+    //  woman.handleEating(preyArray[i]);
+      //woman.handleEating(preyArray[i]);
     }
 
     if (woman.preyDeath == true) {

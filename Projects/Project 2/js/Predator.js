@@ -143,6 +143,7 @@ class Predator {
         if (prey.health < 0) {
           this.preyKilled +=1;
           this.preyDeath = true;
+        //  prey.effect(this);
           prey.reset();
         }
       }
@@ -157,7 +158,7 @@ class Predator {
   // Takes a Prey object as an argument and checks if the predator
   // overlaps it. If so, reduces the prey's health and increases
   // the predator's. If the prey dies, it gets reset.
-  handleEatingFirstAid(){
+  handleEatingFirstAid(firstAid){
     let d = dist(this.x, this.y, firstAid.x, firstAid.y);
     if(d < this.predatorImage.width + firstAid.medicalBoxImage.width){
       this.health += 20;
@@ -171,7 +172,7 @@ class Predator {
   // Takes a Prey object as an argument and checks if the predator
   // overlaps it. If so, reduces the prey's health and increases
   // the predator's. If the prey dies, it gets reset.
-  handleEatingColor(){
+  handleEatingColor(color){
     let d = dist(this.x, this.y, color.x, color.y);
     if(d < this.predatorImage.width + color.sparkleImage.width){
       this.health += 20;

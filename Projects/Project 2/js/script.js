@@ -120,7 +120,7 @@ function resourceSetup() {
   womanImageRightSword = loadImage("assets/images/womankillright.png");
   womanImageRight = loadImage("assets/images/womanright.png");
 
-  menuImage1 = loadImage("assets/images/menu1.png");
+  menuImage1 = loadImage("assets/images/newmenu1.png");
   menuImage2 = loadImage("assets/images/menu2.png");
   menuImage3 = loadImage("assets/images/menu3.png");
   endImage1 = loadImage("assets/images/goodend.png");
@@ -143,7 +143,7 @@ function resourceSetup() {
   killSound = loadSound("assets/sounds/evisceratedFruit.wav");
   babyThudSound = loadSound("assets/sounds/horror.wav");
   babyCryingSound = loadSound("assets/sounds/shrillBaby.wav");
-  backgroundMusic = loadSound("assets/sounds/backgroundMusic.wav");
+  backgroundMusic = loadSound("assets/sounds/backgroundMusic.mp3");
   sparkleSound = loadSound("assets/sounds/chime.wav");
 
   //Load fonts

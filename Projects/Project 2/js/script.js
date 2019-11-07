@@ -59,6 +59,14 @@ let endImage2;
 
 let gameState = 0;
 
+preyArray = [];
+let numberOfPrey = 6;
+
+let sparkle;
+let colorImage;
+
+let firstAid;
+let medicalBoxImage;
 //Extra fonts
 let pixelFont;
 
@@ -126,6 +134,8 @@ function resourceSetup() {
   batImage = loadImage("assets/images/bat.png");
   ratImage = loadImage("assets/images/rat1.png");
   centipedeImage = loadImage("assets/images/centipede.png");
+  colorImage = loadImage("assets/images/cutesyringe.png");
+  medicalBoxImage = loadImage("assets/images/sparklevial.png");
 
   //Load sounds
   killSound = loadSound("assets/sounds/evisceratedFruit.wav");
@@ -141,9 +151,24 @@ function createGameObjects() {
 
   //Create Prey and Predators by calling constructors
   woman = new Predator(100, 390, 5, womanImageLeft, womanImageLeftSword, womanImageRight, womanImageRightSword, killSound);
-  bat = new Bat(100, 540, 10, batImage);
-  rat = new Rat(100, 540, 8, ratImage);
-//  centipede = new Prey(100, 540, 20, centipedeImage);
+  sparkle = new Color (340, 250, 5, colorImage);
+  firstAid = new FirstAid( 100, 200, 6, medicalBoxImage);
+  for (let i = 0; i < numberOfPrey; i++) {
+    let r = random(0, 1);
+    if (r < 0.3) {
+      bat = new Bat(100, 540, 10, batImage);
+      preyArray.push(bat);
+    }
+    else {
+      rat = new Rat(100, 540, 8, ratImage);
+      preyArray.push(rat);
+    }
+  }
+
+
+//  bat = new Bat(100, 540, 10, batImage);
+//  rat = new Rat(100, 540, 8, ratImage);
+  //  centipede = new Prey(100, 540, 20, centipedeImage);
 
 }
 // draw()
@@ -165,20 +190,33 @@ function draw() {
 
     // Move all the "animals"
     woman.move();
-    bat.move();
-    rat.move();
+    sparkle.move();
+    firstAid.move();
+  //  bat.move();
+  //  rat.move();
     //centipede.move();
 
     // Handle the woman eating any of the prey
-    woman.handleEating(bat);
-    woman.handleEating(rat);
+  //  woman.handleEating(bat);
+  //  woman.handleEating(rat);
     //woman.handleEating(centipede);
 
     // Display all the "animals"
     woman.display();
-    bat.display();
-    rat.display();
+    sparkle.display();
+    firstAid.display();
+  //  bat.display();
+  //  rat.display();
     //centipede.display();
+
+  //  Move, display, and handle eating for all prey part of the 'prey' array
+
+    for( let i = 0; i < preyArray.length; i++){
+      preyArray[i].move();
+      preyArray[i].display();
+      woman.handleEating(preyArray[i]);
+      woman.handleEating(preyArray[i]);
+    }
 
     if (woman.preyDeath == true) {
       if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) { //Change background
@@ -191,11 +229,10 @@ function draw() {
     }
   }
 
-  if (gameState ==2){
-    if(woman.preyKilled > 5){
+  if (gameState == 2) {
+    if (woman.preyKilled > 5) {
       image(endImage1, 0, 0, width, height);
-    }
-    else {
+    } else {
       image(endImage2, 0, 0, width, height);
     }
   }
@@ -215,16 +252,16 @@ function reloadGame() {
 }
 
 function mousePressed() {
-console.log(gameState);
+  console.log(gameState);
   if (gameState === 0) {
     menuImageIndex += 1;
-    if (menuImageIndex>= menuImages.length) {
+    if (menuImageIndex >= menuImages.length) {
       gameState = 1;
     }
   }
 
-  if (gameState ===2){
-    menuImageIndex =0;
+  if (gameState === 2) {
+    menuImageIndex = 0;
     gameState = 0;
   }
 }

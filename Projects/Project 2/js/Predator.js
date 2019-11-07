@@ -148,10 +148,18 @@ class Predator {
       }
     }
     if (d < this.predatorImage.width + prey.preyImage.width){ // actual player prey overlap
-      this.health -= 0.5;
-      this.health = constrain(this.health, 0, this.maxHealth); 
+      this.health -= 0.1;
+      this.health = constrain(this.health, 0, this.maxHealth);
+    }
+  }
 
-
+  handleEatingFirstAid(){
+    let d = dist(this.x, this.y, firstAid.x, firstAid.y);
+    if(d < this.predatorImage.width + firstAid.medicalBoxImage.width){
+      this.health += 20;
+      this.health = constrain(this.health, 0, this.maxhealth);
+      firstAid.health = 0;
+      firstAid.reset();
     }
   }
 

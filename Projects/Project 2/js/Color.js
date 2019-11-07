@@ -1,27 +1,40 @@
-/* This class is pretty much purely aesthetic. Generates a little tinted ball.
-If the user touches it, the ball disappears, the whole game screen becomes tinted with the ball's color
-and the ball reloads at a random screen location!
+/* The Color class generates a little 'sparkle' element. If the player character touches the the sparkle,
+the sparkle resets elsewhere on screen and the whole game screen is tinted a random color!
 
-Honestly I could've just made this a child of Prey class but didn't think to at the time.
+Honestly I should've just made this a child of Prey class but didn't think to at the time.
+
+Also the sparkleImage is a syringe because it was another png from a failed class, there's no real meaning
+or symbolism.
 */
 class Color {
-  constructor(x, y, speed, sparkleImage) {
+  //Programmer can determine sparkle position, speed, and visible image.
+  constructor(x, y, speed, sparkleImage, sparkleSound) {
 
     // Position
     this.x = x;
+    console.log(this.x);
     this.y = y;
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
     this.speed = speed;
 
-    // Health properties as easy way to control if ball appears or not
+    this.tx = random(0, 1000);
+    this.ty = random(0, 1000);
+
+    // Health properties as easy way to control if ball appears or not. 100 is visible, 0 is invisible.
     this.maxHealth = 100;
     this.health = this.maxHealth;
 
     // Display properties
     this.sparkleImage = sparkleImage;
+
+    // This is the randomly generated tint color. Since I want the colors to be saturated for that grimy psychadelic look,
+    // I am restricting the generation to produce fairly 'high' saturation RGB colors.
     //this.fillColor = tint(random(100,255), random(100, 255), random(100,255));
+
+    //Sound properties
+    this.sparkleSound = sparkleSound;
   }
 
   // move
@@ -32,44 +45,48 @@ class Color {
     // Set velocity via noise()
     this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
     this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
+    this.checkCanvasCollision();
     // Update position
     this.x += this.vx;
     this.y += this.vy;
     // Update time properties
     this.tx += 0.01;
     this.ty += 0.01;
-    // Handle wrapping
-    this.handleWrapping();
+    // I want the sparkle to bounce off the sides of the screen.
+
   }
 
-  // handleWrapping
-  //
-  // Checks if the prey has gone off the canvas and
-  // wraps it to the other side if so
-  handleWrapping() {
-    // Off the left or right
-    if (this.x < 0) {
-      this.x += width;
-    } else if (this.x > width) {
-      this.x -= width;
-    }
-    // Off the top or bottom
-    if (this.y < 0) {
-      this.y += height;
-    } else if (this.y > height) {
-      this.y -= height;
-    }
+// checkCanvasCollision()
+//
+// Check if the sparkle has hit the sides of the canvas
+//
+checkCanvasCollision() {
+  // Check for collisions with top or bottom...
+  if (this.y < 10 || this.y > height- 10) {
+    // It hit so reverse velocity
+    this.vy = -this.vy;
+    // Play our bouncing sound effect by rewinding and then playing
+    this.sparkleSound.play();
   }
+  //Check for collisions with left or right
+  if (this.x < 10 || this.x > width- 10){
+    this.vx = -this.vx;
+  // Play our bouncing sound effect by rewinding and then playing
+    this.sparkleSound.play();
+  }
+}
   // display
   //
-  // Draw the prey as an ellipse on the canvas
+  // Draw the prey on the canvas
   // with a radius the same size as its current health.
   display() {
     push();
     noStroke();
+    tint(random(100, 255), random(100, 255), random(100, 255));
     image(this.sparkleImage, this.x, this.y);
-    rect(this.x,this.y, 100, 200);
+    fill(255, 0, 0);
     pop();
+
   }
 
   // reset
@@ -82,7 +99,7 @@ class Color {
     this.y = random(0, height);
     // Default health
     this.health = this.maxHealth;
-  //  this.fillColor = tint(random(100,255), random(100, 255), random(100,255));
+    //  this.fillColor = tint(random(100,255), random(100, 255), random(100,255));
 
   }
 }

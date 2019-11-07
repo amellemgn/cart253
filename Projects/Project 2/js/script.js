@@ -1,7 +1,7 @@
 // Predator-Prey Simulation
-// by Pippin Barr
+//Amelle Margaron
 //
-// Creates a predator and three prey (of different sizes and speeds)
+// Creates a predator and two prey (of different sizes and speeds)
 // The predator chases the prey using the arrow keys and consumes them.
 // The predator loses health over time, so must keep eating to survive.
 
@@ -67,6 +67,8 @@ let colorImage;
 
 let firstAid;
 let medicalBoxImage;
+
+let sparkleSound;
 //Extra fonts
 let pixelFont;
 
@@ -135,13 +137,14 @@ function resourceSetup() {
   ratImage = loadImage("assets/images/rat1.png");
   centipedeImage = loadImage("assets/images/centipede.png");
   colorImage = loadImage("assets/images/cutesyringe.png");
-  medicalBoxImage = loadImage("assets/images/sparklevial.png");
+  medicalBoxImage = loadImage("assets/images/centipede.png");
 
   //Load sounds
   killSound = loadSound("assets/sounds/evisceratedFruit.wav");
   babyThudSound = loadSound("assets/sounds/horror.wav");
   babyCryingSound = loadSound("assets/sounds/shrillBaby.wav");
   backgroundMusic = loadSound("assets/sounds/backgroundMusic.wav");
+  sparkleSound = loadSound("assets/sounds/chime.wav");
 
   //Load fonts
   pixelFont = loadFont("assets/fonts/vt323.regular.ttf");
@@ -149,28 +152,24 @@ function resourceSetup() {
 
 function createGameObjects() {
 
-  //Create Prey and Predators by calling constructors
+  //Create Predator and non-killable prey by calling constructors
   woman = new Predator(100, 390, 5, womanImageLeft, womanImageLeftSword, womanImageRight, womanImageRightSword, killSound);
-  sparkle = new Color (340, 250, 5, colorImage);
-  firstAid = new FirstAid( 100, 200, 6, medicalBoxImage);
+  sparkle = new Color(340, 250, 10, colorImage, sparkleSound);
+  firstAid = new FirstAid(100, 200, 6, medicalBoxImage);
+
+  //Create killable Prey using a loop to generate randomly based on set values and prey amounts
   for (let i = 0; i < numberOfPrey; i++) {
     let r = random(0, 1);
-    if (r < 0.3) {
+    if (r > 0.3) {
       bat = new Bat(100, 540, 10, batImage);
       preyArray.push(bat);
-    }
-    else {
-      rat = new Rat(100, 540, 8, ratImage);
+    } else {
+      rat = new Rat(100, 540, 7, ratImage);
       preyArray.push(rat);
     }
   }
-
-
-//  bat = new Bat(100, 540, 10, batImage);
-//  rat = new Rat(100, 540, 8, ratImage);
-  //  centipede = new Prey(100, 540, 20, centipedeImage);
-
 }
+
 // draw()
 //
 // Handles input, movement, eating, and displaying for the system's objects
@@ -192,26 +191,26 @@ function draw() {
     woman.move();
     sparkle.move();
     firstAid.move();
-  //  bat.move();
-  //  rat.move();
+    //  bat.move();
+    //  rat.move();
     //centipede.move();
 
     // Handle the woman eating any of the prey
-  //  woman.handleEating(bat);
-  //  woman.handleEating(rat);
+    //  woman.handleEating(bat);
+    //  woman.handleEating(rat);
     //woman.handleEating(centipede);
 
     // Display all the "animals"
     woman.display();
     sparkle.display();
     firstAid.display();
-  //  bat.display();
-  //  rat.display();
+    //  bat.display();
+    //  rat.display();
     //centipede.display();
 
-  //  Move, display, and handle eating for all prey part of the 'prey' array
+    //  Move, display, and handle eating for all prey part of the 'prey' array
 
-    for( let i = 0; i < preyArray.length; i++){
+    for (let i = 0; i < preyArray.length; i++) {
       preyArray[i].move();
       preyArray[i].display();
       woman.handleEating(preyArray[i]);
@@ -219,18 +218,18 @@ function draw() {
     }
 
     if (woman.preyDeath == true) {
-      if (woman.preyKilled % 5 == 0 && woman.preyKilled != 0) { //Change background
+      if (woman.preyKilled % 20 == 0 && woman.preyKilled != 0) { //Change background
         updateBackground();
       }
       woman.preyDeath = false;
     }
-    if (woman.isDead()) {
+    if (woman.isDead()|| woman.preyKilled > 99) {
       gameState = 2;
     }
   }
 
   if (gameState == 2) {
-    if (woman.preyKilled > 5) {
+    if (woman.preyKilled > 99) {
       image(endImage1, 0, 0, width, height);
     } else {
       image(endImage2, 0, 0, width, height);

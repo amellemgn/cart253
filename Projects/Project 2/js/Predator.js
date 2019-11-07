@@ -152,7 +152,11 @@ class Predator {
       this.health = constrain(this.health, 0, this.maxHealth);
     }
   }
-
+  // handleEating
+  //
+  // Takes a Prey object as an argument and checks if the predator
+  // overlaps it. If so, reduces the prey's health and increases
+  // the predator's. If the prey dies, it gets reset.
   handleEatingFirstAid(){
     let d = dist(this.x, this.y, firstAid.x, firstAid.y);
     if(d < this.predatorImage.width + firstAid.medicalBoxImage.width){
@@ -160,6 +164,20 @@ class Predator {
       this.health = constrain(this.health, 0, this.maxhealth);
       firstAid.health = 0;
       firstAid.reset();
+    }
+  }
+  // handleEating
+  //
+  // Takes a Prey object as an argument and checks if the predator
+  // overlaps it. If so, reduces the prey's health and increases
+  // the predator's. If the prey dies, it gets reset.
+  handleEatingColor(){
+    let d = dist(this.x, this.y, color.x, color.y);
+    if(d < this.predatorImage.width + color.sparkleImage.width){
+      this.health += 20;
+      this.health = constrain(this.health, 0, this.maxhealth);
+      color.health = 0;
+      color.reset();
     }
   }
 
@@ -184,7 +202,7 @@ class Predator {
    textSize(20);
    fill(255);
    text("KILL: " + this.preyKilled, this.x + 50, this.y - 45);
-   text("HEALTH: " + this.health + "%", this.x + 50, this.y - 65);
+   text("HEALTH: " + round(this.health) + "%", this.x + 50, this.y - 65);
    pop();
 
   }

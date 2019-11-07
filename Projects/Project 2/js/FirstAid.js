@@ -1,19 +1,17 @@
 class FirstAid extends Prey {
-  constructor(x, y, speed, firstAidImage){
+  constructor(x, y, speed, firstAidImage) {
     super(x, y, speed, firstAidImage)
+
   }
   move() {
-    // Set velocity via noise()
-    this.vx = map(this.vx, random(0, 1),random(0,1), -this.speed, this.speed);
-    this.vy = map(this.vy, random(0, 1), random(0, 1), -this.speed, this.speed);
+    // Set velocity
+    // random number.
+    // map it to be between negative and postitive speed
+    this.vx = random(-this.speed, this.speed);
+    this.vy = random(-this.speed, this.speed);
+    super.handleWrapping();
     // Update position
     this.x += this.vx;
     this.y += this.vy;
-
-    // Update time properties
-  //  this.tx += 0.01;
-  //  this.ty += 0.01;
-
-    super.handleWrapping();
   }
 }

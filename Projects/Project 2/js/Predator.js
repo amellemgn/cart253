@@ -1,9 +1,8 @@
 // Predator
 //
-// A class that represents a simple predator
-// controlled by the arrow keys. It can move around
-// the screen and consume Prey objects to maintain its health.
-
+// A class that represents the player character. This character can interact with
+// other game objects, and is controlled by arrow keys.
+// The character is overpowered because I suck at games and asking me to playtest without button mashing is ridiculous.
 class Predator {
 
   // constructor
@@ -19,33 +18,28 @@ class Predator {
     this.vy = 0;
     this.speed = speed;
     // Health properties
-    //  this.maxHealth = radius;
-    this.maxHealth = 100;// Must be AFTER defining this.maxHealth
+    this.maxHealth = 100;
     this.health = this.maxHealth;
-
-
-
     //Display properties
+    // The character requires different images for different actions and directions its facing in.
     this.facingLeftImage = facingLeftImage;
     this.facingLeftSwordImage = facingLeftSwordImage;
     this.facingRightImage = facingRightImage;
     this.facingRightSwordImage = facingRightSwordImage;
     //Initial diplay image
     this.predatorImage = this.facingLeftImage;
-
     // Input properties
     this.upKey = UP_ARROW;
     this.downKey = DOWN_ARROW;
     this.leftKey = LEFT_ARROW;
     this.rightKey = RIGHT_ARROW;
     this.shiftKey = SHIFT;
-
     //Count properties
     //Number of prey killed (this adds a kill count that can be displayed later)
     this.preyKilled = 0;
-
     //Sound properties
     this.killSound = killSound;
+    //Condition verifying whether prey has been killed.
     this.preyDeath = false;
   }
 
@@ -72,10 +66,13 @@ class Predator {
     } else {
       this.vy = 0;
     }
-
+    // If the player holds down the shift key, they attack the prey. We're representing
+    // this with a change of image where the player holds a sword
     if (keyIsDown(this.shiftKey)) {
+      // If the player was facing left so will their new pose
       if (this.predatorImage == this.facingLeftImage) {
         this.predatorImage = this.facingLeftSwordImage;
+        // or otherwise they're facing right.
       } else {
         this.predatorImage = this.facingRightSwordImage;
       }
@@ -94,38 +91,13 @@ class Predator {
     this.x += this.vx;
     this.x = constrain(this.x, 0, 940);
     this.y += this.vy;
-    this.y = constrain(this.y, 350, 490);
-    // Update health
-    //  this.health = this.health - this.healthLossPerMove;
-    //
-    // Handle wrapping
-  //  this.handleWrapping();
   }
 
-  /*// handleWrapping
-  //
-  // Checks if the predator has gone off the canvas and
-  // wraps it to the other side if so
-  handleWrapping() {
-    // Off the left or right
-    if (this.x < 0) {
-      this.x += width;
-    } else if (this.x > width) {
-      this.x -= width;
-    }
-    // Off the top or bottom
-    if (this.y < 0) {
-      this.y += height;
-    } else if (this.y > height) {
-      this.y -= height;
-    }
-  }
-*/
   // handleEating
   //
   // Takes a Prey object as an argument and checks if the predator
-  // overlaps it. If so, reduces the prey's health and increases
-  // the predator's. If the prey dies, it gets reset.
+  // overlaps it. If so, kills prey  and increases
+  // the predator's kill count. If the prey dies, it gets reset.
   handleEating(prey) {
     // Calculate distance from this predator to the prey
       let d = dist(this.x, this.y, prey.x, prey.y);
@@ -136,10 +108,9 @@ class Predator {
         this.killSound.play();
         //   Increase predator health and constrain it to its possible range
         this.health = constrain(this.health, 0, this.maxHealth);
-
-        //   Decrease prey health by the same amount
+        //   Kill prey by removing exorbitant amount of health
         prey.health -= 100;
-        // Check if the prey died and reset it if so
+        // Check if the prey died and reset it if so, increment prey death count, verify prey has been killed.
         if (prey.health < 0) {
           this.preyKilled +=1;
           this.preyDeath = true;
@@ -148,60 +119,64 @@ class Predator {
         }
       }
     }
+    // However, if there is an actual overlap between player and prey, that means prey has gotten past
+    //player defenses. Removes health from player until player can kill it
     if (d < this.predatorImage.width + prey.preyImage.width){ // actual player prey overlap
       this.health -= 0.1;
       this.health = constrain(this.health, 0, this.maxHealth);
     }
   }
-  // handleEating
+  // handleHealing
   //
-  // Takes a Prey object as an argument and checks if the predator
-  // overlaps it. If so, reduces the prey's health and increases
-  // the predator's. If the prey dies, it gets reset.
+  // Takes a firstAid object as an argument and checks if the predator
+  // overlaps it. If so, increases prey's health. If there's overlap, it gets reset.
   handleHealing(firstAid){
-
+    // Measure distance.
     let d = dist(this.x, this.y, firstAid.x, firstAid.y);
+    //Overlap? Add health in reason
     if(d < this.predatorImage.width + firstAid.preyImage.width){
       this.health += 20;
       this.health = constrain(this.health, 0, this.maxHealth);
-    
+    // Reset to different part of screen.
       firstAid.reset();
     }
   }
-  // handleEating
+  // handleColorChange
   //
-  // Takes a Prey object as an argument and checks if the predator
-  // overlaps it. If so, reduces the prey's health and increases
-  // the predator's. If the prey dies, it gets reset.
+  // Takes a Color class object as an argument and checks if the predator
+  // overlaps it. If so, tints the screen a random color.
   handleColorChange(sparkle){
     let d = dist(this.x, this.y, sparkle.x, sparkle.y);
     if(d < this.predatorImage.width + sparkle.sparkleImage.width){
-      tint(random(0, 200), random(0, 200), random(0, 200));
+      // Make sure tint isn't too dark.
+      tint(random(100, 255), random(100, 255), random(100, 255));
+      // resets object to another part of screen.
       sparkle.reset();
     }
   }
 
+//isDead
+//
+//Returns that the player has died to script.js
   isDead(){
     return this.health <= 0;
   }
 
   // display
   //
-  // Draw the predator as an ellipse on the canvas
-  // with a predatorImage.width the same size as its current health.
+  // Draw the predator on the canvas
   display() {
     push();
-  //  noStroke();
-    //this.predatorImage.width = this.health;
     image(this.predatorImage, this.x, this.y);
     pop();
-    //Display player health
+    //Display player health and kill count with a floating display that follows player. 
    push();
    textFont(pixelFont);
    textAlign(CENTER, CENTER);
    textSize(20);
    fill(255);
    text("KILL: " + this.preyKilled, this.x + 50, this.y - 45);
+   // round the kill count to avoid ugly decimals
    text("HEALTH: " + round(this.health) + "%", this.x + 50, this.y - 65);
    pop();
 

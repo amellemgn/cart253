@@ -1,17 +1,13 @@
 // Prey
 //
-// A class that represents a simple prey that moves
-// on screen based on a noise() function. It can move around
-// the screen and be consumed by Predator objects.
-
+// Represents basic prey that can move around, be displayed onscreen, be killed by player, or damage player.
 class Prey {
 
   // constructor
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  //If there is no prey image given batImage is default
-  constructor(x, y, speed, preyImage = batImage) {
+  constructor(x, y, speed, preyImage) {
     // Position
     this.x = x;
     this.y = y;
@@ -24,14 +20,13 @@ class Prey {
     this.ty = random(0, 1000); // we use random starting values
     // Health properties
     this.maxHealth = 100;
-    this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
+    this.health = this.maxHealth;
     // Display properties
     this.preyImage = preyImage;
     this.preyImage.width = this.health;
-
+    // Sin properties for oscillation 'animation'
     this.angle = 0;
     this.radius = this.preyImage.width/2;
-
   }
 
   // move
@@ -75,15 +70,12 @@ class Prey {
 
   // display
   //
-  // Draw the prey as an ellipse on the canvas
-  // with a radius the same size as its current health.
+  // Draw the prey on the canvas
   display() {
-
     push();
     noStroke();
     image(this.preyImage, this.x,this.y);
     pop();
-
   }
 
   // reset
@@ -96,6 +88,5 @@ class Prey {
     this.y = random(0, height);
     // Default health
     this.health = this.maxHealth;
-
   }
 }

@@ -2,38 +2,40 @@
 //
 // This class is supposed to be a super tough ~Monster class~ whose objects are created
 // when Bat and FirstAid objects overlap, hence the name of the class.
-// Is this the case? No.
-class MegaPrey extends Prey {
-  // Borrow constructor from Prey class
-  constructor(x, y, speed, preyImage){
-    super(x, y, speed, preyImage)
+// Is this the case? No. Instead, this class ended up being a sort of 'looming threat' that it isn't very interactable.
+class MegaPrey {
+  //Programmer can determine sparkle position, speed, and visible image.
+  constructor(x, y, speed, health, preyImage) {
+    // Position
+    this.x = x;
+    this.y = y;
+    // Velocity and speed
+    this.vx = 0;
+    this.vy = 0;
+    this.speed = speed;
+    //Health properties
+    this.health = health;
+    // Display properties
+    this.preyImage = preyImage
+    // Sin properties for oscillation 'animation'
+    this.angle = 0;
+    this.radius = this.preyImage.width/2;
   }
-//display()
-//
-// Display MegaPrey on canvas
+
+  // display
+  //
+  // Draw the MegaPrey on the canvas
   display() {
     push();
     noStroke();
-    image(this.preyImage,this.x, this.y);
+    // This oscillation doesn't work but here it is I guess. 
+    // Terrible at maths but basically something happens with circles, those values affect the size of a circle (?)
+    // Then we apply those varying values to our image to have them change ~rhythmically.
+    this.growth = sin(this.angle) * (this.radius / 2);
+    // Aha, display bat image but take changing values based on the circle changes into consideration
+    image(this.preyImage, this.x, this.y, this.radius * 2 + this.growth);
+      // increment value that allows whole equation to change
+    this.angle += 0.05;
     pop();
   }
-  //move()
-  //
-  //Move MegaPrey around on canvas. 
-  move() {
-    // Set velocity via noise()
-    this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
-    this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
-    // Update position
-    this.x = constrain(this.x, 0, 940);
-    this.x += this.vx;
-    this.y = constrain(this.y, 390, 450);
-    this.y += this.vy;
-    // Update time properties
-    this.tx += 0.01;
-    this.ty += 0.01;
-    //Borrow handleWrapping() from Prey class to reign MegaPrey back in if it escapes the canvas.
-    super.handleWrapping();
-  }
-
 }

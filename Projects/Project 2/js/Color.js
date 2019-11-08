@@ -10,7 +10,6 @@ class Color {
   constructor(x, y, speed, sparkleImage, sparkleSound) {
     // Position
     this.x = x;
-    console.log(this.x);
     this.y = y;
     // Velocity and speed
     this.vx = 0;

@@ -85,13 +85,13 @@ class Predator {
   // Lowers health (as a cost of living)
   // Handles wrapping
   move() {
-    // Update position
-    //Since I created a foreground that I want my playable character to interact with, I constrained its movement
-    // to the dimensions of the foreground (minus width and height of player)
-    this.x += this.vx;
-    this.x = constrain(this.x, 0, 940);
-    this.y += this.vy;
-  }
+  // Update position
+  //Since I created a foreground that I want my playable character to interact with, I constrained its movement
+  // to the dimensions of the foreground (minus width and height of player)
+  this.x += this.vx;
+  this.x = constrain(this.x, 0, 940);
+  this.y += this.vy;
+}
 
   // handleEating
   //
@@ -169,7 +169,7 @@ class Predator {
     push();
     image(this.predatorImage, this.x, this.y);
     pop();
-    //Display player health and kill count with a floating display that follows player. 
+    //Display player health and kill count with a floating display that follows player.
    push();
    textFont(pixelFont);
    textAlign(CENTER, CENTER);

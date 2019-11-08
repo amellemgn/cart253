@@ -136,7 +136,7 @@ function resourceSetup() {
   centipedeImage = loadImage("assets/images/centipede.png");
   colorImage = loadImage("assets/images/cutesyringe.png");
   medicalBoxImage = loadImage("assets/images/centipede.png");
-  megaPreyImage = loadImage("assets/images/megaPrey.png");
+  megaPreyImage = loadImage("assets/images/batborder.png");
   //Load sounds
   killSound = loadSound("assets/sounds/evisceratedFruit.wav");
   babyThudSound = loadSound("assets/sounds/horror.wav");
@@ -253,12 +253,9 @@ function checkMegaPrey() {
   //Check condition.
   if (bat.createMegaPrey === true) {
     //Create new object.
-    megaPrey = new MegaPrey(100, 300, 2, megaPreyImage);
+    megaPrey = new MegaPrey(0, 0, 2, 300, megaPreyImage);
     //Handle new objects' movement and data.
-    megaPrey.move();
     megaPrey.display();
-    woman.handleEating(megaPrey);
-    //bat.createMegaPrey = false;
   }
 }
 //checkKillRateDeathRate()

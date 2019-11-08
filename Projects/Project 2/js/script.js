@@ -121,7 +121,7 @@ function resourceSetup() {
   //Load menu images
   menuImage1 = loadImage("assets/images/newmenu1.png");
   menuImage2 = loadImage("assets/images/menu2.png");
-  menuImage3 = loadImage("assets/images/menu3.png");
+  menuImage3 = loadImage("assets/images/newmenu3.png");
   endImage1 = loadImage("assets/images/newnewgoodend.png");
   endImage2 = loadImage("assets/images/newbadend.png");
   //Push menu images into a menu array

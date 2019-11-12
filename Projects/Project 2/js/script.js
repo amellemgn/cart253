@@ -74,10 +74,7 @@ let pixelFont;
 //preload()
 //
 // Calls material that needs to be loaded before setUp()
-function preload() {
-  //Calls function to do so
-  resourceSetup();
-}
+
 
 // setup()
 //

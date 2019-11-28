@@ -80,6 +80,8 @@ let planetsArray = []
 let currentPlanetsArray;
 let currentPlanetsArrayIndex = 0;
 let menWidth = 100;
+let starGif_loadImg;
+let starGif_createImg;
 
 //preload
 //
@@ -102,6 +104,9 @@ function setup() {
 // Load all linkd resources and load them into arrays if needed
 // There are so many images and it is terrible and I need to figure out how to load them through the form of GIFS
 function resourceSetup() {
+  starGif_loadImg = loadImage("assets/images/starGif.gif");
+  starGif_createImg = createImage("assets/images/starGif.gif");
+
   playerRight1 = loadImage("assets/images/rightman.png");
   playerLeft1 = loadImage("assets/images/leftman.png");
   playerImage = playerRight1;
@@ -376,6 +381,7 @@ function movePlayerThroughLandscape() {
 function landState1Display() {
   //  planetX = 850;
   //  planetY = 50;
+
 }
 
 //landState2Display
@@ -484,12 +490,25 @@ function triggerAnimationPlanet1() {
 // If the player clicks, depending on gamestate, different things can happen
 function mousePressed() {
   //If game hasn't started, music starts, and clicking cycles through the menu image array
+
+
   if (gameState === 0) {
     backgroundSound.loop();
     menuArrayIndex += 1;
     if (menuArrayIndex >= menuImageArray.length) {
       gameState = 1;
     }
+  }
+// If game has started, player can basically 'print'  stars by clicking mouse
+  if(gameState ===1){
+    console.log("clicked here");
+    console.log(mouseX, mouseY);
+    imageMode(CENTER);
+    image(playerImage, mouseX, mouseY, 100, 100);
+    // starGif_loadImg.pause();
+    // starGif_loadImg.play();
+    // starGif_createImg.position(50, 350);
+
   }
   //If game has ended, restart game
   if (gameState === 2) {

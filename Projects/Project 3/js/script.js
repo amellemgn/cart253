@@ -9,6 +9,10 @@ https://freesound.org/people/kwahmah_02/sounds/254250
 https://freesound.org/people/breo2012/sounds/269099/
 https://freesound.org/people/bareform/sounds/218721/
 https://freesound.org/people/metamorphmuses/sounds/38709/
+
+https://leafla.co.vu/post/76140860039/totallytransparent-transparent-space-gif-made
+https://gfycat.com/fr/quarterlyterrificannashummingbird
+https://giphy.com/stickers/galaxy-space-gif-j5QUSpXVuwtr2
 */
 //Declare game variables
 let player;
@@ -83,6 +87,8 @@ let menWidth = 100;
 let starGif_loadImg;
 let starGif_createImg;
 
+let myGif;
+
 //preload
 //
 //Loads linked resources.
@@ -106,6 +112,7 @@ function setup() {
 function resourceSetup() {
   starGif_loadImg = loadImage("assets/images/starGif.gif");
   starGif_createImg = createImage("assets/images/starGif.gif");
+  myGif = loadImage("assets/images/galaxygif.gif");
 
   playerRight1 = loadImage("assets/images/rightman.png");
   playerLeft1 = loadImage("assets/images/leftman.png");
@@ -235,6 +242,13 @@ function draw() {
     currentMenuImage = menuImageArray[menuArrayIndex];
     image(currentMenuImage, 0, 0, 1300, 750);
 
+    imageMode(CENTER);
+
+    //Set Gif to pause so it doesn't play on its own
+    myGif.pause();
+    imageMode(CENTER);
+    image(myGif, width / 2, height / 2);
+
   }
   //If game has started, create bckgroud, text box, call relevant functions which include moving player, handling player input
   if (gameState == 1) {
@@ -321,17 +335,19 @@ function handleInput() {
 function move() {
   playerX += playerVX;
   playerY += playerVY;
-// If the player has velocity, play a sound
+  // If the player has velocity, play a sound
   if (playerVX > 0 || playerVY > 0) {
     walkSound.play();
   }
-  let history =[];
+  // declare variable that saves player location
+  // create vector based on player X and Y, push into array
+  let history = [];
   let vector = createVector(playerX, playerY);
   history.push(vector);
 
-// if the history array has more than 25 items, start removing them so the trail disappears gradually
-  if(history.length > 25){
-    history.splice(0,1);
+  // if the history array has more than 25 items, start removing them so the trail disappears gradually
+  if (history.length > 25) {
+    history.splice(0, 1);
   }
 }
 
@@ -381,17 +397,19 @@ function movePlayerThroughLandscape() {
 function landState1Display() {
   //  planetX = 850;
   //  planetY = 50;
-
+  imageMode(CENTER);
+    // Draws the gif on its current frame
+    image(myGif, width / 2, height / 2);
 }
 
 //landState2Display
 //
 //This displays game objects in the second landstate that arent loaded through Planet class
 function landState2Display() {
-//Set dog coordinate
+  //Set dog coordinate
   dogX = 300;
   dogY = 500;
-// Dog is present if this condition, which is true by default, is true. ie. Dog is present
+  // Dog is present if this condition, which is true by default, is true. ie. Dog is present
   if (firstDogAppear === true) {
     image(dogImage, dogX, dogY);
   }
@@ -435,7 +453,8 @@ function displayPlayer() {
   image(playerImage, playerX, playerY, playerWidth + growth, playerHeight);
   angle += 0.05;
 
-  for (let i =0; i< history.length; i++){
+  //Also, display player 'trail' by displaying images of player based on former position
+  for (let i = 0; i < history.length; i++) {
     var pos = history[i];
     // ellipse(pos.x, pos.y, 8, 8);
     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
@@ -456,7 +475,7 @@ function checkDistanceDog() {
       secondDogAppear = true;
       return;
     }
-// This is irrelevant but i'm keeping it here for reference
+    // This is irrelevant but i'm keeping it here for reference
     if (keyIsDown(SHIFT)) {
       triggerAnimationPlanet1();
     }
@@ -491,30 +510,42 @@ function triggerAnimationPlanet1() {
 function mousePressed() {
   //If game hasn't started, music starts, and clicking cycles through the menu image array
 
-
-  if (gameState === 0) {
-    backgroundSound.loop();
-    menuArrayIndex += 1;
-    if (menuArrayIndex >= menuImageArray.length) {
-      gameState = 1;
-    }
+if (gameState === 0) {
+  backgroundSound.loop();
+  menuArrayIndex += 1;
+  if (menuArrayIndex >= menuImageArray.length) {
+    gameState = 1;
   }
+}
 // If game has started, player can basically 'print'  stars by clicking mouse
-  if(gameState ===1){
-    console.log("clicked here");
-    console.log(mouseX, mouseY);
-    imageMode(CENTER);
-    image(playerImage, mouseX, mouseY, 100, 100);
-    // starGif_loadImg.pause();
-    // starGif_loadImg.play();
-    // starGif_createImg.position(50, 350);
+if (gameState === 1) {
+  console.log("clicked here");
+  console.log(mouseX, mouseY);
+  imageMode(CENTER);
+  image(playerImage, mouseX, mouseY, 100, 100);
+  // starGif_loadImg.pause();
+  // starGif_loadImg.play();
+  // starGif_createImg.position(50, 350);
 
+}
+//If game has ended, restart game
+if (gameState === 2) {
+  menuImageIndex = 0;
+  menuArrayIndex = 0;
+  planet1ArrayIndex = 0;
+  gameState = 0;
+}
+//If player presses space, play Gif next frame
+function keyPressed(){
+  if (keyCode == 32) {
+    currentFrame = myGif.getCurrentFrame();
+    // Go to next frame
+    currentFrame++;
+    //animation loops back to the first frame
+    if (currentFrame >= myGif.numFrames()) {
+      currentFrame = 0;
+    }
+    myGif.setFrame(currentFrame);
   }
-  //If game has ended, restart game
-  if (gameState === 2) {
-    menuImageIndex = 0;
-    menuArrayIndex = 0;
-    planet1ArrayIndex = 0;
-    gameState = 0;
-  }
+}
 }

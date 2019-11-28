@@ -223,10 +223,13 @@ function resourceSetup() {
 // Loads all functions that need to be called every frame
 // Consider what needs to be displayed according to whether the game has started/ended or not
 function draw() {
+
   // If game hasn't started, display menu, which the player can cycle through (through an array) with mousePressed()
   if (gameState == 0) {
+
     currentMenuImage = menuImageArray[menuArrayIndex];
     image(currentMenuImage, 0, 0, 1300, 750);
+
   }
   //If game has started, create bckgroud, text box, call relevant functions which include moving player, handling player input
   if (gameState == 1) {
@@ -237,9 +240,11 @@ function draw() {
     textAlign(LEFT, CENTER);
     textFont(pixelFont);
     text(textSpeech, 50, 650);
-    displayPlayer();
+
     handleInput();
     move();
+    displayPlayer();
+
     if (landState === 0) {
       landState1Display();
     }
@@ -315,7 +320,16 @@ function move() {
   if (playerVX > 0 || playerVY > 0) {
     walkSound.play();
   }
+  let history =[];
+  let vector = createVector(playerX, playerY);
+  history.push(vector);
+
+// if the history array has more than 25 items, start removing them so the trail disappears gradually
+  if(history.length > 25){
+    history.splice(0,1);
+  }
 }
+
 //movePlayerThroughLandscape
 //
 //Check if player is in screen space. If they are not, move them to according next/previous screen space
@@ -414,6 +428,12 @@ function displayPlayer() {
   let growth = sin(angle) * (radius / 8);
   image(playerImage, playerX, playerY, playerWidth + growth, playerHeight);
   angle += 0.05;
+
+  for (let i =0; i< history.length; i++){
+    var pos = history[i];
+    // ellipse(pos.x, pos.y, 8, 8);
+    // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
+  }
 }
 //checkDistanceDog
 //

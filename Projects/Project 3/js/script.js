@@ -89,6 +89,9 @@ let starGif_createImg;
 
 let myGif;
 
+let gifArray = [];
+let gifArrayCount = 1;
+
 //preload
 //
 //Loads linked resources.
@@ -104,14 +107,31 @@ function preload() {
 function setup() {
   createCanvas(1300, 750);
   callPlanets();
+  starGif_createImg0.position(-500,-500);
+  starGif_createImg1.position(-500,-500);
+  starGif_createImg2.position(-500,-500);
+  starGif_createImg3.position(-500,-500);
+  starGif_createImg4.position(-500,-500);
 }
 //resourceSetup
 //
 // Load all linkd resources and load them into arrays if needed
 // There are so many images and it is terrible and I need to figure out how to load them through the form of GIFS
 function resourceSetup() {
-  starGif_loadImg = loadImage("assets/images/starGif.gif");
-  starGif_createImg = createImage("assets/images/starGif.gif");
+//  starGif_loadImg = loadImage("assets/images/starGif.gif");
+  starGif_createImg0 = createImg("assets/images/starGif.gif");
+  starGif_createImg1 = createImg("assets/images/starGif.gif");
+  starGif_createImg2 = createImg("assets/images/starGif.gif");
+  starGif_createImg3 = createImg("assets/images/starGif.gif");
+  starGif_createImg4 = createImg("assets/images/starGif.gif");
+
+// for (let i = 0; i < 5; i++){
+    //console.log("starGif_createImg"+i)
+  gifArray.push(starGif_createImg0);
+  //console.log(gifArray[0])
+ //console.log("ok");
+//  }
+  // array that holds animated gifs.... create image variables and push to array
   myGif = loadImage("assets/images/galaxygif.gif");
 
   playerRight1 = loadImage("assets/images/rightman.png");
@@ -242,12 +262,12 @@ function draw() {
     currentMenuImage = menuImageArray[menuArrayIndex];
     image(currentMenuImage, 0, 0, 1300, 750);
 
-    imageMode(CENTER);
+  //  imageMode(CENTER);
 
     //Set Gif to pause so it doesn't play on its own
-    myGif.pause();
-    imageMode(CENTER);
-    image(myGif, width / 2, height / 2);
+    // myGif.pause();
+    // imageMode(CENTER);
+    // image(myGif, width / 2, height / 2);
 
   }
   //If game has started, create bckgroud, text box, call relevant functions which include moving player, handling player input
@@ -397,9 +417,9 @@ function movePlayerThroughLandscape() {
 function landState1Display() {
   //  planetX = 850;
   //  planetY = 50;
-  imageMode(CENTER);
+//  imageMode(CENTER);
     // Draws the gif on its current frame
-    image(myGif, width / 2, height / 2);
+  //  image(myGif, width / 2, height / 2);
 }
 
 //landState2Display
@@ -519,13 +539,11 @@ if (gameState === 0) {
 }
 // If game has started, player can basically 'print'  stars by clicking mouse
 if (gameState === 1) {
-  console.log("clicked here");
-  console.log(mouseX, mouseY);
-  imageMode(CENTER);
-  image(playerImage, mouseX, mouseY, 100, 100);
-  // starGif_loadImg.pause();
-  // starGif_loadImg.play();
-  // starGif_createImg.position(50, 350);
+   //starGif_createImg.position(mouseX, mouseY);
+   for (let i = 0; i < gifArrayCount; i++){
+     gifArray[i].position(mouseX, mouseY);
+   }
+
 
 }
 //If game has ended, restart game
@@ -535,17 +553,17 @@ if (gameState === 2) {
   planet1ArrayIndex = 0;
   gameState = 0;
 }
-//If player presses space, play Gif next frame
-function keyPressed(){
-  if (keyCode == 32) {
-    currentFrame = myGif.getCurrentFrame();
-    // Go to next frame
-    currentFrame++;
-    //animation loops back to the first frame
-    if (currentFrame >= myGif.numFrames()) {
-      currentFrame = 0;
-    }
-    myGif.setFrame(currentFrame);
-  }
-}
+// //If player presses space, play Gif next frame
+// function keyPressed(){
+//   if (keyCode == 32) {
+//     currentFrame = myGif.getCurrentFrame();
+//     // Go to next frame
+//     currentFrame++;
+//     //animation loops back to the first frame
+//     if (currentFrame >= myGif.numFrames()) {
+//       currentFrame = 0;
+//     }
+//     myGif.setFrame(currentFrame);
+//   }
+// }
 }

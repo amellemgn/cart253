@@ -92,6 +92,8 @@ let myGif;
 let gifArray = [];
 let gifArrayCount = 1;
 
+let spaceGif;
+let crumbsImage;
 //preload
 //
 //Loads linked resources.
@@ -112,6 +114,8 @@ function setup() {
   starGif_createImg2.position(-500, -500);
   starGif_createImg3.position(-500, -500);
   starGif_createImg4.position(-500, -500);
+
+  spaceGif.position(-500, 500);
 }
 //resourceSetup
 //
@@ -124,6 +128,8 @@ function resourceSetup() {
   starGif_createImg2 = createImg("assets/images/star.gif");
   starGif_createImg3 = createImg("assets/images/star.gif");
   starGif_createImg4 = createImg("assets/images/star.gif");
+
+  spaceGif = createImg("assets/images/spacegif.gif");
 
   // for (let i = 0; i < 5; i++){
   //console.log("starGif_createImg"+i)
@@ -254,6 +260,7 @@ function resourceSetup() {
   eatSound = loadSound("assets/sounds/applecrunch.wav");
   walkSound = loadSound("assets/sounds/applecrunch.wav");
   textSound = loadSound("assets/sounds/electrobass.wav");
+  crumbs = loadImage("assets/images/crumbs.png");
 }
 //draw
 //
@@ -279,7 +286,7 @@ function draw() {
   if (gameState == 1) {
     background(backgroundImage);
     fill(255);
-    textSize(30);
+    textSize(15);
     fill(255);
     textAlign(LEFT, CENTER);
     textFont(pixelFont);
@@ -305,16 +312,12 @@ function draw() {
       landState4Display();
     }
     movePlayerThroughLandscape();
-    checkDistancePlanet();
-    //  currentP1ArrayImage = planet1Array[planet1ArrayIndex];
-    //  image(currentP1ArrayImage, planetX, planetY, planetWidth, planetHeight);
+
     if (secondDogAppear == true) {
       image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
     }
 
     for (let i = 0; i < planetsArray.length; i++) {
-      //planetsArray[i].checkLandState(landState);
-      //planetsArray[i].triggerAnimation();
       planetsArray[i].checkDistance(playerX, playerY, playerWidth);
       planetsArray[i].draw(landState);
     }
@@ -449,11 +452,7 @@ function movePlayerThroughLandscape() {
 //
 //This displays game objects in the first landstate that arent loaded through Planet class
 function landState0Display() {
-  //  planetX = 850;
-  //  planetY = 50;
-  //  imageMode(CENTER);
-  // Draws the gif on its current frame
-  //  image(myGif, width / 2, height / 2);
+
 }
 
 //landState1Display
@@ -463,6 +462,7 @@ function landState1Display() {
   //Set dog coordinate
   dogX = 300;
   dogY = 500;
+
   // Dog is present if this condition, which is true by default, is true. ie. Dog is present
   if (firstDogAppear === true) {
     image(dogImage, dogX, dogY);
@@ -471,6 +471,7 @@ function landState1Display() {
   // Check player to dog
   checkDistanceDog();
 }
+
 //landState2Display
 //
 //This displays game objects in the third landstate that arent loaded through Planet class
@@ -490,20 +491,20 @@ function landState2Display() {
   }
 }
 
-function landState3Display(){
-rect(200, 200, 100,100);
+function landState3Display() {
+  rect(200, 200, 100, 100);
 }
 
-function landState4Display(){
-ellipse(200, 200, 300);
+function landState4Display() {
+  ellipse(200, 200, 300);
 }
 //callPlanets
 //
 //Create planet objects using constructor of Planet class and push them into an array
 function callPlanets() {
-  let planetObject1 = new Planet(850, 50, planet1Array, 0, eatSound);
-  let planetObject2 = new Planet(850, 50, planet2Array, 1, eatSound);
-  let planetObject3 = new Planet(1000, 50, planet3Array, 2, eatSound);
+  let planetObject1 = new Planet(850, 50, planet1Array, 0, eatSound, crumbsImage);
+  let planetObject2 = new Planet(850, 50, planet2Array, 1, eatSound, crumbsImage);
+  let planetObject3 = new Planet(1000, 50, planet3Array, 2, eatSound, crumbsImage);
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject3);
@@ -518,7 +519,6 @@ function displayPlayer() {
 
   //Also, display player 'trail' by displaying images of player based on former position
   for (let i = 0; i < history.length; i++) {
-    console.log(history[i]);
     image(playerImage, history[i]);
     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
   }
@@ -539,35 +539,20 @@ function checkDistanceDog() {
       return;
     }
     // This is irrelevant but i'm keeping it here for reference
-    if (keyIsDown(SHIFT)) {
-      triggerAnimationPlanet1();
-    }
+    // if (keyIsDown(SHIFT)) {
+    //   triggerAnimationPlanet1();
+    // }
   }
 }
 
-//checkDistancePlanet
-//
-// irrelevant right now keeping for reference
-function checkDistancePlanet() {
-  /*()//check landstate
-  let d = dist(playerX, playerY, planetX, planetY);
-  if (d < playerWidth + planetWidth + 10) {
-    //play chime
-    textSpeech = "Eat planet? (shift)";
-    if (keyIsDown(SHIFT) && eatSound.isPlaying() == false ) {
-      eatSound.play();
-      triggerAnimationPlanet1();
-    }
-  } */
-}
 // triggerAnimationPlanet1
 //
-// trigger the animation of the planet objects by calling the function from the Planet class
-function triggerAnimationPlanet1() {
-  for (let i = 0; i < planetsArray.length; i++) {
-    planetsArray[i].triggerAnimation();
-  }
-}
+// // trigger the animation of the planet objects by calling the function from the Planet class
+// function triggerAnimationPlanet1() {
+//   for (let i = 0; i < planetsArray.length; i++) {
+//     planetsArray[i].triggerAnimation();
+//   }
+// }
 //mousePressed
 //
 // If the player clicks, depending on gamestate, different things can happen
@@ -583,10 +568,10 @@ function mousePressed() {
   }
   // If game has started, player can basically 'print'  stars by clicking mouse
   if (gameState === 1) {
-    //starGif_createImg.position(mouseX, mouseY);
+    //all this stuff would just be 'create star object'
     for (let i = 0; i < gifArrayCount; i++) {
 
-      for (let i = 0; i < gifArrayCount; i++){
+      for (let i = 0; i < gifArrayCount; i++) {
         gifArray[i].position(mouseX, mouseY);
       }
     }

@@ -3,15 +3,17 @@
 // Planet class creates planet objects that are defined by their array of images that can be triggered by player into an
 //animation
 class Planet {
-  constructor(x, y, array, landState, eatSound) {
+  constructor(x, y, array, gif, landState, eatSound, crumbs) {
     this.x = x;
     this.y = y;
     this.array = array;
-    this.landState = landState;
     this.currentArrayIndex = 0;
     this.currentArrayImage = this.array[this.currentArrayIndex];
     this.width = this.currentArrayImage.width;
+    this.landState = landState;
     this.eatSound = eatSound;
+    this.gif = gif;
+    this.crumbs = crumbsImage;
   }
 //triggerAnimation
 //

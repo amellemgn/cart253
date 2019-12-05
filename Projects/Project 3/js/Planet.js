@@ -32,12 +32,12 @@ class Planet {
     if (landState != this.landState) {
       return;
     }
-    if(this.playGif ===true)
+    if(this.playGif ===true) // this needs to switch back eventually 
     {
       if (this.currentArrayIndex < this.spaceArray.length - 1) {
         this.currentArrayIndex += 1;
       }
-    
+
     }
     this.currentArrayImage = this.spaceArray[this.currentArrayIndex];
     image(this.currentArrayImage, this.x, this.y);

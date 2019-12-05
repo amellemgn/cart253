@@ -44,7 +44,7 @@ let playerX = 200;
 let playerY = 130;
 let playerVX = 0;
 let playerVY = 0;
-let playerSpeed = 10;
+let playerSpeed = 2;
 let planet1;
 let planet1Image;
 let planet1Array = [];
@@ -381,8 +381,8 @@ function move() {
   history.unshift(vector);
 
   // if the history array has more than 25 items, start removing them so the trail disappears gradually
-  if (history.length > 25) {
-    history.pop(); // don't need to specify anything?
+  if (history.length > 70) {
+    history.pop(); // the alternative is push() and shift () but that means losing the oscillation
   }
 }
 
@@ -520,7 +520,10 @@ function displayPlayer() {
 
   //Also, display player 'trail' by displaying images of player based on former position
   for (let i = 0; i < history.length; i++) {
+    push();
+    fill(255,255,255,50);
     image(playerImage, history[i].x,history[i].y);
+    pop();
     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
   }
 }

@@ -119,15 +119,20 @@ function setup() {
 // There are so many images and it is terrible and I need to figure out how to load them through the form of GIFS
 function resourceSetup() {
   //  starGif_loadImg = loadImage("assets/images/starGif.gif");
-  starGif_createImg0 = createImg("assets/images/starGif.gif");
-  starGif_createImg1 = createImg("assets/images/starGif.gif");
-  starGif_createImg2 = createImg("assets/images/starGif.gif");
-  starGif_createImg3 = createImg("assets/images/starGif.gif");
-  starGif_createImg4 = createImg("assets/images/starGif.gif");
+  starGif_createImg0 = createImg("assets/images/star.gif");
+  starGif_createImg1 = createImg("assets/images/star.gif");
+  starGif_createImg2 = createImg("assets/images/star.gif");
+  starGif_createImg3 = createImg("assets/images/star.gif");
+  starGif_createImg4 = createImg("assets/images/star.gif");
 
   // for (let i = 0; i < 5; i++){
   //console.log("starGif_createImg"+i)
   gifArray.push(starGif_createImg0);
+  gifArray.push(starGif_createImg1);
+  gifArray.push(starGif_createImg2);
+  gifArray.push(starGif_createImg3);
+  gifArray.push(starGif_createImg4);
+
   //console.log(gifArray[0])
   //console.log("ok");
   //  }
@@ -369,11 +374,11 @@ function move() {
   // create vector based on player X and Y, push into array
   let history = [];
   let vector = createVector(playerX, playerY);
-  history.push(vector);
+  history.unshift(vector);
 
   // if the history array has more than 25 items, start removing them so the trail disappears gradually
   if (history.length > 25) {
-    history.splice(0, 1);
+    history.pop(); // don't need to specify anything?
   }
 }
 
@@ -434,8 +439,8 @@ function movePlayerThroughLandscape() {
   if (landState === 4) {
     if (playerY >= height) {
       landState = 3;
-      playerX = 50;
-      playerY = 300;
+      playerX = 500;
+      playerY = 20;
     }
   }
 }
@@ -462,6 +467,7 @@ function landState1Display() {
   if (firstDogAppear === true) {
     image(dogImage, dogX, dogY);
   }
+
   // Check player to dog
   checkDistanceDog();
 }
@@ -482,6 +488,14 @@ function landState2Display() {
   if (d < playerWidth + menWidth) {
     textSpeech = "SMALL CHORUS: nonononononoonononononono";
   }
+}
+
+function landState3Display(){
+rect(200, 200, 100,100);
+}
+
+function landState4Display(){
+ellipse(200, 200, 300);
 }
 //callPlanets
 //
@@ -504,8 +518,8 @@ function displayPlayer() {
 
   //Also, display player 'trail' by displaying images of player based on former position
   for (let i = 0; i < history.length; i++) {
-    var pos = history[i];
-    // ellipse(pos.x, pos.y, 8, 8);
+    console.log(history[i]);
+    image(playerImage, history[i]);
     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
   }
 }
@@ -571,7 +585,10 @@ function mousePressed() {
   if (gameState === 1) {
     //starGif_createImg.position(mouseX, mouseY);
     for (let i = 0; i < gifArrayCount; i++) {
-      gifArray[i].position(mouseX, mouseY);
+
+      for (let i = 0; i < gifArrayCount; i++){
+        gifArray[i].position(mouseX, mouseY);
+      }
     }
 
 

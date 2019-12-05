@@ -107,30 +107,30 @@ function preload() {
 function setup() {
   createCanvas(1300, 750);
   callPlanets();
-  starGif_createImg0.position(-500,-500);
-  starGif_createImg1.position(-500,-500);
-  starGif_createImg2.position(-500,-500);
-  starGif_createImg3.position(-500,-500);
-  starGif_createImg4.position(-500,-500);
+  starGif_createImg0.position(-500, -500);
+  starGif_createImg1.position(-500, -500);
+  starGif_createImg2.position(-500, -500);
+  starGif_createImg3.position(-500, -500);
+  starGif_createImg4.position(-500, -500);
 }
 //resourceSetup
 //
 // Load all linkd resources and load them into arrays if needed
 // There are so many images and it is terrible and I need to figure out how to load them through the form of GIFS
 function resourceSetup() {
-//  starGif_loadImg = loadImage("assets/images/starGif.gif");
+  //  starGif_loadImg = loadImage("assets/images/starGif.gif");
   starGif_createImg0 = createImg("assets/images/starGif.gif");
   starGif_createImg1 = createImg("assets/images/starGif.gif");
   starGif_createImg2 = createImg("assets/images/starGif.gif");
   starGif_createImg3 = createImg("assets/images/starGif.gif");
   starGif_createImg4 = createImg("assets/images/starGif.gif");
 
-// for (let i = 0; i < 5; i++){
-    //console.log("starGif_createImg"+i)
+  // for (let i = 0; i < 5; i++){
+  //console.log("starGif_createImg"+i)
   gifArray.push(starGif_createImg0);
   //console.log(gifArray[0])
- //console.log("ok");
-//  }
+  //console.log("ok");
+  //  }
   // array that holds animated gifs.... create image variables and push to array
   myGif = loadImage("assets/images/galaxygif.gif");
 
@@ -262,7 +262,7 @@ function draw() {
     currentMenuImage = menuImageArray[menuArrayIndex];
     image(currentMenuImage, 0, 0, 1300, 750);
 
-  //  imageMode(CENTER);
+    //  imageMode(CENTER);
 
     //Set Gif to pause so it doesn't play on its own
     // myGif.pause();
@@ -285,13 +285,19 @@ function draw() {
     displayPlayer();
 
     if (landState === 0) {
-      landState1Display();
+      landState0Display();
     }
     if (landState === 1) {
-      landState2Display();
+      landState1Display();
     }
     if (landState === 2) {
+      landState2Display();
+    }
+    if (landState == 3) {
       landState3Display();
+    }
+    if (landState == 4) {
+      landState4Display();
     }
     movePlayerThroughLandscape();
     checkDistancePlanet();
@@ -400,7 +406,7 @@ function movePlayerThroughLandscape() {
   }
   if (landState === 2) {
     if (playerX >= width) {
-      landState = 0;
+      landState = 3;
       playerX = 50;
       playerY = 300;
     } else if (playerX < 0) {
@@ -409,23 +415,46 @@ function movePlayerThroughLandscape() {
       playerY = 300;
     }
   }
+  if (landState === 3) {
+    if (playerX >= width) {
+      landState = 0;
+      playerX = 50;
+      playerY = 300;
+    } else if (playerX < 0) {
+      landState = 2;
+      playerX = 50;
+      playerY = 300;
+    }
+    if (playerY < 0) {
+      landState = 4;
+      playerX = 50;
+      playerY = 300;
+    }
+  }
+  if (landState === 4) {
+    if (playerY >= height) {
+      landState = 3;
+      playerX = 50;
+      playerY = 300;
+    }
+  }
+}
+
+//landState0Display
+//
+//This displays game objects in the first landstate that arent loaded through Planet class
+function landState0Display() {
+  //  planetX = 850;
+  //  planetY = 50;
+  //  imageMode(CENTER);
+  // Draws the gif on its current frame
+  //  image(myGif, width / 2, height / 2);
 }
 
 //landState1Display
 //
-//This displays game objects in the first landstate that arent loaded through Planet class
-function landState1Display() {
-  //  planetX = 850;
-  //  planetY = 50;
-//  imageMode(CENTER);
-    // Draws the gif on its current frame
-  //  image(myGif, width / 2, height / 2);
-}
-
-//landState2Display
-//
 //This displays game objects in the second landstate that arent loaded through Planet class
-function landState2Display() {
+function landState1Display() {
   //Set dog coordinate
   dogX = 300;
   dogY = 500;
@@ -436,10 +465,10 @@ function landState2Display() {
   // Check player to dog
   checkDistanceDog();
 }
-//landState3Display
+//landState2Display
 //
 //This displays game objects in the third landstate that arent loaded through Planet class
-function landState3Display() {
+function landState2Display() {
   // Create formula for sin oscillation based on radius
   let growth2 = sin(angle) * (radius / 8);
   // Display relevant NPC images
@@ -501,6 +530,7 @@ function checkDistanceDog() {
     }
   }
 }
+
 //checkDistancePlanet
 //
 // irrelevant right now keeping for reference
@@ -530,40 +560,27 @@ function triggerAnimationPlanet1() {
 function mousePressed() {
   //If game hasn't started, music starts, and clicking cycles through the menu image array
 
-if (gameState === 0) {
-  backgroundSound.loop();
-  menuArrayIndex += 1;
-  if (menuArrayIndex >= menuImageArray.length) {
-    gameState = 1;
+  if (gameState === 0) {
+    backgroundSound.loop();
+    menuArrayIndex += 1;
+    if (menuArrayIndex >= menuImageArray.length) {
+      gameState = 1;
+    }
   }
-}
-// If game has started, player can basically 'print'  stars by clicking mouse
-if (gameState === 1) {
-   //starGif_createImg.position(mouseX, mouseY);
-   for (let i = 0; i < gifArrayCount; i++){
-     gifArray[i].position(mouseX, mouseY);
-   }
+  // If game has started, player can basically 'print'  stars by clicking mouse
+  if (gameState === 1) {
+    //starGif_createImg.position(mouseX, mouseY);
+    for (let i = 0; i < gifArrayCount; i++) {
+      gifArray[i].position(mouseX, mouseY);
+    }
 
 
-}
-//If game has ended, restart game
-if (gameState === 2) {
-  menuImageIndex = 0;
-  menuArrayIndex = 0;
-  planet1ArrayIndex = 0;
-  gameState = 0;
-}
-// //If player presses space, play Gif next frame
-// function keyPressed(){
-//   if (keyCode == 32) {
-//     currentFrame = myGif.getCurrentFrame();
-//     // Go to next frame
-//     currentFrame++;
-//     //animation loops back to the first frame
-//     if (currentFrame >= myGif.numFrames()) {
-//       currentFrame = 0;
-//     }
-//     myGif.setFrame(currentFrame);
-//   }
-// }
+  }
+  //If game has ended, restart game
+  if (gameState === 2) {
+    menuImageIndex = 0;
+    menuArrayIndex = 0;
+    planet1ArrayIndex = 0;
+    gameState = 0;
+  }
 }

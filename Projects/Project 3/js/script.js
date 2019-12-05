@@ -15,6 +15,7 @@ https://gfycat.com/fr/quarterlyterrificannashummingbird
 https://giphy.com/stickers/galaxy-space-gif-j5QUSpXVuwtr2
 */
 //Declare game variables
+let history = [];
 let player;
 let playerImage;
 let playerRight1;
@@ -115,7 +116,7 @@ function setup() {
   starGif_createImg3.position(-500, -500);
   starGif_createImg4.position(-500, -500);
 
-  spaceGif.position(-500, 500);
+
 }
 //resourceSetup
 //
@@ -129,7 +130,7 @@ function resourceSetup() {
   starGif_createImg3 = createImg("assets/images/star.gif");
   starGif_createImg4 = createImg("assets/images/star.gif");
 
-  spaceGif = createImg("assets/images/spacegif.gif");
+  spaceGif = loadImage("assets/images/spacegif.gif");
 
   // for (let i = 0; i < 5; i++){
   //console.log("starGif_createImg"+i)
@@ -375,7 +376,7 @@ function move() {
   }
   // declare variable that saves player location
   // create vector based on player X and Y, push into array
-  let history = [];
+
   let vector = createVector(playerX, playerY);
   history.unshift(vector);
 
@@ -502,7 +503,7 @@ function landState4Display() {
 //
 //Create planet objects using constructor of Planet class and push them into an array
 function callPlanets() {
-  let planetObject1 = new Planet(850, 50, planet1Array, 0, eatSound, crumbsImage);
+  let planetObject1 = new Planet(850, 50, planet1Array, spaceGif, 0, eatSound, crumbsImage);
   let planetObject2 = new Planet(850, 50, planet2Array, 1, eatSound, crumbsImage);
   let planetObject3 = new Planet(1000, 50, planet3Array, 2, eatSound, crumbsImage);
   planetsArray.push(planetObject1);
@@ -519,7 +520,7 @@ function displayPlayer() {
 
   //Also, display player 'trail' by displaying images of player based on former position
   for (let i = 0; i < history.length; i++) {
-    image(playerImage, history[i]);
+    image(playerImage, history[i].x,history[i].y);
     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
   }
 }
@@ -568,12 +569,20 @@ function mousePressed() {
   }
   // If game has started, player can basically 'print'  stars by clicking mouse
   if (gameState === 1) {
+    if(gifArrayCount<4){
+      gifArrayCount++;
+
+    }
+    // else{
+    //     gifArrayCount=0;
+    // }
     //all this stuff would just be 'create star object'
     for (let i = 0; i < gifArrayCount; i++) {
+       console.log(i)
 
-      for (let i = 0; i < gifArrayCount; i++) {
-        gifArray[i].position(mouseX, mouseY);
-      }
+        gifArray[i].position(mouseX+(i*10), mouseY);
+
+
     }
 
 

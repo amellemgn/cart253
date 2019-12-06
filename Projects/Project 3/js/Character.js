@@ -7,6 +7,7 @@ class Character extends Planet{
     this.vx = 0;
     this.vy = 0;
     this.landState = landState;
+    this.eatSound = eatSound;
     this.array = array;
     this.currentArrayIndex = 0;
     this.currentArrayImage = array[this.currentArrayIndex];

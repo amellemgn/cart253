@@ -104,9 +104,9 @@ let flamingoObject;
 
 let charactersArray = [];
 
-  let characterObject1;
-  let characterObject2 ;
-  let characterObject3;
+let characterObject1;
+let characterObject2;
+let characterObject3;
 //preload
 //
 //Loads linked resources.
@@ -309,11 +309,9 @@ function draw() {
     textAlign(LEFT, CENTER);
     textFont(pixelFont);
     text(textSpeech, 50, 650);
-
     handleInput();
     move();
     displayPlayer();
-
     if (landState === 0) {
       landState0Display();
     }
@@ -330,18 +328,19 @@ function draw() {
       landState4Display();
     }
     movePlayerThroughLandscape();
-
     if (secondDogAppear == true) {
       image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
     }
 
     for (let i = 0; i < planetsArray.length; i++) {
       planetsArray[i].checkDistance(playerX, playerY, playerWidth);
-      planetsArray[i].draw(landState);
+      planetsArray[i].draw(landState, flamingoObject);
       starObject.checkDistance(planetsArray[i]); // does this make sense??
     }
     for (let i = 0; i < charactersArray.length; i++) {
       charactersArray[i].move();
+      charactersArray[i].draw(landState);
+      charactersArray[i].checkDistance(playerX, playerY, playerWidth);
     }
 
     starObject.draw();

@@ -16,23 +16,26 @@ class Planet {
     this.crumbs = crumbsImage;
     this.playGif = false;
   }
-//triggerAnimation
-//
-//cycle through array images
+  //triggerAnimation
+  //
+  //cycle through array images
   triggerAnimation() {
-    this.playGif=true;
+    this.playGif = true;
 
     // spaceGif.play();
   }
 
-// draw
-//
-// check where the player is. if it's the correct landstate, display image
-  draw(landState) {
+  // draw
+  //
+  // check where the player is. if it's the correct landstate, display image
+  draw(landState, flamingoObject) {
     if (landState != this.landState) {
       return;
     }
-    if(this.playGif ===true) // this needs to switch back eventually
+    if(flamingoObject.killSwitch === true){
+      return;
+    }
+    if (this.playGif === true) // this needs to switch back eventually
     {
       if (this.currentArrayIndex < this.spaceArray.length - 1) {
         this.currentArrayIndex += 1;
@@ -43,7 +46,7 @@ class Planet {
     image(this.currentArrayImage, this.x, this.y);
     // image(spaceGif, this.x-20, this.y-20);
     // this.gif.position(this.x -20, this.y -20);
-  //  this.gif.pause();
+    //  this.gif.pause();
   }
   // checkDistance
   //

@@ -6,13 +6,18 @@ class Character extends Planet{
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
+    this.landState = landState;
+    this.array = array;
+    this.currentArrayIndex = 0;
+    this.currentArrayImage = array[this.currentArrayIndex];
+    this.width = this.currentArrayImage.width;
     this.speed = speed;
   // Time properties for noise() function
     this.tx = random(0, 1000); // To make x and y noise different
     this.ty = random(0, 1000); // we use random starting values
     // Sin properties for oscillation 'animation'
     this.angle = 0;
-    this.radius = this.currentArrayImage.width/2;
+    this.radius = this.width/2;
   }
   // move
   //

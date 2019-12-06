@@ -101,6 +101,12 @@ let flamingoMidImage;
 let tropicalSound;
 let starObject;
 let flamingoObject;
+
+let charactersArray = [];
+
+  let characterObject1;
+  let characterObject2 ;
+  let characterObject3;
 //preload
 //
 //Loads linked resources.
@@ -334,15 +340,18 @@ function draw() {
       planetsArray[i].draw(landState);
       starObject.checkDistance(planetsArray[i]); // does this make sense??
     }
-    if (keyIsDown(ENTER)) {
-      console.log("pressed");
-      gameState = 2;
+    for (let i = 0; i < charactersArray.length; i++) {
+      charactersArray[i].move();
     }
 
     starObject.draw();
     flamingoObject.draw(landState);
     flamingoObject.checkDistance(playerX, playerY, playerWidth);
 
+    if (keyIsDown(ENTER)) {
+      console.log("pressed");
+      gameState = 2;
+    }
   }
   // If game is over display end screen
   if (gameState == 2) {
@@ -532,6 +541,14 @@ function callPlanets() {
   planetsArray.push(planetObject3);
 
   flamingoObject = new Flamingo(300, 100, planet1Array, 4, eatSound);
+
+  characterObject1 = new Character(200, 300, planet1Array, 0, eatSound, 4);
+  characterObject2 = new Character(300, 300, planet1Array, 0, eatSound, 6);
+  characterObject3 = new Character(350, 300, planet1Array, 0, eatSound, 8);
+  charactersArray.push(characterObject1);
+  charactersArray.push(characterObject2);
+  charactersArray.push(characterObject3);
+
 }
 //displayPlayer
 //

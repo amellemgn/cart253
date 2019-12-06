@@ -24,9 +24,6 @@ class Star {
       planet.playGif = false;
       planet.currentArrayIndex = 0;
     }
-    else
-    {
-      starGif_createImg1.position(this.x, this.y);
-    }
+
   }
 }

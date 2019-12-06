@@ -100,6 +100,7 @@ let flamingoTopImage;
 let flamingoMidImage;
 let tropicalSound;
 let starObject;
+let flamingoObject;
 //preload
 //
 //Loads linked resources.
@@ -339,6 +340,8 @@ function draw() {
     }
 
     starObject.draw();
+    flamingoObject.draw(landState);
+    flamingoObject.checkDistance(playerX, playerY, playerWidth);
 
   }
   // If game is over display end screen
@@ -507,14 +510,14 @@ function landState2Display() {
 }
 
 function landState3Display() {
-let volume = map(playerY, height, 0, 0, 1); // map playerY's distance from top to a range from 5-10
+  let volume = map(playerY, height, 0, 0, 1); // map playerY's distance from top to a range from 5-10
   volume = constrain(volume, 0, 1); // (unnecessary but they showed this on the website)
   tropicalSound.amp(volume);
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 
 function landState4Display() {
-  image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
   tropicalSound.setVolume(5);
 }
 //callPlanets
@@ -527,6 +530,8 @@ function callPlanets() {
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject3);
+
+  flamingoObject = new Flamingo(300, 100, planet1Array, 4, eatSound);
 }
 //displayPlayer
 //
@@ -539,8 +544,8 @@ function displayPlayer() {
   //Also, display player 'trail' by displaying images of player based on former position
   for (let i = 0; i < history.length; i++) {
     push();
-    fill(255,255,255,50);
-    image(playerImage, history[i].x,history[i].y);
+    fill(255, 255, 255, 50);
+    image(playerImage, history[i].x, history[i].y);
     pop();
     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
   }
@@ -583,6 +588,7 @@ function mousePressed() {
 
   if (gameState === 0) {
     backgroundSound.loop();
+    backgroundSound.setVolume(0.1);
     menuArrayIndex += 1;
     if (menuArrayIndex >= menuImageArray.length) {
       gameState = 1;
@@ -603,7 +609,7 @@ function mousePressed() {
     //     gifArray[i].position(mouseX, mouseY);
     // }
 
-    starObject = new Star (mouseX, mouseY);
+    starObject = new Star(mouseX, mouseY);
   }
   //If game has ended, restart game
   if (gameState === 2) {

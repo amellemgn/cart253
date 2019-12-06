@@ -1,5 +1,5 @@
-class Flamingo{
-  constructor (x, y, array, landState, eatSound){
+class Flamingo {
+  constructor(x, y, array, landState, eatSound) {
     this.x = x;
     this.y = y;
     this.flamingoArray = array;
@@ -9,31 +9,43 @@ class Flamingo{
     this.landState = landState;
     this.eatSound = eatSound;
   }
-triggerAnimation(){
-  if(this.currentArrayIndex <this.array.length-1){
-    this.currentArrayIndex +=1;
-  }
-}
-
-draw(landState){
-  if (landState != this.landState) {
-     return;
-   }
-   this.currentArrayImage = this.flamingoArray[this.currentArrayIndex];
-   image(this.currentArrayImage, this.x, this.y);
-}
-
-checkDistance(playerX, playerY, playerWidth) {
-  if (landState != this.landState) {
-    return;
-  }
-  this.d = dist(playerX, playerY, this.x, this.y);
-  if (this.d < playerWidth + this.width) {
-    textSpeech = "ok flamingo";
-    if (keyIsDown(SHIFT)) {
-      this.triggerAnimation();
+  triggerAnimation() {
+    if (this.currentArrayIndex < this.flamingoArray.length - 1) {
+      this.currentArrayIndex += 1;
+    }
+    if (random() < 0.3) {
+      textSpeech = "ok flamingo";
+    }
+    if (0.3 < random() < 0.6) {
+      textSpeech = "no flamingo";
+    }
+    if (random() > 0.6) {
+      textSpeech = "yes flmaingo";
     }
   }
-}
+
+  draw(landState) {
+    if (landState != this.landState) {
+
+      return;
+    }
+    else{
+    this.currentArrayImage = this.flamingoArray[this.currentArrayIndex];
+    image(this.currentArrayImage, this.x, this.y);
+    }
+  }
+
+  checkDistance(playerX, playerY, playerWidth) {
+    if (landState != this.landState) {
+      return;
+    }
+    this.d = dist(playerX, playerY, this.x, this.y);
+    if (this.d < playerWidth + this.width) {
+
+      if (keyIsDown(SHIFT)) {
+        this.triggerAnimation();
+      }
+    }
+  }
 
 }

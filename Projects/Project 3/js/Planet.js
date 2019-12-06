@@ -32,7 +32,7 @@ class Planet {
     if (landState != this.landState) {
       return;
     }
-    if(this.playGif ===true) // this needs to switch back eventually 
+    if(this.playGif ===true) // this needs to switch back eventually
     {
       if (this.currentArrayIndex < this.spaceArray.length - 1) {
         this.currentArrayIndex += 1;

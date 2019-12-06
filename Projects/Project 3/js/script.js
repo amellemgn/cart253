@@ -13,6 +13,7 @@ https://freesound.org/people/metamorphmuses/sounds/38709/
 https://leafla.co.vu/post/76140860039/totallytransparent-transparent-space-gif-made
 https://gfycat.com/fr/quarterlyterrificannashummingbird
 https://giphy.com/stickers/galaxy-space-gif-j5QUSpXVuwtr2
+https://freesound.org/people/imasoundingboard/sounds/263166/
 */
 //Declare game variables
 let history = [];
@@ -96,6 +97,7 @@ let gifArrayCount = 1;
 let spaceGif;
 let crumbsImage;
 let flamingoTopImage;
+let flamingoMidImage;
 //preload
 //
 //Loads linked resources.
@@ -264,6 +266,7 @@ function resourceSetup() {
   textSound = loadSound("assets/sounds/electrobass.wav");
   crumbs = loadImage("assets/images/crumbs.png");
   flamingoTopImage = loadImage("assets/images/flamingotop.png");
+  flamingoMidImage = loadImage("assets/images/flamingomedium.png");
 }
 //draw
 //
@@ -495,11 +498,13 @@ function landState2Display() {
 }
 
 function landState3Display() {
-  rect(200, 200, 100, 100);
+
+
+  image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 
 function landState4Display() {
-  image(flamingoTopImage, 300, 200, flamingoTopImage.width, flamingoTopImage.height);
+  image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
 }
 //callPlanets
 //

@@ -44,7 +44,7 @@ let playerX = 200;
 let playerY = 130;
 let playerVX = 0;
 let playerVY = 0;
-let playerSpeed = 2;
+let playerSpeed = 10;
 let planet1;
 let planet1Image;
 let planet1Array = [];
@@ -95,6 +95,7 @@ let gifArrayCount = 1;
 
 let spaceGif;
 let crumbsImage;
+let flamingoTopImage;
 //preload
 //
 //Loads linked resources.
@@ -262,6 +263,7 @@ function resourceSetup() {
   walkSound = loadSound("assets/sounds/applecrunch.wav");
   textSound = loadSound("assets/sounds/electrobass.wav");
   crumbs = loadImage("assets/images/crumbs.png");
+  flamingoTopImage = loadImage("assets/images/flamingotop.png");
 }
 //draw
 //
@@ -497,7 +499,7 @@ function landState3Display() {
 }
 
 function landState4Display() {
-  ellipse(200, 200, 300);
+  image(flamingoTopImage, 300, 200, flamingoTopImage.width, flamingoTopImage.height);
 }
 //callPlanets
 //

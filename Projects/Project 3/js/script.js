@@ -98,6 +98,7 @@ let spaceGif;
 let crumbsImage;
 let flamingoTopImage;
 let flamingoMidImage;
+let tropicalSound;
 //preload
 //
 //Loads linked resources.
@@ -119,7 +120,8 @@ function setup() {
   starGif_createImg3.position(-500, -500);
   starGif_createImg4.position(-500, -500);
 
-
+  tropicalSound.loop();
+  tropicalSound.amp(0);
 }
 //resourceSetup
 //
@@ -267,6 +269,8 @@ function resourceSetup() {
   crumbs = loadImage("assets/images/crumbs.png");
   flamingoTopImage = loadImage("assets/images/flamingotop.png");
   flamingoMidImage = loadImage("assets/images/flamingomedium.png");
+
+  tropicalSound = loadSound("assets/sounds/tropical.wav");
 }
 //draw
 //
@@ -498,13 +502,15 @@ function landState2Display() {
 }
 
 function landState3Display() {
-
-
+let volume = map(playerY, height, 0, 0, 1); // map playerY's distance from top to a range from 5-10
+  volume = constrain(volume, 0, 1); // (unnecessary but they showed this on the website)
+  tropicalSound.amp(volume);
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 
 function landState4Display() {
   image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+  tropicalSound.setVolume(5);
 }
 //callPlanets
 //

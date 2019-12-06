@@ -99,6 +99,7 @@ let crumbsImage;
 let flamingoTopImage;
 let flamingoMidImage;
 let tropicalSound;
+let starObject;
 //preload
 //
 //Loads linked resources.
@@ -330,11 +331,15 @@ function draw() {
     for (let i = 0; i < planetsArray.length; i++) {
       planetsArray[i].checkDistance(playerX, playerY, playerWidth);
       planetsArray[i].draw(landState);
+      starObject.checkDistance(planetsArray[i]); // does this make sense??
     }
     if (keyIsDown(ENTER)) {
       console.log("pressed");
       gameState = 2;
     }
+
+    starObject.draw();
+
   }
   // If game is over display end screen
   if (gameState == 2) {
@@ -585,23 +590,20 @@ function mousePressed() {
   }
   // If game has started, player can basically 'print'  stars by clicking mouse
   if (gameState === 1) {
-    if(gifArrayCount<4){
-      gifArrayCount++;
-
-    }
-    // else{
-    //     gifArrayCount=0;
+    // if(gifArrayCount<4){
+    //   gifArrayCount++;
+    //
     // }
-    //all this stuff would just be 'create star object'
-    for (let i = 0; i < gifArrayCount; i++) {
-       console.log(i)
+    // // else{
+    // //     gifArrayCount=0;
+    // // }
+    // //all this stuff would just be 'create star object'
+    // for (let i = 0; i < gifArrayCount; i++) {
+    //    console.log(i)
+    //     gifArray[i].position(mouseX, mouseY);
+    // }
 
-        gifArray[i].position(mouseX+(i*10), mouseY);
-
-
-    }
-
-
+    starObject = new Star (mouseX, mouseY);
   }
   //If game has ended, restart game
   if (gameState === 2) {

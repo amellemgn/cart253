@@ -334,15 +334,14 @@ function draw() {
 
     for (let i = 0; i < planetsArray.length; i++) {
       planetsArray[i].checkDistance(playerX, playerY, playerWidth);
-      planetsArray[i].draw(landState, flamingoObject);
+      planetsArray[i].draw(landState, flamingoObject); // move boolean to main script, classes can't communicate booleans
       starObject.checkDistance(planetsArray[i]); // does this make sense??
     }
     for (let i = 0; i < charactersArray.length; i++) {
       charactersArray[i].move();
-      charactersArray[i].draw(landState);
+      charactersArray[i].draw(landState, flamingoObject);
       charactersArray[i].checkDistance(playerX, playerY, playerWidth);
     }
-
     starObject.draw();
     flamingoObject.draw(landState);
     flamingoObject.checkDistance(playerX, playerY, playerWidth);

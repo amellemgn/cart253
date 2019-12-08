@@ -208,43 +208,12 @@ function resourceSetup() {
   planet1Array.push(planet1ImageFrame14);
   planet1Array.push(planet1ImageFrame15);
   planet1Array.push(planet1ImageFrame16);
-  let planet2Image1 = loadImage("assets/images/eyeball/eyeball.png");
-  let planet2Image2 = loadImage("assets/images/eyeball/eyeball2.png");
-  let planet2Image3 = loadImage("assets/images/eyeball/eyeball3.png");
-  let planet2Image4 = loadImage("assets/images/eyeball/eyeball4.png");
-  let planet2Image5 = loadImage("assets/images/eyeball/eyeball5.png");
-  let planet2Image8 = loadImage("assets/images/eyeball/eyeball8.png");
-  let planet2Image9 = loadImage("assets/images/eyeball/eyeball9.png");
-  let planet2Image10 = loadImage("assets/images/eyeball/eyeball10.png");
-  let planet2Image11 = loadImage("assets/images/eyeball/eyeball11.png");
-  let planet2Image12 = loadImage("assets/images/eyeball/eyeball12.png");
-  let planet2Image13 = loadImage("assets/images/eyeball/eyeball13.png");
-  let planet2Image14 = loadImage("assets/images/eyeball/eyeball14.png");
-  let planet2Image15 = loadImage("assets/images/eyeball/eyeball15.png");
-  let planet2Image16 = loadImage("assets/images/eyeball/eyeball16.png");
-  let planet2Image17 = loadImage("assets/images/eyeball/eyeball17.png");
-  let planet2Image18 = loadImage("assets/images/eyeball/eyeball18.png");
-  planet2Array.push(planet2Image1);
-  planet2Array.push(planet2Image2);
-  planet2Array.push(planet2Image3);
-  planet2Array.push(planet2Image4);
-  planet2Array.push(planet2Image5);
-  planet2Array.push(planet2Image8);
-  planet2Array.push(planet2Image9);
-  planet2Array.push(planet2Image10);
-  planet2Array.push(planet2Image11);
-  planet2Array.push(planet2Image12);
-  planet2Array.push(planet2Image13);
-  planet2Array.push(planet2Image14);
-  planet2Array.push(planet2Image15);
-  planet2Array.push(planet2Image16);
-  planet2Array.push(planet2Image17);
-  planet2Array.push(planet2Image18);
 
-  for (let i = 0; i <= 12; i++){
-    let planet2Path = "assets/images/saturn/saturn" + i + ".png";
+
+  for (let i = 1; i <= 11; i++){
+    let planet2Path = "assets/images/eyeball/eyeball" + i + ".png";
     let planet2Image = loadImage(planet2Path);
-    planet2Array.push(planetImage);
+    planet2Array.push(planet2Image);
   }
 
   let planet3Image1 = loadImage("assets/images/many/many1.png");
@@ -318,9 +287,9 @@ function draw() {
     textAlign(LEFT, CENTER);
     textFont(pixelFont);
     text(textSpeech, 50, 650);
-    // handleInput();
-    // move();
-    // displayPlayer();
+    handleInput();
+    move();
+    displayPlayer();
     // HOW TO DO THIS?? RETURN CHECK FROM PLAYER?
     if (landState === 0) {
       landState0Display();
@@ -349,7 +318,7 @@ function draw() {
     if (landState == 8){
       landState8Display();
     }
-    // movePlayerThroughLandscape();
+     movePlayerThroughLandscape();
     if (secondDogAppear == true) {
       image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
     }
@@ -368,11 +337,11 @@ function draw() {
     flamingoObject.draw(landState);
     flamingoObject.checkDistance(playerX, playerY, playerWidth);
 
-    playerObject.draw();
-    playerObject.handleInput();
-    playerObject.move();
-    playerObject.movePlayerThroughLandscape();
-    
+    // playerObject.draw();
+    // playerObject.handleInput();
+    // playerObject.move();
+    // playerObject.movePlayerThroughLandscape();
+
 
     if (keyIsDown(ENTER)) {
       console.log("pressed");
@@ -384,122 +353,167 @@ function draw() {
     image(endscreenImage, 0, 0, 1300, 750);
   }
 }
-// // handleInput
-// //
-// // Handle keyboard input from player
-// function handleInput() {
-//   if (keyIsDown(LEFT_ARROW)) {
-//     playerVX = -playerSpeed;
-//     playerImage = playerLeft1;
-//   } else if (keyIsDown(RIGHT_ARROW)) {
-//     playerVX = playerSpeed;
-//     playerImage = playerRight1;
-//   } else {
-//     playerVX = 0;
-//   }
-//   if (keyIsDown(UP_ARROW)) {
-//     playerVY = -playerSpeed;
-//     if (playerImage == playerLeft1) {
-//       playerImage = playerLeft1;
-//     } else {
-//       playerImage = playerRight1;
-//     }
-//   } else if (keyIsDown(DOWN_ARROW)) {
-//     playerVY = playerSpeed;
+// handleInput
 //
-//     if (playerImage == playerLeft1) {
-//       playerImage = playerLeft1;
-//     } else {
-//       playerImage = playerRight1;
-//     }
-//   } else {
-//     playerVY = 0;
-//   }
-// }
-// // move
-// //
-// // Move player according to velocity.
-// function move() {
-//   playerX += playerVX;
-//   playerY += playerVY;
-//   // If the player has velocity, play a sound
-//   if (playerVX > 0 || playerVY > 0) {
-//     walkSound.play();
-//   }
-//   // declare variable that saves player location
-//   // create vector based on player X and Y, push into array
-//
-//   let vector = createVector(playerX, playerY);
-//   history.unshift(vector);
-//
-//   // if the history array has more than 25 items, start removing them so the trail disappears gradually
-//   if (history.length > 70) {
-//     history.pop(); // the alternative is push() and shift () but that means losing the oscillation
-//   }
-// }
+// Handle keyboard input from player
+function handleInput() {
+  if (keyIsDown(LEFT_ARROW)) {
+    playerVX = -playerSpeed;
+    playerImage = playerLeft1;
+  } else if (keyIsDown(RIGHT_ARROW)) {
+    playerVX = playerSpeed;
+    playerImage = playerRight1;
+  } else {
+    playerVX = 0;
+  }
+  if (keyIsDown(UP_ARROW)) {
+    playerVY = -playerSpeed;
+    if (playerImage == playerLeft1) {
+      playerImage = playerLeft1;
+    } else {
+      playerImage = playerRight1;
+    }
+  } else if (keyIsDown(DOWN_ARROW)) {
+    playerVY = playerSpeed;
 
-// //movePlayerThroughLandscape
-// //
-// //Check if player is in screen space. If they are not, move them to according next/previous screen space
-// function movePlayerThroughLandscape() {
-//   if (landState === 0) {
-//     if (playerX >= width) {
-//       landState = 1;
-//       // Setting coordinates to make it easier to see if this screen movement is working. may change in later prototype
-//       playerX = 50;
-//       playerY = 300;
-//     } else if (playerX < 0) {
-//       landState = 2;
-//       playerX = 50;
-//       playerY = 300;
-//     }
-//   }
-//   if (landState === 1) {
-//     if (playerX >= width) {
-//       landState = 2;
-//       playerX = 50;
-//       playerY = 300;
-//     } else if (playerX < 0) {
-//       landState = 0;
-//       playerX = 50;
-//       playerY = 300;
-//     }
-//   }
-//   if (landState === 2) {
-//     if (playerX >= width) {
-//       landState = 3;
-//       playerX = 50;
-//       playerY = 300;
-//     } else if (playerX < 0) {
-//       landState = 1;
-//       playerX = 50;
-//       playerY = 300;
-//     }
-//   }
-//   if (landState === 3) {
-//     if (playerX >= width) {
-//       landState = 0;
-//       playerX = 50;
-//       playerY = 300;
-//     } else if (playerX < 0) {
-//       landState = 2;
-//       playerX = 50;
-//       playerY = 300;
-//     }
-//     if (playerY < 0) {
-//       landState = 4;
-//       playerX = 50;
-//       playerY = 300;
-//     }
-//   }
-//   if (landState === 4) {
-//     if (playerY >= height) {
-//       landState = 3;
-//       playerX = 500;
-//       playerY = 20;
-//     }
-//   }
-// }
+    if (playerImage == playerLeft1) {
+      playerImage = playerLeft1;
+    } else {
+      playerImage = playerRight1;
+    }
+  } else {
+    playerVY = 0;
+  }
+}
+// move
+//
+// Move player according to velocity.
+function move() {
+  console.log(landState, playerX, playerY);
+  playerX += playerVX;
+  playerY += playerVY;
+  // If the player has velocity, play a sound
+  if (playerVX > 0 || playerVY > 0) {
+    walkSound.play();
+  }
+  // declare variable that saves player location
+  // create vector based on player X and Y, push into array
+
+  let vector = createVector(playerX, playerY);
+  history.unshift(vector);
+
+  // if the history array has more than 25 items, start removing them so the trail disappears gradually
+  if (history.length > 70) {
+    history.pop(); // the alternative is push() and shift () but that means losing the oscillation
+  }
+}
+
+//movePlayerThroughLandscape
+//
+//Check if player is in screen space. If they are not, move them to according next/previous screen space
+function movePlayerThroughLandscape() {
+  if (landState === 0) {
+    constrain(playerY, 0, height);
+    if (playerX >= width) {
+      landState = 1;
+      // Setting coordinates to make it easier to see if this screen movement is working. may change in later prototype
+      playerX = 25;
+      playerY = 300;
+    } else if (playerX < 0) {
+      landState = 5;
+      playerX = 25;
+      playerY = 300;
+    }
+  }
+  if (landState === 1) {
+    if (playerX >= width) {
+      landState = 2;
+      playerX = 25;
+      playerY = 300;
+    } else if (playerX < 0) {
+      landState = 0;
+      playerX = 25;
+      playerY = 300;
+    }
+  }
+  if (landState === 2) {
+    if (playerX >= width) {
+      landState = 3;
+      playerX = 25;
+      playerY = 300;
+    } else if (playerX < 0) {
+      landState = 1;
+      playerX = 25;
+      playerY = 300;
+    }
+  }
+  if (landState === 3) {
+    if (playerX >= width) {
+      landState = 4;
+      playerX = 25;
+      playerY = 300;
+    } else if (playerX < 0) {
+      landState = 2;
+      playerX = 25;
+      playerY = 300;
+    }
+  }
+  if (landState === 4) {
+    if (playerX >= width) {
+      landState = 3;
+      playerX = 25;
+      playerY = 300;
+    } else if (playerX < 0) {
+      landState = 5;
+      playerX = 25;
+      playerY = 300;
+    }
+  }
+  if (landState === 5) {
+    if (playerY >= width) {
+      landState = 0;
+      playerX = 500;
+      playerY = 20;
+    } else if(playerX < 0){
+      landState = 4;
+      playerX = 25;
+      playerY= 300;
+    }
+    if (playerY < 0) {
+      landState = 4;
+      playerX = 25;
+      playerY = 300;
+    }
+  }
+  if (landState === 6) {
+    if (playerY >= height) {
+      landState = 5;
+      playerX = 500;
+      playerY = 20;
+    }
+  }
+  if (landState === 7) {
+    if (playerY >= height) {
+      landState = 6;
+      playerX = 500;
+      playerY = 20;
+    }
+  }
+  if (landState === 8) {
+    if (playerY >= height) {
+      landState = 7;
+      playerX = 500;
+      playerY = 20;
+    }
+  }
+if ( landState ===0 || landState == 1 || landState == 2 || landState == 3 || landState == 4) {
+  playerY = constrain(playerY, 0, height-100);
+}
+
+if (landState == 6|| landState == 7 || landState == 8){
+  playerX = constrain(playerX, 0, width-75);
+}
+}
 
 //landState0Display
 //
@@ -594,23 +608,23 @@ function callClassObjects() {
   charactersArray.push(characterObject3);
 
 }
-// //displayPlayer
-// //
-// //Create oscillation formula, update every frame, display oscillating player image
-// function displayPlayer() {
-//   let growth = sin(angle) * (radius / 8);
-//   image(playerImage, playerX, playerY, playerWidth + growth, playerHeight);
-//   angle += 0.05;
+//displayPlayer
 //
-//   //Also, display player 'trail' by displaying images of player based on former position
-//   for (let i = 0; i < history.length; i++) {
-//     push();
-//     fill(255, 255, 255, 50);
-//     image(playerImage, history[i].x, history[i].y);
-//     pop();
-//     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
-//   }
-// }
+//Create oscillation formula, update every frame, display oscillating player image
+function displayPlayer() {
+  let growth = sin(angle) * (radius / 8);
+  image(playerImage, playerX, playerY, playerWidth + growth, playerHeight);
+  angle += 0.05;
+
+  //Also, display player 'trail' by displaying images of player based on former position
+  for (let i = 0; i < history.length; i++) {
+    push();
+    fill(255, 255, 255, 50);
+    image(playerImage, history[i].x, history[i].y);
+    pop();
+
+  }
+}
 //checkDistanceDog
 //
 //Check player distance to dog and if close enough display relevant text

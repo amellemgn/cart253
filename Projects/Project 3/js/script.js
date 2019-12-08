@@ -107,6 +107,8 @@ let charactersArray = [];
 let characterObject1;
 let characterObject2;
 let characterObject3;
+
+let playerObject;
 //preload
 //
 //Loads linked resources.
@@ -244,6 +246,7 @@ function resourceSetup() {
     let planet2Image = loadImage(planet2Path);
     planet2Array.push(planetImage);
   }
+
   let planet3Image1 = loadImage("assets/images/many/many1.png");
   let planet3Image2 = loadImage("assets/images/many/many2.png");
   let planet3Image3 = loadImage("assets/images/many/many3.png");
@@ -364,6 +367,12 @@ function draw() {
     starObject.draw();
     flamingoObject.draw(landState);
     flamingoObject.checkDistance(playerX, playerY, playerWidth);
+
+    playerObject.draw();
+    playerObject.handleInput();
+    playerObject.move();
+    playerObject.movePlayerThroughLandscape();
+    
 
     if (keyIsDown(ENTER)) {
       console.log("pressed");
@@ -566,6 +575,8 @@ function landState8Display() {
 //
 //Create planet objects using constructor of Planet class and push them into an array
 function callClassObjects() {
+  playerObject = new Player (100, 50, 10, playerLeft1, playerRight1, eatSound);
+
   let planetObject1 = new Planet(850, 50, planet1Array, spaceGif, 0, eatSound, crumbsImage);
   let planetObject2 = new Planet(850, 50, planet2Array, 1, eatSound, crumbsImage);
   let planetObject3 = new Planet(1000, 50, planet3Array, 2, eatSound, crumbsImage);

@@ -112,16 +112,16 @@ let characterObject3;
 //Loads linked resources.
 function preload() {
   resourceSetup();
-  // Call .playmode function which prevents this sound from being played until before it's playtime has elapsed
-  // ie. my sound was really slowing down my project and this prevents calling my sound 5million times/minute
-  walkSound.playMode('untilDone');
+  // // Call .playmode function which prevents this sound from being played until before it's playtime has elapsed
+  // // ie. my sound was really slowing down my project and this prevents calling my sound 5million times/minute
+  // walkSound.playMode('untilDone');
 }
 //setup
 //
 // Make canvas, create game objects
 function setup() {
   createCanvas(1300, 750);
-  callPlanets();
+  callClassObjects();
   starGif_createImg0.position(-500, -500);
   starGif_createImg1.position(-500, -500);
   starGif_createImg2.position(-500, -500);
@@ -238,6 +238,12 @@ function resourceSetup() {
   planet2Array.push(planet2Image16);
   planet2Array.push(planet2Image17);
   planet2Array.push(planet2Image18);
+
+  for (let i = 0; i <= 12; i++){
+    let planet2Path = "assets/images/saturn/saturn" + i + ".png";
+    let planet2Image = loadImage(planet2Path);
+    planet2Array.push(planetImage);
+  }
   let planet3Image1 = loadImage("assets/images/many/many1.png");
   let planet3Image2 = loadImage("assets/images/many/many2.png");
   let planet3Image3 = loadImage("assets/images/many/many3.png");
@@ -265,7 +271,7 @@ function resourceSetup() {
   planet3Array.push(planet3Image12);
   planet3Array.push(planet3Image13);
 
-  planet2Image = loadImage("assets/images/eyeball/eyeball.png");
+  // planet2Image = loadImage("assets/images/eyeball/eyeball.png");
   planet3Image = loadImage("assets/images/eyeball/eyeball.png");
   dogImage = loadImage("assets/images/littledog.png");
   menImage = loadImage("assets/images/dudes.png");
@@ -309,9 +315,10 @@ function draw() {
     textAlign(LEFT, CENTER);
     textFont(pixelFont);
     text(textSpeech, 50, 650);
-    handleInput();
-    move();
-    displayPlayer();
+    // handleInput();
+    // move();
+    // displayPlayer();
+    // HOW TO DO THIS?? RETURN CHECK FROM PLAYER?
     if (landState === 0) {
       landState0Display();
     }
@@ -327,7 +334,19 @@ function draw() {
     if (landState == 4) {
       landState4Display();
     }
-    movePlayerThroughLandscape();
+    if (landState == 5) {
+      landState5Display();
+    }
+    if (landState == 6) {
+      landState6Display();
+    }
+    if (landState == 7){
+      landState7Display();
+    }
+    if (landState == 8){
+      landState8Display();
+    }
+    // movePlayerThroughLandscape();
     if (secondDogAppear == true) {
       image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
     }
@@ -356,122 +375,122 @@ function draw() {
     image(endscreenImage, 0, 0, 1300, 750);
   }
 }
-// handleInput
+// // handleInput
+// //
+// // Handle keyboard input from player
+// function handleInput() {
+//   if (keyIsDown(LEFT_ARROW)) {
+//     playerVX = -playerSpeed;
+//     playerImage = playerLeft1;
+//   } else if (keyIsDown(RIGHT_ARROW)) {
+//     playerVX = playerSpeed;
+//     playerImage = playerRight1;
+//   } else {
+//     playerVX = 0;
+//   }
+//   if (keyIsDown(UP_ARROW)) {
+//     playerVY = -playerSpeed;
+//     if (playerImage == playerLeft1) {
+//       playerImage = playerLeft1;
+//     } else {
+//       playerImage = playerRight1;
+//     }
+//   } else if (keyIsDown(DOWN_ARROW)) {
+//     playerVY = playerSpeed;
 //
-// Handle keyboard input from player
-function handleInput() {
-  if (keyIsDown(LEFT_ARROW)) {
-    playerVX = -playerSpeed;
-    playerImage = playerLeft1;
-  } else if (keyIsDown(RIGHT_ARROW)) {
-    playerVX = playerSpeed;
-    playerImage = playerRight1;
-  } else {
-    playerVX = 0;
-  }
-  if (keyIsDown(UP_ARROW)) {
-    playerVY = -playerSpeed;
-    if (playerImage == playerLeft1) {
-      playerImage = playerLeft1;
-    } else {
-      playerImage = playerRight1;
-    }
-  } else if (keyIsDown(DOWN_ARROW)) {
-    playerVY = playerSpeed;
-
-    if (playerImage == playerLeft1) {
-      playerImage = playerLeft1;
-    } else {
-      playerImage = playerRight1;
-    }
-  } else {
-    playerVY = 0;
-  }
-}
-// move
+//     if (playerImage == playerLeft1) {
+//       playerImage = playerLeft1;
+//     } else {
+//       playerImage = playerRight1;
+//     }
+//   } else {
+//     playerVY = 0;
+//   }
+// }
+// // move
+// //
+// // Move player according to velocity.
+// function move() {
+//   playerX += playerVX;
+//   playerY += playerVY;
+//   // If the player has velocity, play a sound
+//   if (playerVX > 0 || playerVY > 0) {
+//     walkSound.play();
+//   }
+//   // declare variable that saves player location
+//   // create vector based on player X and Y, push into array
 //
-// Move player according to velocity.
-function move() {
-  playerX += playerVX;
-  playerY += playerVY;
-  // If the player has velocity, play a sound
-  if (playerVX > 0 || playerVY > 0) {
-    walkSound.play();
-  }
-  // declare variable that saves player location
-  // create vector based on player X and Y, push into array
-
-  let vector = createVector(playerX, playerY);
-  history.unshift(vector);
-
-  // if the history array has more than 25 items, start removing them so the trail disappears gradually
-  if (history.length > 70) {
-    history.pop(); // the alternative is push() and shift () but that means losing the oscillation
-  }
-}
-
-//movePlayerThroughLandscape
+//   let vector = createVector(playerX, playerY);
+//   history.unshift(vector);
 //
-//Check if player is in screen space. If they are not, move them to according next/previous screen space
-function movePlayerThroughLandscape() {
-  if (landState === 0) {
-    if (playerX >= width) {
-      landState = 1;
-      // Setting coordinates to make it easier to see if this screen movement is working. may change in later prototype
-      playerX = 50;
-      playerY = 300;
-    } else if (playerX < 0) {
-      landState = 2;
-      playerX = 50;
-      playerY = 300;
-    }
-  }
-  if (landState === 1) {
-    if (playerX >= width) {
-      landState = 2;
-      playerX = 50;
-      playerY = 300;
-    } else if (playerX < 0) {
-      landState = 0;
-      playerX = 50;
-      playerY = 300;
-    }
-  }
-  if (landState === 2) {
-    if (playerX >= width) {
-      landState = 3;
-      playerX = 50;
-      playerY = 300;
-    } else if (playerX < 0) {
-      landState = 1;
-      playerX = 50;
-      playerY = 300;
-    }
-  }
-  if (landState === 3) {
-    if (playerX >= width) {
-      landState = 0;
-      playerX = 50;
-      playerY = 300;
-    } else if (playerX < 0) {
-      landState = 2;
-      playerX = 50;
-      playerY = 300;
-    }
-    if (playerY < 0) {
-      landState = 4;
-      playerX = 50;
-      playerY = 300;
-    }
-  }
-  if (landState === 4) {
-    if (playerY >= height) {
-      landState = 3;
-      playerX = 500;
-      playerY = 20;
-    }
-  }
-}
+//   // if the history array has more than 25 items, start removing them so the trail disappears gradually
+//   if (history.length > 70) {
+//     history.pop(); // the alternative is push() and shift () but that means losing the oscillation
+//   }
+// }
+
+// //movePlayerThroughLandscape
+// //
+// //Check if player is in screen space. If they are not, move them to according next/previous screen space
+// function movePlayerThroughLandscape() {
+//   if (landState === 0) {
+//     if (playerX >= width) {
+//       landState = 1;
+//       // Setting coordinates to make it easier to see if this screen movement is working. may change in later prototype
+//       playerX = 50;
+//       playerY = 300;
+//     } else if (playerX < 0) {
+//       landState = 2;
+//       playerX = 50;
+//       playerY = 300;
+//     }
+//   }
+//   if (landState === 1) {
+//     if (playerX >= width) {
+//       landState = 2;
+//       playerX = 50;
+//       playerY = 300;
+//     } else if (playerX < 0) {
+//       landState = 0;
+//       playerX = 50;
+//       playerY = 300;
+//     }
+//   }
+//   if (landState === 2) {
+//     if (playerX >= width) {
+//       landState = 3;
+//       playerX = 50;
+//       playerY = 300;
+//     } else if (playerX < 0) {
+//       landState = 1;
+//       playerX = 50;
+//       playerY = 300;
+//     }
+//   }
+//   if (landState === 3) {
+//     if (playerX >= width) {
+//       landState = 0;
+//       playerX = 50;
+//       playerY = 300;
+//     } else if (playerX < 0) {
+//       landState = 2;
+//       playerX = 50;
+//       playerY = 300;
+//     }
+//     if (playerY < 0) {
+//       landState = 4;
+//       playerX = 50;
+//       playerY = 300;
+//     }
+//   }
+//   if (landState === 4) {
+//     if (playerY >= height) {
+//       landState = 3;
+//       playerX = 500;
+//       playerY = 20;
+//     }
+//   }
+// }
 
 //landState0Display
 //
@@ -527,10 +546,26 @@ function landState4Display() {
   //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
   tropicalSound.setVolume(5);
 }
-//callPlanets
+function landState5Display() {
+  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+  tropicalSound.setVolume(5);
+}
+function landState6Display() {
+  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+  tropicalSound.setVolume(5);
+}
+function landState7Display() {
+  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+  tropicalSound.setVolume(5);
+}
+function landState8Display() {
+  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+  tropicalSound.setVolume(5);
+}
+//callClassObjects
 //
 //Create planet objects using constructor of Planet class and push them into an array
-function callPlanets() {
+function callClassObjects() {
   let planetObject1 = new Planet(850, 50, planet1Array, spaceGif, 0, eatSound, crumbsImage);
   let planetObject2 = new Planet(850, 50, planet2Array, 1, eatSound, crumbsImage);
   let planetObject3 = new Planet(1000, 50, planet3Array, 2, eatSound, crumbsImage);
@@ -548,23 +583,23 @@ function callPlanets() {
   charactersArray.push(characterObject3);
 
 }
-//displayPlayer
+// //displayPlayer
+// //
+// //Create oscillation formula, update every frame, display oscillating player image
+// function displayPlayer() {
+//   let growth = sin(angle) * (radius / 8);
+//   image(playerImage, playerX, playerY, playerWidth + growth, playerHeight);
+//   angle += 0.05;
 //
-//Create oscillation formula, update every frame, display oscillating player image
-function displayPlayer() {
-  let growth = sin(angle) * (radius / 8);
-  image(playerImage, playerX, playerY, playerWidth + growth, playerHeight);
-  angle += 0.05;
-
-  //Also, display player 'trail' by displaying images of player based on former position
-  for (let i = 0; i < history.length; i++) {
-    push();
-    fill(255, 255, 255, 50);
-    image(playerImage, history[i].x, history[i].y);
-    pop();
-    // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
-  }
-}
+//   //Also, display player 'trail' by displaying images of player based on former position
+//   for (let i = 0; i < history.length; i++) {
+//     push();
+//     fill(255, 255, 255, 50);
+//     image(playerImage, history[i].x, history[i].y);
+//     pop();
+//     // image(playerImage, pos.playerX, pos.playerY, playerWidth + growth, playerHeight);
+//   }
+// }
 //checkDistanceDog
 //
 //Check player distance to dog and if close enough display relevant text

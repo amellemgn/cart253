@@ -24,14 +24,14 @@ class Subflamingo {
   //draw
   //
   // Displays the objects on canvas with oscillation.  Only does so if the flamingo has been 'killed' and landstate check returns correct
-  draw(landState, flamingoObject){
+  draw(landState, flamingoObject) {
     if (landState != this.landState) {
       return;
     }
-    if(flamingoObject.killSwitch === true){
+    if (flamingoObject.killSwitch === true) {
       return;
     }
-    this.growth = sin(this.angle)*(this.radius/8);
+    this.growth = sin(this.angle) * (this.radius / 8);
     //console.log(this.image.width);
     image(this.image, this.x, this.y, this.width + this.growth, this.height);
     this.angle += 0.05;
@@ -41,38 +41,52 @@ class Subflamingo {
   // Sets velocity based on the noise() function and speed
   // If the player gets to close the subflamingos will 'flee' and move away from player
   move(playerX, playerY) {
-    // Set velocity via noise()
-    this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
-    this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
-    //Track distance between player and subflamingo. If the distance is deemed to small, the flamingo moves away from player.
-    this.d = dist(this.x, this.y, playerX, playerY)
-    if(this.d<20){
-     this.x -= playerX;
-     this.y -= playerY;
-    }
-    // Update time properties
-    this.tx += 0.01;
-    this.ty += 0.01;
-    // Handle wrapping
-    this.handleWrapping();
-  }
-  // handleWrapping
-  //
-  // Checks if the prey has gone off the canvas and
-  // wraps it to the other side if so
-  handleWrapping() {
-    // Off the left or right
-    if (this.x < 0) {
-      this.x += this.width;
-    } else if (this.x > this.width) {
-      this.x -= this.width;
-    }
-    // Off the top or bottom
-    if (this.y < 0) {
-      this.y += this.height;
-    } else if (this.y > window.height) {
-      this.y -= this.height;
-    }
-  }
 
-}
+    //Track distance between player and subflamingo. If the distance is deemed to small, the flamingo moves away from player.
+    this.d = dist(this.x, this.y, playerX, playerY);
+    if (this.d > 30) {
+      if (playerX - this.x > 0) {
+        this.xDifference = playerX - this.x;
+        this.yDifference = playerY - this.y;
+        if (this.xDifference > 0) {
+          this.x -= this.vx;
+        } else {
+          this.x += this.vx;
+        }
+        if (this.yDifference > 0) {
+          this.y -= this.vy;
+        } else {
+          this.y += this.vy;
+        }
+      }
+    }
+      // Set velocity via noise()
+      this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
+      this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
+
+      // Update time properties
+      this.tx += 0.01;
+      this.ty += 0.01;
+      // Handle wrapping
+      this.handleWrapping();
+    }
+    // handleWrapping
+    //
+    // Checks if the prey has gone off the canvas and
+    // wraps it to the other side if so
+    handleWrapping() {
+      // Off the left or right
+      if (this.x < 0) {
+        this.x += this.width;
+      } else if (this.x > this.width) {
+        this.x -= this.width;
+      }
+      // Off the top or bottom
+      if (this.y < 0) {
+        this.y += this.height;
+      } else if (this.y > window.height) {
+        this.y -= this.height;
+      }
+    }
+
+  }

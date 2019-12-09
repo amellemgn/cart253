@@ -20,43 +20,33 @@ class Planet {
   }
   //triggerAnimation
   //
-  //cycle through array images
+  //Trigger condition to cycle through images in draw()
   triggerAnimation() {
     this.playGif = true;
-
-    // spaceGif.play();
   }
-
   // draw
   //
-  // check where the player is. if it's the correct landstate, display image
+  // check where the player is. if it's the correct landstate, display image. If condition has been triggered, cycle through array images to create  a GIF
   draw(landState) {
     if (landState != this.landState) {
       return;
     }
-    // if(flamingoObject.killSwitch === true){
-    //   return;
-    // }
     if (this.playGif === true) // this needs to switch back eventually
     {
       if (this.currentArrayIndex < this.spaceArray.length - 1) {
         this.currentArrayIndex += 1;
       }
-
     }
+    //Also create oscillation effect
     this.currentArrayImage = this.spaceArray[this.currentArrayIndex];
     this.growth = sin(this.angle)*(this.radius/8);
-
     image(this.currentArrayImage, this.x, this.y, this.width + this.growth, this.height);
     this.angle += 0.01;
-    // image(spaceGif, this.x-20, this.y-20);
-    // this.gif.position(this.x -20, this.y -20);
-    //  this.gif.pause();
   }
   // checkDistance
   //
   //exit function if not in correct landstate. Otherwise, if player is close enough to planet, clicking the correct key will
-  // trigger animation and play a sound
+  // trigger condition that triggers animation and play a sound
   checkDistance(playerX, playerY, playerWidth) {
     if (landState != this.landState) {
       return;
@@ -70,5 +60,4 @@ class Planet {
       }
     }
   }
-
 }

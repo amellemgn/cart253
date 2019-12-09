@@ -60,12 +60,10 @@ class Character extends Planet {
       this.y -= height;
     }
   }
-  //Change textspeech when player gets close
-  checkTextSpeech(playerX, playerY, playerWidth, textSpeech) {
+  //Change textspeech when player gets close and play sound
+  checkTextSpeech(playerX, playerY, playerWidth) {
     this.d = dist(playerX, playerY, this.x, this.y);
     if (this.d < playerWidth + this.width) {
-      console.log("ok to change text speech");
-      console.log(textSpeech, this.textSpeech);
       textSpeech = this.textSpeech;
       messageSound.amp(0.3);
       messageSound.playMode('untilDone');

@@ -2,7 +2,7 @@
 //
 // The player commands Star objects by clicking. If the star connects with a planet object, it can revive a 'dead' planet.
 class Star {
-  constructor(x, y ) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
   }

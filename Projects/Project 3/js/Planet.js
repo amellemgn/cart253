@@ -16,7 +16,7 @@ class Planet {
 
     this.height = this.currentArrayImage.height;
     this.angle = 0;
-    this.radius = this.width /2;
+    this.radius = this.width / 2;
   }
   //triggerAnimation
   //
@@ -39,7 +39,7 @@ class Planet {
     }
     //Also create oscillation effect
     this.currentArrayImage = this.spaceArray[this.currentArrayIndex];
-    this.growth = sin(this.angle)*(this.radius/8);
+    this.growth = sin(this.angle) * (this.radius / 8);
     image(this.currentArrayImage, this.x, this.y, this.width + this.growth, this.height);
     this.angle += 0.01;
   }

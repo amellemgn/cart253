@@ -162,7 +162,7 @@ function resourceSetup() {
   flamingoTopImage = loadImage("assets/images/flamingotop.png");
   flamingoMidImage = loadImage("assets/images/flamingomedium.png");
   subFlamingoImageLeft = loadImage("assets/images/subflamingoleft.png");
-  subFlamingoImageRight =loadImage("assets/images/subflamingoright.png");
+  subFlamingoImageRight = loadImage("assets/images/subflamingoright.png");
 
   //Other sounds
   backgroundSound = loadSound("assets/sounds/shortAmbiance.wav");
@@ -182,7 +182,7 @@ function setup() {
   callClassObjects();
   //Set star class object's image offscreen so it won't be constantly visible.
   starGif_createImg0.position(-500, -500);
-//Set tropical sound (appears in latter half of game) to certain volume / loop
+  //Set tropical sound (appears in latter half of game) to certain volume / loop
   tropicalSound.loop();
   tropicalSound.amp(0);
 }
@@ -213,7 +213,7 @@ function draw() {
     handleInput();
     move();
     displayPlayer();
-  // Check which part of the game the player is in  (landstates 0-8) and call functions that display related elements accordingly
+    // Check which part of the game the player is in  (landstates 0-8) and call functions that display related elements accordingly
     if (landState === 0) {
       landState0Display();
     }
@@ -260,7 +260,7 @@ function draw() {
     for (let i = 0; i < subflamingoArray.length; i++) {
       subflamingoArray[i].move(playerX, playerY);
       subflamingoArray[i].handleWrapping();
-      subflamingoArray[i].draw(landState,flamingoObject);
+      subflamingoArray[i].draw(landState, flamingoObject);
     }
     starObject.draw();
     flamingoObject.draw(landState);
@@ -270,7 +270,7 @@ function draw() {
     if (secondDogAppear == true) {
       image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
     }
-  // End game if enter key is pressed
+    // End game if enter key is pressed
     if (keyIsDown(ENTER)) {
       console.log("pressed");
       gameState = 2;
@@ -454,8 +454,7 @@ function movePlayerThroughLandscape() {
 //landState0Display
 //
 //This displays game objects in the first landstate that arent loaded through Planet class
-function landState0Display() {
-}
+function landState0Display() {}
 
 //landState1Display
 //
@@ -475,8 +474,7 @@ function landState1Display() {
 //landState2Display
 //
 //This displays game objects in the third landstate that arent loaded through Planet class
-function landState2Display() {
-}
+function landState2Display() {}
 //Display 4th landstate
 function landState3Display() {
 
@@ -507,7 +505,7 @@ function landState6Display() {
 
 function landState7Display() {
 
-//Map volume increase to player's vertical movement
+  //Map volume increase to player's vertical movement
   let volume2 = map(playerY, height, 0, 0, 1);
   volume2 = constrain(volume2, 0.6, 0.9);
   tropicalSound.amp(volume2);
@@ -516,7 +514,7 @@ function landState7Display() {
 }
 
 function landState8Display() {
-//Display sound at its maximum
+  //Display sound at its maximum
   tropicalSound.amp(1);
 }
 //callClassObjects
@@ -529,7 +527,7 @@ function callClassObjects() {
   let planetObject4 = new Planet(500, 200, planet3Array, 3, eatSound);
   let planetObject5 = new Planet(600, 200, planet3Array, 3, eatSound);
   let planetObject6 = new Planet(600, 200, planet2Array, 4, eatSound);
-  let planetObject7 = new Planet (400, 500, planet2Array, 4, eatSound);
+  let planetObject7 = new Planet(400, 500, planet2Array, 4, eatSound);
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject4);
@@ -569,7 +567,7 @@ function callClassObjects() {
   subflamingoObject6 = new Subflamingo(300, 300, subFlamingoImageLeft, 5, 4);
   subflamingoObject7 = new Subflamingo(400, 230, subFlamingoImageLeft, 6, 4);
   subflamingoObject8 = new Subflamingo(500, 450, subFlamingoImageLeft, 6, 4);
-  subflamingoObject9= new Subflamingo(600, 350, subFlamingoImageRight, 6, 4);
+  subflamingoObject9 = new Subflamingo(600, 350, subFlamingoImageRight, 6, 4);
   subflamingoObject10 = new Subflamingo(700, 320, subFlamingoImageRight, 6, 4);
   subflamingoObject11 = new Subflamingo(300, 300, subFlamingoImageLeft, 6, 4);
   subflamingoObject12 = new Subflamingo(400, 230, subFlamingoImageLeft, 6, 4);
@@ -579,7 +577,7 @@ function callClassObjects() {
   subflamingoObject16 = new Subflamingo(300, 300, subFlamingoImageLeft, 6, 4);
   subflamingoObject17 = new Subflamingo(400, 230, subFlamingoImageLeft, 7, 4);
   subflamingoObject18 = new Subflamingo(500, 450, subFlamingoImageLeft, 7, 4);
-  subflamingoObject19= new Subflamingo(600, 350, subFlamingoImageRight, 7, 4);
+  subflamingoObject19 = new Subflamingo(600, 350, subFlamingoImageRight, 7, 4);
   subflamingoObject20 = new Subflamingo(700, 320, subFlamingoImageRight, 7, 4);
   subflamingoArray.push(subflamingoObject1);
   subflamingoArray.push(subflamingoObject2);
@@ -648,7 +646,7 @@ function mousePressed() {
   if (gameState === 1) {
     starObject = new Star(mouseX, mouseY);
   }
-//If game has ended, restart game so reload some values.
+  //If game has ended, restart game so reload some values.
   if (gameState === 2) {
     menuImageIndex = 0;
     menuArrayIndex = 0;

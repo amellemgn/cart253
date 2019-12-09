@@ -37,7 +37,7 @@ let playerX = 200;
 let playerY = 500;
 let playerVX = 0;
 let playerVY = 0;
-let playerSpeed = 10;
+let playerSpeed = 4;
 let planet1Image;
 let planet1Array = [];
 let planet2Array = [];
@@ -479,16 +479,14 @@ function landState2Display() {
 }
 //Display 4th landstate
 function landState3Display() {
-  textSpeech = "landstate3";
+
 }
 //Display 5th landstate
 function landState4Display() {
-  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
-  textSpeech = "landstate4";
+
 }
 //Display 6th landstate
 function landState5Display() {
-  textSpeech = "landstate5";
   //Map volume increase to player's vertical movement
   let volume = map(playerY, height, 0, 0, 1);
   volume = constrain(volume, 0, 0.3);
@@ -498,7 +496,7 @@ function landState5Display() {
 }
 //Display 7th landstate
 function landState6Display() {
-  textSpeech = "landstate6";
+
   //Map volume increase to player's vertical movement
   let volume1 = map(playerY, height, 0, 0, 1);
   volume1 = constrain(volume1, 0.3, 0.6);
@@ -508,7 +506,6 @@ function landState6Display() {
 }
 
 function landState7Display() {
-  textSpeech = "landstate7";
 
 //Map volume increase to player's vertical movement
   let volume2 = map(playerY, height, 0, 0, 1);
@@ -519,7 +516,6 @@ function landState7Display() {
 }
 
 function landState8Display() {
-  textSpeech = "landstate8";
 //Display sound at its maximum
   tropicalSound.amp(1);
 }
@@ -533,7 +529,7 @@ function callClassObjects() {
   let planetObject4 = new Planet(500, 200, planet3Array, 3, eatSound);
   let planetObject5 = new Planet(600, 200, planet3Array, 3, eatSound);
   let planetObject6 = new Planet(600, 200, planet2Array, 4, eatSound);
-  let planetObject7 = new Planet (600, 300, planet2Array, 4, eatSound);
+  let planetObject7 = new Planet (400, 500, planet2Array, 4, eatSound);
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject4);
@@ -565,41 +561,41 @@ function callClassObjects() {
   charactersArray.push(characterObject9);
   charactersArray.push(characterObject10);
 
-  subflamingoObject1 = new Subflamingo(300, 300, subFlamingoImageLeft, 5, 4);
-  subflamingoObject2 = new Subflamingo(400, 230, subFlamingoImageLeft, 5, 4);
-  subflamingoObject3 = new Subflamingo(500, 450, subFlamingoImageLeft, 5, 4);
+  subflamingoObject1 = new Subflamingo(300, 300, subFlamingoImageLeft, 5, 1);
+  subflamingoObject2 = new Subflamingo(400, 230, subFlamingoImageLeft, 5, 1);
+  subflamingoObject3 = new Subflamingo(500, 450, subFlamingoImageLeft, 5, 1);
   subflamingoObject4 = new Subflamingo(600, 350, subFlamingoImageRight, 5, 4);
   subflamingoObject5 = new Subflamingo(700, 320, subFlamingoImageRight, 5, 4);
   subflamingoObject6 = new Subflamingo(300, 300, subFlamingoImageLeft, 5, 4);
-  subflamingoObject7 = new Subflamingo(400, 230, subFlamingoImageLeft, 5, 4);
-  subflamingoObject8 = new Subflamingo(500, 450, subFlamingoImageLeft, 5, 4);
-  subflamingoObject9= new Subflamingo(600, 350, subFlamingoImageRight, 5, 4);
-  subflamingoObject10 = new Subflamingo(700, 320, subFlamingoImageRight, 5, 4);
-  // subflamingoObject11 = new Subflamingo(300, 300, subFlamingoImageLeft, 7, 4);
-  // subflamingoObject12 = new Subflamingo(400, 230, subFlamingoImageLeft, 7, 4);
-  // subflamingoObject13 = new Subflamingo(500, 450, subFlamingoImageLeft, 7, 4);
-  // subflamingoObject14 = new Subflamingo(600, 350, subFlamingoImageRight, 7, 4);
-  // subflamingoObject15 = new Subflamingo(700, 320, subFlamingoImageRight, 7, 4);
-  // subflamingoObject16 = new Subflamingo(300, 300, subFlamingoImageLeft, 7, 4);
-  // subflamingoObject17 = new Subflamingo(400, 230, subFlamingoImageLeft, 7, 4);
-  // subflamingoObject18 = new Subflamingo(500, 450, subFlamingoImageLeft, 7, 4);
-  // subflamingoObject19= new Subflamingo(600, 350, subFlamingoImageRight, 7, 4);
-  // subflamingoObject20 = new Subflamingo(700, 320, subFlamingoImageRight, 7, 4);
+  subflamingoObject7 = new Subflamingo(400, 230, subFlamingoImageLeft, 6, 4);
+  subflamingoObject8 = new Subflamingo(500, 450, subFlamingoImageLeft, 6, 4);
+  subflamingoObject9= new Subflamingo(600, 350, subFlamingoImageRight, 6, 4);
+  subflamingoObject10 = new Subflamingo(700, 320, subFlamingoImageRight, 6, 4);
+  subflamingoObject11 = new Subflamingo(300, 300, subFlamingoImageLeft, 6, 4);
+  subflamingoObject12 = new Subflamingo(400, 230, subFlamingoImageLeft, 6, 4);
+  subflamingoObject13 = new Subflamingo(500, 450, subFlamingoImageLeft, 7, 4);
+  subflamingoObject14 = new Subflamingo(600, 350, subFlamingoImageRight, 6, 4);
+  subflamingoObject15 = new Subflamingo(700, 320, subFlamingoImageRight, 7, 4);
+  subflamingoObject16 = new Subflamingo(300, 300, subFlamingoImageLeft, 6, 4);
+  subflamingoObject17 = new Subflamingo(400, 230, subFlamingoImageLeft, 7, 4);
+  subflamingoObject18 = new Subflamingo(500, 450, subFlamingoImageLeft, 7, 4);
+  subflamingoObject19= new Subflamingo(600, 350, subFlamingoImageRight, 7, 4);
+  subflamingoObject20 = new Subflamingo(700, 320, subFlamingoImageRight, 7, 4);
   subflamingoArray.push(subflamingoObject1);
   subflamingoArray.push(subflamingoObject2);
   subflamingoArray.push(subflamingoObject3);
   subflamingoArray.push(subflamingoObject4);
   subflamingoArray.push(subflamingoObject5);
-  // subflamingoArray.push(subflamingoObject6);
-  // subflamingoArray.push(subflamingoObject7);
-  // subflamingoArray.push(subflamingoObject8);
-  // subflamingoArray.push(subflamingoObject9);
-  // subflamingoArray.push(subflamingoObject10);
-  // subflamingoArray.push(subflamingoObject11);
-  // subflamingoArray.push(subflamingoObject12);
-  // subflamingoArray.push(subflamingoObject13);
-  // subflamingoArray.push(subflamingoObject14);
-  // subflamingoArray.push(subflamingoObject15);
+  subflamingoArray.push(subflamingoObject6);
+  subflamingoArray.push(subflamingoObject7);
+  subflamingoArray.push(subflamingoObject8);
+  subflamingoArray.push(subflamingoObject9);
+  subflamingoArray.push(subflamingoObject10);
+  subflamingoArray.push(subflamingoObject11);
+  subflamingoArray.push(subflamingoObject12);
+  subflamingoArray.push(subflamingoObject13);
+  subflamingoArray.push(subflamingoObject14);
+  subflamingoArray.push(subflamingoObject15);
 
 }
 //displayPlayer

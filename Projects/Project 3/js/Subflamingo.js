@@ -16,7 +16,7 @@ class Subflamingo {
     this.speed = speed;
 
     this.tx = random(0, 1000);
-    this.tx = random(0, 1000);
+    this.ty = random(0, 1000);
 
     this.angle = 0;
     this.radius = this.width / 2;
@@ -43,50 +43,45 @@ class Subflamingo {
   move(playerX, playerY) {
 
     //Track distance between player and subflamingo. If the distance is deemed to small, the flamingo moves away from player.
+    // Set velocity via noise()
+    this.vx = map(noise(this.tx), 0, 1, 0, this.speed);
+    this.vy = map(noise(this.ty), 0, 1, 0, this.speed);
+
+    // Update time properties
+    this.tx += 0.01;
+    this.ty += 0.01;
     this.d = dist(this.x, this.y, playerX, playerY);
-    if (this.d > 30) {
-      if (playerX - this.x > 0) {
-        this.xDifference = playerX - this.x;
-        this.yDifference = playerY - this.y;
-        if (this.xDifference > 0) {
-          this.x -= this.vx;
-        } else {
-          this.x += this.vx;
-        }
-        if (this.yDifference > 0) {
-          this.y -= this.vy;
-        } else {
-          this.y += this.vy;
-        }
-      }
+    // Subflamingos 'avoid' player. VX and VY reverse based on player location.
+    this.xDifference = playerX - this.x;
+    this.yDifference = playerY - this.y;
+    if (this.xDifference > 0) {
+      this.vx = this.vx * -1;
     }
-      // Set velocity via noise()
-      this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
-      this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
-
-      // Update time properties
-      this.tx += 0.01;
-      this.ty += 0.01;
-      // Handle wrapping
-      this.handleWrapping();
+    if (this.yDifference > 0) {
+      this.vy = this.vy * -1;
     }
-    // handleWrapping
-    //
-    // Checks if the prey has gone off the canvas and
-    // wraps it to the other side if so
-    handleWrapping() {
-      // Off the left or right
-      if (this.x < 0) {
-        this.x += this.width;
-      } else if (this.x > this.width) {
-        this.x -= this.width;
-      }
-      // Off the top or bottom
-      if (this.y < 0) {
-        this.y += this.height;
-      } else if (this.y > window.height) {
-        this.y -= this.height;
-      }
-    }
-
+    this.x += this.vx;
+    this.y += this.vy;
+    // Handle wrapping
+    this.handleWrapping();
   }
+  // handleWrapping
+  //
+  // Checks if the prey has gone off the canvas and
+  // wraps it to the other side if so
+  handleWrapping() {
+    // Off the left or right
+    if (this.x < 0) {
+      this.x += this.width;
+    } else if (this.x > this.width) {
+      this.x -= this.width;
+    }
+    // Off the top or bottom
+    if (this.y < 0) {
+      this.y += this.height;
+    } else if (this.y > window.height) {
+      this.y -= this.height;
+    }
+  }
+
+}

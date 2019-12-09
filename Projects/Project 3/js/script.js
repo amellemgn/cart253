@@ -1,21 +1,15 @@
-/*sounds:
-https://freesound.org/people/Tristan_Lohengrin/sounds/340485/
+/* All sounds from freesound.org, including:
 https://freesound.org/people/Jagadamba/sounds/254282/
 https://freesound.org/people/HaraldDeLuca/sounds/170220/
 https://freesound.org/people/reznik_Krkovicka/sounds/324277/
-https://freesound.org/people/Lutana/sounds/347749/
-https://freesound.org/people/gellski/sounds/288878/
-https://freesound.org/people/kwahmah_02/sounds/254250
-https://freesound.org/people/breo2012/sounds/269099/
-https://freesound.org/people/bareform/sounds/218721/
-https://freesound.org/people/metamorphmuses/sounds/38709/
-
-https://leafla.co.vu/post/76140860039/totallytransparent-transparent-space-gif-made
-https://gfycat.com/fr/quarterlyterrificannashummingbird
-https://giphy.com/stickers/galaxy-space-gif-j5QUSpXVuwtr2
 https://freesound.org/people/imasoundingboard/sounds/263166/
 */
-//Declare game variables
+// "You are very hungry" is Amelle Margaron's final submission for CART253. In this game, the player roams through
+// space and can eat different objects or interact with others. This project is inspired by sidescroller movement and wanting
+// to learn the tricks of working with GIFs and array animation in P5.
+
+
+// Declare all game variables. Includes sound and image objects, game states, player position and movement elements...
 let history = [];
 let player;
 let playerImage;
@@ -30,8 +24,6 @@ let planetY = 0;
 let planetWidth = 300;
 let planetHeight = 300;
 let backgroundImage;
-let textBoxImage;
-let testImage;
 let menuImage1;
 let menuImage2;
 let menuImage3;
@@ -57,8 +49,6 @@ let planet2;
 let planet2Image;
 let planet3;
 let planet3Image;
-
-//Declare game states and land states to transition between landscapes or menus/game
 let gameState = 0;
 let landState = 0;
 let dog;
@@ -83,147 +73,118 @@ let currentPlanetsArrayIndex = 0;
 let menWidth = 100;
 let starGif_loadImg;
 let starGif_createImg;
-
 let myGif;
-
 let gifArray = [];
 let gifArrayCount = 1;
-
-let spaceGif;
-let crumbsImage;
 let flamingoTopImage;
 let flamingoMidImage;
 let tropicalSound;
 let starObject;
 let flamingoObject;
-
 let charactersArray = [];
-
-let characterObject1;
-let characterObject2;
-let characterObject3;
-
 let playerObject;
-
 let menArray = [];
 let messageSound;
 let subFlamingoImage;
-
 let subflamingoArray = [];
+
 //preload
 //
 //Loads linked resources.
 function preload() {
+  //Calls function to set up resources
   resourceSetup();
   // // Call .playmode function which prevents this sound from being played until before it's playtime has elapsed
   // // ie. my sound was really slowing down my project and this prevents calling my sound 5million times/minute
   walkSound.playMode('untilDone');
 }
-//setup
-//
-// Make canvas, create game objects
-function setup() {
-  createCanvas(1300, 750);
-  callClassObjects();
-  starGif_createImg0.position(-500, -500);
-  starGif_createImg1.position(-500, -500);
-  starGif_createImg2.position(-500, -500);
-  starGif_createImg3.position(-500, -500);
-  starGif_createImg4.position(-500, -500);
 
-  tropicalSound.loop();
-  tropicalSound.amp(0);
-}
 //resourceSetup
 //
-// Load all linkd resources and load them into arrays if needed
-// There are so many images and it is terrible and I need to figure out how to load them through the form of GIFS
+// Load all linked resources and load them into arrays if needed
 function resourceSetup() {
-  //  starGif_loadImg = loadImage("assets/images/starGif.gif");
+  // for Star class
   starGif_createImg0 = createImg("assets/images/star.gif");
-  starGif_createImg1 = createImg("assets/images/star.gif");
-  starGif_createImg2 = createImg("assets/images/star.gif");
-  starGif_createImg3 = createImg("assets/images/star.gif");
-  starGif_createImg4 = createImg("assets/images/star.gif");
-
-  spaceGif = loadImage("assets/images/spacegif.gif");
-
-  // for (let i = 0; i < 5; i++){
-  //console.log("starGif_createImg"+i)
   gifArray.push(starGif_createImg0);
-  gifArray.push(starGif_createImg1);
-  gifArray.push(starGif_createImg2);
-  gifArray.push(starGif_createImg3);
-  gifArray.push(starGif_createImg4);
-
-  //console.log(gifArray[0])
-  //console.log("ok");
-  //  }
-  // array that holds animated gifs.... create image variables and push to array
-  myGif = loadImage("assets/images/galaxygif.gif");
-
+  //Player images and default
   playerRight1 = loadImage("assets/images/rightman.png");
   playerLeft1 = loadImage("assets/images/leftman.png");
   playerImage = playerRight1;
-
+  //Background
   backgroundImage = loadImage("assets/images/newbackground.png");
-
+  //Special font
   pixelFont = loadFont("assets/fonts/vt323.ttf");
-
+  //Menu + endscreen
   menuImage1 = loadImage("assets/images/newmenu1.png");
   menuImage2 = loadImage("assets/images/newmenu2.png");
   menuImageArray.push(menuImage1);
   menuImageArray.push(menuImage2);
-
   endscreenImage = loadImage("assets/images/endscreen.png");
 
-
-  for (let i =1; i<= 16; i++){
+  // Planet1
+  for (let i = 1; i <= 16; i++) {
     let planet1path = "assets/images/saturn/saturn" + i + ".png";
     let planet1image = loadImage(planet1path);
     planet1Array.push(planet1image);
   }
-
-  for (let i = 1; i <= 11; i++){
+  //Planet 2
+  for (let i = 1; i <= 11; i++) {
     let planet2Path = "assets/images/eyeball/eyeball" + i + ".png";
     let planet2Image = loadImage(planet2Path);
     planet2Array.push(planet2Image);
   }
-
-for (let i=1; i <= 13; i++){
-  let planet3path = "assets/images/many/many" + i + ".png";
-  let planet3Image = loadImage(planet3path);
-  planet3Array.push(planet3Image);
-}
-
-for (let i = 0; i <=6; i++){
-  let flamingoPath = "assets/images/flamingo/flamingotop" + i + ".png";
-  let flamingoImage = loadImage(flamingoPath);
-  flamingoArray.push(flamingoImage);
-}
-
-for(let i = 1; i<= 7; i++){
-  let menPath = "assets/images/men/men" + i + ".png";
-  let menImage = loadImage(menPath);
-  menArray.push(menImage);
-}
+  //Planet 3
+  for (let i = 1; i <= 13; i++) {
+    let planet3path = "assets/images/many/many" + i + ".png";
+    let planet3Image = loadImage(planet3path);
+    planet3Array.push(planet3Image);
+  }
+  //Flamingo 'planet'
+  for (let i = 0; i <= 6; i++) {
+    let flamingoPath = "assets/images/flamingo/flamingotop" + i + ".png";
+    let flamingoImage = loadImage(flamingoPath);
+    flamingoArray.push(flamingoImage);
+  }
+  // Little floating men
+  for (let i = 1; i <= 7; i++) {
+    let menPath = "assets/images/men/men" + i + ".png";
+    let menImage = loadImage(menPath);
+    menArray.push(menImage);
+  }
   // planet2Image = loadImage("assets/images/eyeball/eyeball.png");
+
+  //Other images
   planet3Image = loadImage("assets/images/eyeball/eyeball.png");
   dogImage = loadImage("assets/images/littledog.png");
   menImage = loadImage("assets/images/dudes.png");
   flamingoImage = loadImage("assets/images/flamingo.png");
-  backgroundSound = loadSound("assets/sounds/shortAmbiance.wav");
-  eatSound = loadSound("assets/sounds/applecrunch.wav");
-  walkSound = loadSound("assets/sounds/deepbass.wav");
-  textSound = loadSound("assets/sounds/electrobass.wav");
-  crumbs = loadImage("assets/images/crumbs.png");
   flamingoTopImage = loadImage("assets/images/flamingotop.png");
   flamingoMidImage = loadImage("assets/images/flamingomedium.png");
   subFlamingoImage = loadImage("assets/images/subflamingo.png");
 
+  //Other sounds
+  backgroundSound = loadSound("assets/sounds/shortAmbiance.wav");
+  eatSound = loadSound("assets/sounds/applecrunch.wav");
+  walkSound = loadSound("assets/sounds/deepbass.wav");
+  textSound = loadSound("assets/sounds/electrobass.wav");
   tropicalSound = loadSound("assets/sounds/tropical.wav");
   messageSound = loadSound("assets/sounds/shortelectronic.wav");
 }
+
+//setup
+//
+// Make canvas, create game objects
+function setup() {
+  //Create canvas
+  createCanvas(1300, 750);
+  callClassObjects();
+  //Set star class object's image offscreen so it won't be constantly visible.
+  starGif_createImg0.position(-500, -500);
+//Set tropical sound (appears in latter half of game) to certain volume / loop
+  tropicalSound.loop();
+  tropicalSound.amp(0);
+}
+
 //draw
 //
 // Loads all functions that need to be called every frame
@@ -232,31 +193,26 @@ function draw() {
 
   // If game hasn't started, display menu, which the player can cycle through (through an array) with mousePressed()
   if (gameState == 0) {
-
     currentMenuImage = menuImageArray[menuArrayIndex];
     image(currentMenuImage, 0, 0, 1300, 750);
 
-    //  imageMode(CENTER);
-
-    //Set Gif to pause so it doesn't play on its own
-    // myGif.pause();
-    // imageMode(CENTER);
-    // image(myGif, width / 2, height / 2);
-
   }
-  //If game has started, create bckgroud, text box, call relevant functions which include moving player, handling player input
+  //If game has started, call all game related methods and elements
   if (gameState == 1) {
+    // Set backgroundImage
     background(backgroundImage);
+    // Set display properties of onscreen text
     fill(255);
     textSize(15);
     fill(255);
     textAlign(LEFT, CENTER);
     textFont(pixelFont);
     text(textSpeech, 50, 650);
+    // Call player related methods
     handleInput();
     move();
     displayPlayer();
-    // HOW TO DO THIS?? RETURN CHECK FROM PLAYER?
+  // Check which part of the game the player is in  (landstates 0-8) and display related elements accordingly
     if (landState === 0) {
       landState0Display();
     }
@@ -278,13 +234,14 @@ function draw() {
     if (landState == 6) {
       landState6Display();
     }
-    if (landState == 7){
+    if (landState == 7) {
       landState7Display();
     }
-    if (landState == 8){
+    if (landState == 8) {
       landState8Display();
     }
-     movePlayerThroughLandscape();
+    // 
+    movePlayerThroughLandscape();
     if (secondDogAppear == true) {
       image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
     }
@@ -302,7 +259,7 @@ function draw() {
       charactersArray[i].checkTextSpeech(playerX, playerY, playerWidth, textSpeech);
     }
 
-    for (let i =0; i < subflamingoArray.length; i++){
+    for (let i = 0; i < subflamingoArray.length; i++) {
       subflamingoArray[i].draw(landState, flamingoObject);
       subflamingoArray[i].move();
       subflamingoArray[i].handleWrapping();
@@ -448,10 +405,10 @@ function movePlayerThroughLandscape() {
       landState = 0;
       playerX = 500;
       playerY = 700;
-    } else if(playerX < 0){
+    } else if (playerX < 0) {
       landState = 4;
       playerX = 500;
-      playerY= 700;
+      playerY = 700;
     }
     if (playerY < 0) {
       landState = 6;
@@ -464,8 +421,7 @@ function movePlayerThroughLandscape() {
       landState = 5;
       playerX = 500;
       playerY = 20;
-    }
-    else if(playerY < 0){
+    } else if (playerY < 0) {
       landState = 7;
       playerX = 500;
       playerY = 700;
@@ -476,8 +432,7 @@ function movePlayerThroughLandscape() {
       landState = 6;
       playerX = 500;
       playerY = 20;
-    }
-    else if(playerY < 0){
+    } else if (playerY < 0) {
       landState = 8;
       playerX = 300;
       playerY = 700;
@@ -491,16 +446,16 @@ function movePlayerThroughLandscape() {
     }
 
   }
-if ( landState ===0 || landState == 1 || landState == 2 || landState == 3 || landState == 4) {
-  playerY = constrain(playerY, 0, height-100);
-}
-
-if (landState == 6|| landState == 7 || landState == 8){
-  playerX = constrain(playerX, 0, width-75);
-  if(landState == 8){
-    playerY = constrain(playerY, -70, height);
+  if (landState === 0 || landState == 1 || landState == 2 || landState == 3 || landState == 4) {
+    playerY = constrain(playerY, 0, height - 100);
   }
-}
+
+  if (landState == 6 || landState == 7 || landState == 8) {
+    playerX = constrain(playerX, 0, width - 75);
+    if (landState == 8) {
+      playerY = constrain(playerY, -70, height);
+    }
+  }
 }
 
 //landState0Display
@@ -547,7 +502,7 @@ function landState2Display() {
 }
 
 function landState3Display() {
-textSpeech = "landstate3";
+  textSpeech = "landstate3";
 }
 
 function landState4Display() {
@@ -555,6 +510,7 @@ function landState4Display() {
   textSpeech = "landstate4";
 
 }
+
 function landState5Display() {
   textSpeech = "landstate5";
   let volume = map(playerY, height, 0, 0, 1); // map playerY's distance from top to a range from 5-10
@@ -562,13 +518,15 @@ function landState5Display() {
   tropicalSound.amp(volume);
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
+
 function landState6Display() {
   textSpeech = "landstate6";
   let volume1 = map(playerY, height, 0, 0, 1);
   volume1 = constrain(volume1, 0.3, 0.6);
   tropicalSound.amp(volume1);
-image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
+  image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
+
 function landState7Display() {
   textSpeech = "landstate7";
 
@@ -579,6 +537,7 @@ function landState7Display() {
   tropicalSound.amp(volume2);
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
+
 function landState8Display() {
   textSpeech = "landstate8";
 
@@ -588,13 +547,13 @@ function landState8Display() {
 //
 //Create planet objects using constructor of Planet class and push them into an array
 function callClassObjects() {
-  playerObject = new Player (100, 50, 10, playerLeft1, playerRight1, eatSound);
+  playerObject = new Player(100, 50, 10, playerLeft1, playerRight1, eatSound);
 
-  let planetObject1 = new Planet(850, 50, planet2Array, spaceGif, 0, eatSound);
-  let planetObject2 = new Planet(850, 50, planet1Array,spaceGif, 1, eatSound);
-  let planetObject3 = new Planet(850, 50, planet1Array,spaceGif, 2, eatSound);
-  let planetObject4 = new Planet(500, 50, planet3Array, spaceGif, 0, eatSound);
-  let planetObject5 = new Planet(500, 50, planet3Array, spaceGif, 0, eatSound);
+  let planetObject1 = new Planet(850, 50, planet2Array, 0, eatSound);
+  let planetObject2 = new Planet(850, 50, planet1Array, 1, eatSound);
+  let planetObject3 = new Planet(850, 50, planet1Array, 2, eatSound);
+  let planetObject4 = new Planet(500, 50, planet3Array, 0, eatSound);
+  let planetObject5 = new Planet(500, 50, planet3Array, 0, eatSound);
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject3);
@@ -623,11 +582,11 @@ function callClassObjects() {
   charactersArray.push(characterObject9);
   charactersArray.push(characterObject10);
 
-  subflamingoObject1 = new Subflamingo(100,100, subFlamingoImage, 7, 4);
-  subflamingoObject2 = new Subflamingo(100,230, subFlamingoImage, 7, 4);
-  subflamingoObject3 = new Subflamingo(200,120, subFlamingoImage, 7, 4);
-  subflamingoObject4 = new Subflamingo(230,100, subFlamingoImage, 7, 4);
-  subflamingoObject5 = new Subflamingo(100,120, subFlamingoImage, 7, 4);
+  subflamingoObject1 = new Subflamingo(100, 100, subFlamingoImage, 7, 4);
+  subflamingoObject2 = new Subflamingo(100, 230, subFlamingoImage, 7, 4);
+  subflamingoObject3 = new Subflamingo(200, 120, subFlamingoImage, 7, 4);
+  subflamingoObject4 = new Subflamingo(230, 100, subFlamingoImage, 7, 4);
+  subflamingoObject5 = new Subflamingo(100, 120, subFlamingoImage, 7, 4);
 
   subflamingoArray.push(subflamingoObject1);
   subflamingoArray.push(subflamingoObject2);

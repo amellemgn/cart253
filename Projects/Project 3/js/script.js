@@ -42,15 +42,12 @@ let endscreenImage;
 let textSpeech = "YOU ARE VERY HUNGRY.";
 let pixelFont;
 let playerX = 200;
-let playerY = 130;
+let playerY = 500;
 let playerVX = 0;
 let playerVY = 0;
 let playerSpeed = 10;
-let planet1;
 let planet1Image;
 let planet1Array = [];
-let planet1ArrayIndex = 0;
-let currentP1ArrayImage;
 let planet2Array = [];
 let planet3Array = [];
 let flamingoArray = [];
@@ -58,12 +55,9 @@ let planet1Appear = true;
 let planet1Event = false;
 let planet2;
 let planet2Image;
-let planet2Appear = true;
-let planet2Event = false;
 let planet3;
 let planet3Image;
-let planet3Appear = true;
-let planet3Event = false;
+
 //Declare game states and land states to transition between landscapes or menus/game
 let gameState = 0;
 let landState = 0;
@@ -110,6 +104,9 @@ let characterObject2;
 let characterObject3;
 
 let playerObject;
+
+let menArray = [];
+let messageSound;
 //preload
 //
 //Loads linked resources.
@@ -201,6 +198,12 @@ for (let i = 0; i <=6; i++){
   let flamingoImage = loadImage(flamingoPath);
   flamingoArray.push(flamingoImage);
 }
+
+for(let i = 1; i<= 6; i++){
+  let menPath = "assets/images/men/men" + i + ".png";
+  let menImage = loadImage(menPath);
+  menArray.push(menImage);
+}
   // planet2Image = loadImage("assets/images/eyeball/eyeball.png");
   planet3Image = loadImage("assets/images/eyeball/eyeball.png");
   dogImage = loadImage("assets/images/littledog.png");
@@ -215,6 +218,7 @@ for (let i = 0; i <=6; i++){
   flamingoMidImage = loadImage("assets/images/flamingomedium.png");
 
   tropicalSound = loadSound("assets/sounds/tropical.wav");
+  messageSound = loadSound("assets/sounds/shortelectronic.wav");
 }
 //draw
 //
@@ -289,7 +293,9 @@ function draw() {
     for (let i = 0; i < charactersArray.length; i++) {
       charactersArray[i].move();
       charactersArray[i].draw(landState, flamingoObject);
+      charactersArray[i].handleWrapping();
       charactersArray[i].checkDistance(playerX, playerY, playerWidth);
+      charactersArray[i].checkTextSpeech(playerX, playerY, playerWidth, textSpeech);
     }
     starObject.draw();
     flamingoObject.draw(landState);
@@ -376,71 +382,71 @@ function movePlayerThroughLandscape() {
       landState = 1;
       // Setting coordinates to make it easier to see if this screen movement is working. may change in later prototype
       playerX = 25;
-      playerY = 300;
+      playerY = 7300;
     } else if (playerX < 0) {
       landState = 5;
-      playerX = 25;
-      playerY = 300;
+      playerX = 1300;
+      playerY = 700;
     }
   }
   if (landState === 1) {
     if (playerX >= width) {
       landState = 2;
       playerX = 25;
-      playerY = 300;
+      playerY = 700;
     } else if (playerX < 0) {
       landState = 0;
-      playerX = 25;
-      playerY = 300;
+      playerX = 1300;
+      playerY = 700;
     }
   }
   if (landState === 2) {
     if (playerX >= width) {
       landState = 3;
       playerX = 25;
-      playerY = 300;
+      playerY = 700;
     } else if (playerX < 0) {
       landState = 1;
-      playerX = 25;
-      playerY = 300;
+      playerX = 1300;
+      playerY = 700;
     }
   }
   if (landState === 3) {
     if (playerX >= width) {
       landState = 4;
       playerX = 25;
-      playerY = 300;
+      playerY = 700;
     } else if (playerX < 0) {
       landState = 2;
-      playerX = 25;
-      playerY = 300;
+      playerX = 1300;
+      playerY = 700;
     }
   }
   if (landState === 4) {
     if (playerX >= width) {
       landState = 5;
       playerX = 25;
-      playerY = 300;
+      playerY = 700;
     } else if (playerX < 0) {
       landState = 3;
-      playerX = 25;
-      playerY = 300;
+      playerX = 1300;
+      playerY = 700;
     }
   }
   if (landState === 5) {
     if (playerY >= width) {
       landState = 0;
       playerX = 500;
-      playerY = 20;
+      playerY = 700;
     } else if(playerX < 0){
       landState = 4;
-      playerX = 25;
-      playerY= 300;
+      playerX = 500;
+      playerY= 700;
     }
     if (playerY < 0) {
       landState = 6;
-      playerX = 25;
-      playerY = 300;
+      playerX = 500;
+      playerY = 700;
     }
   }
   if (landState === 6) {
@@ -451,8 +457,8 @@ function movePlayerThroughLandscape() {
     }
     else if(playerY < 0){
       landState = 7;
-      playerX = 25;
-      playerY = 300;
+      playerX = 500;
+      playerY = 700;
     }
   }
   if (landState === 7) {
@@ -463,16 +469,17 @@ function movePlayerThroughLandscape() {
     }
     else if(playerY < 0){
       landState = 8;
-      playerX = 25;
-      playerY = 300;
+      playerX = 300;
+      playerY = 700;
     }
   }
   if (landState === 8) {
     if (playerY >= height) {
       landState = 7;
       playerX = 500;
-      playerY = 20;
+      playerY = 700;
     }
+
   }
 if ( landState ===0 || landState == 1 || landState == 2 || landState == 3 || landState == 4) {
   playerY = constrain(playerY, 0, height-100);
@@ -480,6 +487,9 @@ if ( landState ===0 || landState == 1 || landState == 2 || landState == 3 || lan
 
 if (landState == 6|| landState == 7 || landState == 8){
   playerX = constrain(playerX, 0, width-75);
+  if(landState == 8){
+    playerY = constrain(playerY, -70, height);
+  }
 }
 }
 
@@ -511,14 +521,14 @@ function landState1Display() {
 //
 //This displays game objects in the third landstate that arent loaded through Planet class
 function landState2Display() {
-  // Create formula for sin oscillation based on radius
-  let growth2 = sin(angle) * (radius / 8);
-  // Display relevant NPC images
-  image(menImage, 600, 500, menWidth, 86 + growth2);
-  image(menImage, 650, 450, menWidth, 86 + growth2);
-  image(menImage, 550, 400, menWidth, 86 + growth2);
-  // Update angle every frame to create oscillation
-  angle += 0.05;
+  // // Create formula for sin oscillation based on radius
+  // let growth2 = sin(angle) * (radius / 8);
+  // // Display relevant NPC images
+  // image(menImage, 600, 500, menWidth, 86 + growth2);
+  // image(menImage, 650, 450, menWidth, 86 + growth2);
+  // image(menImage, 550, 400, menWidth, 86 + growth2);
+  // // Update angle every frame to create oscillation
+  // angle += 0.05;
   //Check player distance to NPC and if close enough display text
   let d = dist(playerX, playerY, 550, 500);
   if (d < playerWidth + menWidth) {
@@ -547,7 +557,7 @@ function landState6Display() {
   let volume1 = map(playerY, height, 0, 0, 1);
   volume1 = constrain(volume1, 0.3, 0.6);
   tropicalSound.amp(volume1);
-
+image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 function landState7Display() {
   textSpeech = "landstate7";
@@ -557,6 +567,7 @@ function landState7Display() {
   let volume2 = map(playerY, height, 0, 0, 1);
   volume2 = constrain(volume2, 0.6, 0.9);
   tropicalSound.amp(volume2);
+  image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 function landState8Display() {
   textSpeech = "landstate8";
@@ -569,23 +580,38 @@ function landState8Display() {
 function callClassObjects() {
   playerObject = new Player (100, 50, 10, playerLeft1, playerRight1, eatSound);
 
-  let planetObject1 = new Planet(850, 50, planet2Array, spaceGif, 0, eatSound, crumbsImage);
-  let planetObject2 = new Planet(850, 50, planet2Array, 1, eatSound, crumbsImage);
-  let planetObject3 = new Planet(850, 50, planet3Array, 2, eatSound, crumbsImage);
-  let planetObject4 = new Planet(850, 50, planet3Array, 3, eatSound, crumbsImage);
-  let planetObject5 = new Planet(850, 50, planet3Array, 4, eatSound, crumbsImage);
+  let planetObject1 = new Planet(850, 50, planet2Array, spaceGif, 0, eatSound);
+  let planetObject2 = new Planet(850, 50, planet1Array,spaceGif, 1, eatSound);
+  let planetObject3 = new Planet(850, 50, planet1Array,spaceGif, 2, eatSound);
+  let planetObject4 = new Planet(500, 50, planet3Array, spaceGif, 0, eatSound);
+  let planetObject5 = new Planet(500, 50, planet3Array, spaceGif, 0, eatSound);
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject3);
 
   flamingoObject = new Flamingo(300, 100, flamingoArray, 8, eatSound);
 
-  characterObject1 = new Character(200, 300, planet1Array, 0, eatSound, 4);
-  characterObject2 = new Character(300, 300, planet1Array, 0, eatSound, 6);
-  characterObject3 = new Character(350, 300, planet1Array, 0, eatSound, 8);
+  characterObject1 = new Character(200, 300, menArray, 0, messageSound, 1, "NONONONONNO");
+  characterObject2 = new Character(300, 300, menArray, 0, messageSound, 2, "GAH");
+  characterObject3 = new Character(350, 300, menArray, 0, messageSound, 0.2, "FAREWELL SWEET PRINCE");
+  characterObject4 = new Character(350, 300, menArray, 0, messageSound, 0.2, "FAREWELL SWEET PRINCE");
+  characterObject5 = new Character(600, 350, menArray, 2, messageSound, 0.2, "GAH");
+  characterObject6 = new Character(750, 300, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
+  characterObject7 = new Character(760, 305, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
+  characterObject8 = new Character(700, 350, menArray, 2, messageSound, 0.3, "GAH");
+  characterObject9 = new Character(650, 320, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
+  characterObject10 = new Character(620, 310, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
+  
   charactersArray.push(characterObject1);
   charactersArray.push(characterObject2);
   charactersArray.push(characterObject3);
+  charactersArray.push(characterObject4);
+  charactersArray.push(characterObject5);
+  charactersArray.push(characterObject6);
+  charactersArray.push(characterObject7);
+  charactersArray.push(characterObject8);
+  charactersArray.push(characterObject9);
+  charactersArray.push(characterObject10);
 
 }
 //displayPlayer
@@ -620,10 +646,6 @@ function checkDistanceDog() {
       secondDogAppear = true;
       return;
     }
-    // This is irrelevant but i'm keeping it here for reference
-    // if (keyIsDown(SHIFT)) {
-    //   triggerAnimationPlanet1();
-    // }
   }
 }
 
@@ -651,18 +673,6 @@ function mousePressed() {
   }
   // If game has started, player can basically 'print'  stars by clicking mouse
   if (gameState === 1) {
-    // if(gifArrayCount<4){
-    //   gifArrayCount++;
-    //
-    // }
-    // // else{
-    // //     gifArrayCount=0;
-    // // }
-    // //all this stuff would just be 'create star object'
-    // for (let i = 0; i < gifArrayCount; i++) {
-    //    console.log(i)
-    //     gifArray[i].position(mouseX, mouseY);
-    // }
 
     starObject = new Star(mouseX, mouseY);
   }

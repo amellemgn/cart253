@@ -3,7 +3,7 @@
 // Planet class creates planet objects that are defined by their array of images that can be triggered by player into an
 //animation
 class Planet {
-  constructor(x, y, spaceArray, gif, landState, eatSound, crumbs) {
+  constructor(x, y, spaceArray, gif, landState, eatSound) {
     this.x = x;
     this.y = y;
     this.spaceArray = spaceArray;
@@ -13,8 +13,11 @@ class Planet {
     this.landState = landState;
     this.eatSound = eatSound;
     this.gif = gif;
-    this.crumbs = crumbsImage;
     this.playGif = false;
+
+    this.height = this.currentArrayImage.height;
+    this.angle = 0;
+    this.radius = this.width /2;
   }
   //triggerAnimation
   //
@@ -43,7 +46,10 @@ class Planet {
 
     }
     this.currentArrayImage = this.spaceArray[this.currentArrayIndex];
-    image(this.currentArrayImage, this.x, this.y);
+    this.growth = sin(this.angle)*(this.radius/8);
+
+    image(this.currentArrayImage, this.x, this.y, this.width + this.growth, this.height);
+    this.angle += 0.05;
     // image(spaceGif, this.x-20, this.y-20);
     // this.gif.position(this.x -20, this.y -20);
     //  this.gif.pause();

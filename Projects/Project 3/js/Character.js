@@ -1,6 +1,6 @@
 class Character extends Planet{
-  constructor (x, y, array, landState, eatSound, speed){
-    super(x, y, array, landState, eatSound) // can i use these although they're titled diferently in the planet file?? do i have to declare them here
+  constructor (x, y, array, landState, messageSound, speed, textSpeech){
+    super(x, y, array, landState) // can i use these although they're titled diferently in the planet file?? do i have to declare them here
     this.x = x;
     this.y = y;
     // Velocity and speed
@@ -19,6 +19,7 @@ class Character extends Planet{
     // Sin properties for oscillation 'animation'
     this.angle = 0;
     this.radius = this.width/2;
+    this.textSpeech = "textSpeech";
   }
   // move
   //
@@ -56,6 +57,16 @@ class Character extends Planet{
       }
       else if (this.y > height) {
         this.y -= height;
+      }
+    }
+
+    checkTextSpeech(playerX, playerY, playerWidth, textSpeech){
+      this.d = dist(playerX, playerY, this.x, this.y);
+      if (this.d < playerWidth + this.width) {
+        textSpeech = this.textSpeech;
+        messageSound.amp(0.3);
+        messageSound.playMode('untilDone');
+        messageSound.play();
       }
     }
 }

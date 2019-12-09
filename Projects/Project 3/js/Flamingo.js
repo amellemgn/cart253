@@ -51,6 +51,7 @@ class Flamingo {
     if (this.d < playerWidth + this.width) {
 
       if (keyIsDown(SHIFT)) {
+        textSpeech = "END ME, YOU SMALL LITTLE FOOL";
         this.triggerAnimation();
       }
     }

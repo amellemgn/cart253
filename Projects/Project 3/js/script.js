@@ -462,7 +462,7 @@ function landState0Display() {
 //This displays game objects in the second landstate that arent loaded through Planet class
 function landState1Display() {
   //Set dog coordinate
-  dogX = 300;
+  dogX = 1000;
   dogY = 500;
   // Dog is present if this condition, which is true by default, is true. ie. Dog is present
   if (firstDogAppear === true) {
@@ -530,27 +530,29 @@ function callClassObjects() {
 
   let planetObject1 = new Planet(850, 50, planet2Array, 0, eatSound);
   let planetObject2 = new Planet(850, 50, planet1Array, 1, eatSound);
-  let planetObject3 = new Planet(850, 50, planet1Array, 2, eatSound);
-  let planetObject4 = new Planet(500, 50, planet3Array, 0, eatSound);
-  let planetObject5 = new Planet(500, 50, planet3Array, 0, eatSound);
+  let planetObject4 = new Planet(500, 200, planet3Array, 3, eatSound);
+  let planetObject5 = new Planet(600, 200, planet3Array, 3, eatSound);
+  let planetObject6 = new Planet(600, 200, planet2Array, 4, eatSound);
+  let planetObject7 = new Planet (600, 300, planet2Array, 4, eatSound);
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
-  planetsArray.push(planetObject3);
   planetsArray.push(planetObject4);
   planetsArray.push(planetObject5);
+  planetsArray.push(planetObject6);
+  planetsArray.push(planetObject7);
 
   flamingoObject = new Flamingo(300, 100, flamingoArray, 8, eatSound);
 
-  characterObject1 = new Character(200, 300, menArray, 0, messageSound, 1, "NONONONONNO");
-  characterObject2 = new Character(300, 300, menArray, 0, messageSound, 2, "GAH");
-  characterObject3 = new Character(350, 300, menArray, 0, messageSound, 0.2, "FAREWELL SWEET PRINCE");
-  characterObject4 = new Character(350, 300, menArray, 0, messageSound, 0.2, "FAREWELL SWEET PRINCE");
-  characterObject5 = new Character(600, 350, menArray, 2, messageSound, 0.2, "GAH");
-  characterObject6 = new Character(750, 300, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
-  characterObject7 = new Character(760, 305, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
-  characterObject8 = new Character(700, 350, menArray, 2, messageSound, 0.3, "GAH");
-  characterObject9 = new Character(650, 320, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
-  characterObject10 = new Character(620, 310, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
+  characterObject1 = new Character(200, 300, menArray, 0, messageSound, 1, "i have a family");
+  characterObject2 = new Character(300, 300, menArray, 0, messageSound, 2, "I ALSO HAVE A FAMILY");
+  characterObject3 = new Character(350, 300, menArray, 0, messageSound, 0.2, "NONONON");
+  characterObject4 = new Character(350, 300, menArray, 0, messageSound, 0.2, "NONONONONONONOONO");
+  characterObject5 = new Character(600, 350, menArray, 2, messageSound, 0.2, "do you have a family");
+  characterObject6 = new Character(750, 300, menArray, 2, messageSound, 0.2, "do you have a family?");
+  characterObject7 = new Character(760, 305, menArray, 2, messageSound, 0.2, "have pity?");
+  characterObject8 = new Character(700, 350, menArray, 2, messageSound, 0.3, "sweet prince good night");
+  characterObject9 = new Character(650, 320, menArray, 2, messageSound, 0.2, "good night swee prince");
+  characterObject10 = new Character(620, 310, menArray, 2, messageSound, 0.2, "nooooooo");
 
   charactersArray.push(characterObject1);
   charactersArray.push(characterObject2);
@@ -563,17 +565,41 @@ function callClassObjects() {
   charactersArray.push(characterObject9);
   charactersArray.push(characterObject10);
 
-  subflamingoObject1 = new Subflamingo(100, 100, subFlamingoImageLeft, 5, 4);
-  subflamingoObject2 = new Subflamingo(100, 230, subFlamingoImageLeft, 5, 4);
-  subflamingoObject3 = new Subflamingo(200, 120, subFlamingoImageLeft, 5, 4);
-  subflamingoObject4 = new Subflamingo(230, 100, subFlamingoImageRight, 5, 4);
-  subflamingoObject5 = new Subflamingo(100, 120, subFlamingoImageRight, 5, 4);
-
+  subflamingoObject1 = new Subflamingo(300, 300, subFlamingoImageLeft, 5, 4);
+  subflamingoObject2 = new Subflamingo(400, 230, subFlamingoImageLeft, 5, 4);
+  subflamingoObject3 = new Subflamingo(500, 450, subFlamingoImageLeft, 5, 4);
+  subflamingoObject4 = new Subflamingo(600, 350, subFlamingoImageRight, 5, 4);
+  subflamingoObject5 = new Subflamingo(700, 320, subFlamingoImageRight, 5, 4);
+  subflamingoObject6 = new Subflamingo(300, 300, subFlamingoImageLeft, 5, 4);
+  subflamingoObject7 = new Subflamingo(400, 230, subFlamingoImageLeft, 5, 4);
+  subflamingoObject8 = new Subflamingo(500, 450, subFlamingoImageLeft, 5, 4);
+  subflamingoObject9= new Subflamingo(600, 350, subFlamingoImageRight, 5, 4);
+  subflamingoObject10 = new Subflamingo(700, 320, subFlamingoImageRight, 5, 4);
+  // subflamingoObject11 = new Subflamingo(300, 300, subFlamingoImageLeft, 7, 4);
+  // subflamingoObject12 = new Subflamingo(400, 230, subFlamingoImageLeft, 7, 4);
+  // subflamingoObject13 = new Subflamingo(500, 450, subFlamingoImageLeft, 7, 4);
+  // subflamingoObject14 = new Subflamingo(600, 350, subFlamingoImageRight, 7, 4);
+  // subflamingoObject15 = new Subflamingo(700, 320, subFlamingoImageRight, 7, 4);
+  // subflamingoObject16 = new Subflamingo(300, 300, subFlamingoImageLeft, 7, 4);
+  // subflamingoObject17 = new Subflamingo(400, 230, subFlamingoImageLeft, 7, 4);
+  // subflamingoObject18 = new Subflamingo(500, 450, subFlamingoImageLeft, 7, 4);
+  // subflamingoObject19= new Subflamingo(600, 350, subFlamingoImageRight, 7, 4);
+  // subflamingoObject20 = new Subflamingo(700, 320, subFlamingoImageRight, 7, 4);
   subflamingoArray.push(subflamingoObject1);
   subflamingoArray.push(subflamingoObject2);
   subflamingoArray.push(subflamingoObject3);
   subflamingoArray.push(subflamingoObject4);
   subflamingoArray.push(subflamingoObject5);
+  // subflamingoArray.push(subflamingoObject6);
+  // subflamingoArray.push(subflamingoObject7);
+  // subflamingoArray.push(subflamingoObject8);
+  // subflamingoArray.push(subflamingoObject9);
+  // subflamingoArray.push(subflamingoObject10);
+  // subflamingoArray.push(subflamingoObject11);
+  // subflamingoArray.push(subflamingoObject12);
+  // subflamingoArray.push(subflamingoObject13);
+  // subflamingoArray.push(subflamingoObject14);
+  // subflamingoArray.push(subflamingoObject15);
 
 }
 //displayPlayer
@@ -599,7 +625,7 @@ function displayPlayer() {
 function checkDistanceDog() {
   let d = dist(playerX, playerY, dogX, dogY);
   if (d < playerWidth + planetWidth + 10) {
-    textSpeech = "DOG: HEY YOU! I'M SUPER BORED SO I'M GOING TO FOLLOW YOU!\n" + "DOG: I MEAN, BARK BARK, WOOF.";
+    textSpeech = "DOG: PICK ME UP! I MEAN WOOF, WOOF.";
     if (keyIsDown(SHIFT)) {
       textSpeech = "SHUT UP, DOG";
       //The first, still image of the dog disappears while the second, which is loaded in relation to the player's location, appears.
@@ -631,6 +657,14 @@ function mousePressed() {
     menuImageIndex = 0;
     menuArrayIndex = 0;
     planet1ArrayIndex = 0;
+    //Create canvas
+    createCanvas(1300, 750);
+    callClassObjects();
+    starGif_createImg0.position(-500, -500);
+    tropicalSound.loop();
+    tropicalSound.amp(0);
     gameState = 0;
+    landState = 0;
+    textSpeech = "YOU ARE VERY, VERY hungry";
   }
 }

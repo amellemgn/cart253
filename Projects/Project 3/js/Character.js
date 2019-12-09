@@ -1,6 +1,6 @@
 //character
 //
-// This class creates objects similar to planets but with movements and a customizable change in text when the player gets close 
+// This class creates objects similar to planets but with movements and a customizable change in text when the player gets close
 class Character extends Planet {
   constructor(x, y, array, landState, messageSound, speed, textSpeech) {
     super(x, y, array, landState)
@@ -22,7 +22,7 @@ class Character extends Planet {
     // Sin properties for oscillation 'animation'
     this.angle = 0;
     this.radius = this.width / 2;
-    this.textSpeech = "textSpeech";
+    this.textSpeech = textSpeech;
   }
   // move
   //
@@ -64,6 +64,8 @@ class Character extends Planet {
   checkTextSpeech(playerX, playerY, playerWidth, textSpeech) {
     this.d = dist(playerX, playerY, this.x, this.y);
     if (this.d < playerWidth + this.width) {
+      console.log("ok to change text speech");
+      console.log(textSpeech, this.textSpeech);
       textSpeech = this.textSpeech;
       messageSound.amp(0.3);
       messageSound.playMode('untilDone');

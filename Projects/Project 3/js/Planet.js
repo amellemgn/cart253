@@ -48,7 +48,7 @@ class Planet {
     this.growth = sin(this.angle)*(this.radius/8);
 
     image(this.currentArrayImage, this.x, this.y, this.width + this.growth, this.height);
-    this.angle += 0.05;
+    this.angle += 0.01;
     // image(spaceGif, this.x-20, this.y-20);
     // this.gif.position(this.x -20, this.y -20);
     //  this.gif.pause();

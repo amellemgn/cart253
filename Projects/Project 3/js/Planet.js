@@ -30,7 +30,7 @@ class Planet {
   // draw
   //
   // check where the player is. if it's the correct landstate, display image
-  draw(landState, /*flamingoObject*/) {
+  draw(landState) {
     if (landState != this.landState) {
       return;
     }

@@ -85,7 +85,8 @@ let charactersArray = [];
 let playerObject;
 let menArray = [];
 let messageSound;
-let subFlamingoImage;
+let subFlamingoImageLeft;
+let subFlamingoImageRight;
 let subflamingoArray = [];
 
 //preload
@@ -140,7 +141,7 @@ function resourceSetup() {
     planet3Array.push(planet3Image);
   }
   //Flamingo 'planet'
-  for (let i = 0; i <= 6; i++) {
+  for (let i = 0; i <= 9; i++) {
     let flamingoPath = "assets/images/flamingo/flamingotop" + i + ".png";
     let flamingoImage = loadImage(flamingoPath);
     flamingoArray.push(flamingoImage);
@@ -160,7 +161,8 @@ function resourceSetup() {
   flamingoImage = loadImage("assets/images/flamingo.png");
   flamingoTopImage = loadImage("assets/images/flamingotop.png");
   flamingoMidImage = loadImage("assets/images/flamingomedium.png");
-  subFlamingoImage = loadImage("assets/images/subflamingo.png");
+  subFlamingoImageLeft = loadImage("assets/images/subflamingoleft.png");
+  subFlamingoImageRight =loadImage("assets/images/subflamingoright.png");
 
   //Other sounds
   backgroundSound = loadSound("assets/sounds/shortAmbiance.wav");
@@ -525,7 +527,6 @@ function landState8Display() {
 //
 //Create planet objects using constructor of Planet class and push them into an array
 function callClassObjects() {
-  playerObject = new Player(100, 50, 10, playerLeft1, playerRight1, eatSound);
 
   let planetObject1 = new Planet(850, 50, planet2Array, 0, eatSound);
   let planetObject2 = new Planet(850, 50, planet1Array, 1, eatSound);
@@ -535,6 +536,8 @@ function callClassObjects() {
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject3);
+  planetsArray.push(planetObject4);
+  planetsArray.push(planetObject5);
 
   flamingoObject = new Flamingo(300, 100, flamingoArray, 8, eatSound);
 
@@ -560,11 +563,11 @@ function callClassObjects() {
   charactersArray.push(characterObject9);
   charactersArray.push(characterObject10);
 
-  subflamingoObject1 = new Subflamingo(100, 100, subFlamingoImage, 7, 4);
-  subflamingoObject2 = new Subflamingo(100, 230, subFlamingoImage, 7, 4);
-  subflamingoObject3 = new Subflamingo(200, 120, subFlamingoImage, 7, 4);
-  subflamingoObject4 = new Subflamingo(230, 100, subFlamingoImage, 7, 4);
-  subflamingoObject5 = new Subflamingo(100, 120, subFlamingoImage, 7, 4);
+  subflamingoObject1 = new Subflamingo(100, 100, subFlamingoImageLeft, 5, 4);
+  subflamingoObject2 = new Subflamingo(100, 230, subFlamingoImageLeft, 5, 4);
+  subflamingoObject3 = new Subflamingo(200, 120, subFlamingoImageLeft, 5, 4);
+  subflamingoObject4 = new Subflamingo(230, 100, subFlamingoImageRight, 5, 4);
+  subflamingoObject5 = new Subflamingo(100, 120, subFlamingoImageRight, 5, 4);
 
   subflamingoArray.push(subflamingoObject1);
   subflamingoArray.push(subflamingoObject2);

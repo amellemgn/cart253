@@ -2,13 +2,14 @@
 //
 // These objects appear around the big flamingo on landstate8 and avoid the player when it comes near. They disappear when the big flamingo does.
 class Subflamingo {
-  construct(x, y, image, landState, speed) {
+  constructor(x, y, image, landState, speed) {
     this.x = x;
     this.y = y;
     this.vx = 0;
     this.vy = 0;
 
     this.image = image;
+
     this.width = this.image.width;
     this.height = this.image.height;
     this.landState = landState;
@@ -22,13 +23,17 @@ class Subflamingo {
   }
   //draw
   //
-  // Displays the objects on canvas with oscillation.  Only does so if the flamingo has been 'killed'
+  // Displays the objects on canvas with oscillation.  Only does so if the flamingo has been 'killed' and landstate check returns correct
   draw(landState, flamingoObject){
+    if (landState != this.landState) {
+      return;
+    }
     if(flamingoObject.killSwitch === true){
       return;
     }
     this.growth = sin(this.angle)*(this.radius/8);
-    image(this.image, this.x, this.y, this.image.width + this.growth, this.height);
+    //console.log(this.image.width);
+    image(this.image, this.x, this.y, this.width + this.growth, this.height);
     this.angle += 0.05;
   }
   // move

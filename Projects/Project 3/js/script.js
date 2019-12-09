@@ -53,6 +53,7 @@ let planet1ArrayIndex = 0;
 let currentP1ArrayImage;
 let planet2Array = [];
 let planet3Array = [];
+let flamingoArray = [];
 let planet1Appear = true;
 let planet1Event = false;
 let planet2;
@@ -176,39 +177,12 @@ function resourceSetup() {
 
   endscreenImage = loadImage("assets/images/endscreen.png");
 
-  let planet1Image = loadImage("assets/images/saturn/saturn1.png");
-  let planet1ImageFrame2 = loadImage("assets/images/saturn/saturn2.png");
-  let planet1ImageFrame3 = loadImage("assets/images/saturn/saturn3.png");
-  let planet1ImageFrame4 = loadImage("assets/images/saturn/saturn4.png");
-  let planet1ImageFrame5 = loadImage("assets/images/saturn/saturn5.png");
-  let planet1ImageFrame6 = loadImage("assets/images/saturn/saturn6.png");
-  let planet1ImageFrame7 = loadImage("assets/images/saturn/saturn7.png");
-  let planet1ImageFrame8 = loadImage("assets/images/saturn/saturn8.png");
-  let planet1ImageFrame9 = loadImage("assets/images/saturn/saturn9.png");
-  let planet1ImageFrame10 = loadImage("assets/images/saturn/saturn10.png");
-  let planet1ImageFrame11 = loadImage("assets/images/saturn/saturn11.png");
-  let planet1ImageFrame12 = loadImage("assets/images/saturn/saturn12.png");
-  let planet1ImageFrame13 = loadImage("assets/images/saturn/saturn13.png");
-  let planet1ImageFrame14 = loadImage("assets/images/saturn/saturn14.png");
-  let planet1ImageFrame15 = loadImage("assets/images/saturn/saturn15.png");
-  let planet1ImageFrame16 = loadImage("assets/images/saturn/saturn16.png");
-  planet1Array.push(planet1Image);
-  planet1Array.push(planet1ImageFrame2);
-  planet1Array.push(planet1ImageFrame3);
-  planet1Array.push(planet1ImageFrame4);
-  planet1Array.push(planet1ImageFrame5);
-  planet1Array.push(planet1ImageFrame6);
-  planet1Array.push(planet1ImageFrame7);
-  planet1Array.push(planet1ImageFrame8);
-  planet1Array.push(planet1ImageFrame9);
-  planet1Array.push(planet1ImageFrame10);
-  planet1Array.push(planet1ImageFrame11);
-  planet1Array.push(planet1ImageFrame12);
-  planet1Array.push(planet1ImageFrame13);
-  planet1Array.push(planet1ImageFrame14);
-  planet1Array.push(planet1ImageFrame15);
-  planet1Array.push(planet1ImageFrame16);
 
+  for (let i =1; i<= 16; i++){
+    let planet1path = "assets/images/saturn/saturn" + i + ".png";
+    let planet1image = loadImage(planet1path);
+    planet1Array.push(planet1image);
+  }
 
   for (let i = 1; i <= 11; i++){
     let planet2Path = "assets/images/eyeball/eyeball" + i + ".png";
@@ -216,33 +190,17 @@ function resourceSetup() {
     planet2Array.push(planet2Image);
   }
 
-  let planet3Image1 = loadImage("assets/images/many/many1.png");
-  let planet3Image2 = loadImage("assets/images/many/many2.png");
-  let planet3Image3 = loadImage("assets/images/many/many3.png");
-  let planet3Image4 = loadImage("assets/images/many/many4.png");
-  let planet3Image5 = loadImage("assets/images/many/many5.png");
-  let planet3Image6 = loadImage("assets/images/many/many6.png");
-  let planet3Image7 = loadImage("assets/images/many/many7.png");
-  let planet3Image8 = loadImage("assets/images/many/many8.png");
-  let planet3Image9 = loadImage("assets/images/many/many9.png");
-  let planet3Image10 = loadImage("assets/images/many/many10.png");
-  let planet3Image11 = loadImage("assets/images/many/many11.png");
-  let planet3Image12 = loadImage("assets/images/many/many12.png");
-  let planet3Image13 = loadImage("assets/images/many/many13.png");
-  planet3Array.push(planet3Image1);
-  planet3Array.push(planet3Image2);
-  planet3Array.push(planet3Image3);
-  planet3Array.push(planet3Image4);
-  planet3Array.push(planet3Image5);
-  planet3Array.push(planet3Image6);
-  planet3Array.push(planet3Image7);
-  planet3Array.push(planet3Image8);
-  planet3Array.push(planet3Image9);
-  planet3Array.push(planet3Image10);
-  planet3Array.push(planet3Image11);
-  planet3Array.push(planet3Image12);
-  planet3Array.push(planet3Image13);
+for (let i=1; i <= 13; i++){
+  let planet3path = "assets/images/many/many" + i + ".png";
+  let planet3Image = loadImage(planet3path);
+  planet3Array.push(planet3Image);
+}
 
+for (let i = 0; i <=6; i++){
+  let flamingoPath = "assets/images/flamingo/flamingotop" + i + ".png";
+  let flamingoImage = loadImage(flamingoPath);
+  flamingoArray.push(flamingoImage);
+}
   // planet2Image = loadImage("assets/images/eyeball/eyeball.png");
   planet3Image = loadImage("assets/images/eyeball/eyeball.png");
   dogImage = loadImage("assets/images/littledog.png");
@@ -460,11 +418,11 @@ function movePlayerThroughLandscape() {
   }
   if (landState === 4) {
     if (playerX >= width) {
-      landState = 3;
+      landState = 5;
       playerX = 25;
       playerY = 300;
     } else if (playerX < 0) {
-      landState = 5;
+      landState = 3;
       playerX = 25;
       playerY = 300;
     }
@@ -480,7 +438,7 @@ function movePlayerThroughLandscape() {
       playerY= 300;
     }
     if (playerY < 0) {
-      landState = 4;
+      landState = 6;
       playerX = 25;
       playerY = 300;
     }
@@ -491,12 +449,22 @@ function movePlayerThroughLandscape() {
       playerX = 500;
       playerY = 20;
     }
+    else if(playerY < 0){
+      landState = 7;
+      playerX = 25;
+      playerY = 300;
+    }
   }
   if (landState === 7) {
     if (playerY >= height) {
       landState = 6;
       playerX = 500;
       playerY = 20;
+    }
+    else if(playerY < 0){
+      landState = 8;
+      playerX = 25;
+      playerY = 300;
     }
   }
   if (landState === 8) {
@@ -559,29 +527,33 @@ function landState2Display() {
 }
 
 function landState3Display() {
+textSpeech = "landstate3";
+}
+
+function landState4Display() {
+  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+  textSpeech = "landstate4";
+  tropicalSound.setVolume(5);
+}
+function landState5Display() {
+  textSpeech = "landstate5";
   let volume = map(playerY, height, 0, 0, 1); // map playerY's distance from top to a range from 5-10
   volume = constrain(volume, 0, 1); // (unnecessary but they showed this on the website)
   tropicalSound.amp(volume);
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
-
-function landState4Display() {
-  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
-  tropicalSound.setVolume(5);
-}
-function landState5Display() {
-  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
-  tropicalSound.setVolume(5);
-}
 function landState6Display() {
+  textSpeech = "landstate6";
   //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
   tropicalSound.setVolume(5);
 }
 function landState7Display() {
+  textSpeech = "landstate7";
   //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
   tropicalSound.setVolume(5);
 }
 function landState8Display() {
+  textSpeech = "landstate8";
   //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
   tropicalSound.setVolume(5);
 }
@@ -591,14 +563,16 @@ function landState8Display() {
 function callClassObjects() {
   playerObject = new Player (100, 50, 10, playerLeft1, playerRight1, eatSound);
 
-  let planetObject1 = new Planet(850, 50, planet1Array, spaceGif, 0, eatSound, crumbsImage);
+  let planetObject1 = new Planet(850, 50, planet2Array, spaceGif, 0, eatSound, crumbsImage);
   let planetObject2 = new Planet(850, 50, planet2Array, 1, eatSound, crumbsImage);
-  let planetObject3 = new Planet(1000, 50, planet3Array, 2, eatSound, crumbsImage);
+  let planetObject3 = new Planet(850, 50, planet3Array, 2, eatSound, crumbsImage);
+  let planetObject4 = new Planet(850, 50, planet3Array, 3, eatSound, crumbsImage);
+  let planetObject5 = new Planet(850, 50, planet3Array, 4, eatSound, crumbsImage);
   planetsArray.push(planetObject1);
   planetsArray.push(planetObject2);
   planetsArray.push(planetObject3);
 
-  flamingoObject = new Flamingo(300, 100, planet1Array, 4, eatSound);
+  flamingoObject = new Flamingo(300, 100, flamingoArray, 8, eatSound);
 
   characterObject1 = new Character(200, 300, planet1Array, 0, eatSound, 4);
   characterObject2 = new Character(300, 300, planet1Array, 0, eatSound, 6);

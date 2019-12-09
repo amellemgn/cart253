@@ -1,3 +1,6 @@
+//Subflamingo
+//
+// These objects appear around the big flamingo on landstate8 and avoid the player when it comes near. They disappear when the big flamingo does.
 class Subflamingo {
   construct(x, y, image, landState, speed) {
     this.x = x;
@@ -17,27 +20,28 @@ class Subflamingo {
     this.angle = 0;
     this.radius = this.width / 2;
   }
-
+  //draw
+  //
+  // Displays the objects on canvas with oscillation.  Only does so if the flamingo has been 'killed'
   draw(landState, flamingoObject){
     if(flamingoObject.killSwitch === true){
       return;
     }
-
     this.growth = sin(this.angle)*(this.radius/8);
-    image(this.image, this.x, this.y, this.width+ this.growth, this.height);
+    image(this.image, this.x, this.y, this.image.width + this.growth, this.height);
     this.angle += 0.05;
   }
   // move
   //
-  // Sets velocity based on the noise() function and the Prey's speed
-  // Moves based on the resulting velocity and handles wrapping
+  // Sets velocity based on the noise() function and speed
+  // If the player gets to close the subflamingos will 'flee' and move away from player
   move(playerX, playerY) {
     // Set velocity via noise()
     this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
     this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
-
+    //Track distance between player and subflamingo. If the distance is deemed to small, the flamingo moves away from player.
     this.d = dist(this.x, this.y, playerX, playerY)
-    if(d<50){
+    if(this.d<20){
      this.x -= playerX;
      this.y -= playerY;
     }
@@ -61,7 +65,7 @@ class Subflamingo {
     // Off the top or bottom
     if (this.y < 0) {
       this.y += this.height;
-    } else if (this.y > height) {
+    } else if (this.y > window.height) {
       this.y -= this.height;
     }
   }

@@ -195,7 +195,6 @@ function draw() {
   if (gameState == 0) {
     currentMenuImage = menuImageArray[menuArrayIndex];
     image(currentMenuImage, 0, 0, 1300, 750);
-
   }
   //If game has started, call all game related methods and elements
   if (gameState == 1) {
@@ -212,7 +211,7 @@ function draw() {
     handleInput();
     move();
     displayPlayer();
-  // Check which part of the game the player is in  (landstates 0-8) and display related elements accordingly
+  // Check which part of the game the player is in  (landstates 0-8) and call functions that display related elements accordingly
     if (landState === 0) {
       landState0Display();
     }
@@ -240,12 +239,10 @@ function draw() {
     if (landState == 8) {
       landState8Display();
     }
-    // 
+    //Call function that navigate through the landStates
     movePlayerThroughLandscape();
-    if (secondDogAppear == true) {
-      image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
-    }
 
+    // Arrays to call class functions for planets, star, characters, flamingo, subflamingo objects
     for (let i = 0; i < planetsArray.length; i++) {
       planetsArray[i].checkDistance(playerX, playerY, playerWidth);
       planetsArray[i].draw(landState, flamingoObject); // move boolean to main script, classes can't communicate booleans
@@ -258,22 +255,20 @@ function draw() {
       charactersArray[i].checkDistance(playerX, playerY, playerWidth);
       charactersArray[i].checkTextSpeech(playerX, playerY, playerWidth, textSpeech);
     }
-
     for (let i = 0; i < subflamingoArray.length; i++) {
-      subflamingoArray[i].draw(landState, flamingoObject);
-      subflamingoArray[i].move();
+      subflamingoArray[i].move(playerX, playerY);
       subflamingoArray[i].handleWrapping();
+      subflamingoArray[i].draw(landState,flamingoObject);
     }
     starObject.draw();
     flamingoObject.draw(landState);
     flamingoObject.checkDistance(playerX, playerY, playerWidth);
 
-    // playerObject.draw();
-    // playerObject.handleInput();
-    // playerObject.move();
-    // playerObject.movePlayerThroughLandscape();
-
-
+    //Display dog if the condition is correct
+    if (secondDogAppear == true) {
+      image(dogImage, random(playerX - 60, playerX - 80), random(playerY + 60, playerY + 70));
+    }
+  // End game if enter key is pressed
     if (keyIsDown(ENTER)) {
       console.log("pressed");
       gameState = 2;
@@ -286,7 +281,7 @@ function draw() {
 }
 // handleInput
 //
-// Handle keyboard input from player
+// Handle keyboard input from player and display corresponding images
 function handleInput() {
   if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerSpeed;
@@ -327,18 +322,15 @@ function move() {
   if (playerVX > 0 || playerVY > 0) {
     walkSound.play();
   }
-  // declare variable that saves player location
-  // create vector based on player X and Y, push into array
-
+  // Declare variable that saves player location, push into an array.
+  // This is used later in displayPlayer() to display a player trail
   let vector = createVector(playerX, playerY);
   history.unshift(vector);
-
-  // if the history array has more than 25 items, start removing them so the trail disappears gradually
+  // If the array in question has over a certain quantity of items, start removing them so the trail disappears gradually
   if (history.length > 70) {
-    history.pop(); // the alternative is push() and shift () but that means losing the oscillation
+    history.pop(); // not: the alternative is push() and shift () but that means losing the oscillation
   }
 }
-
 //movePlayerThroughLandscape
 //
 //Check if player is in screen space. If they are not, move them to according next/previous screen space
@@ -347,7 +339,7 @@ function movePlayerThroughLandscape() {
     constrain(playerY, 0, height);
     if (playerX >= width) {
       landState = 1;
-      // Setting coordinates to make it easier to see if this screen movement is working. may change in later prototype
+      // Setting coordinates to make it easier to see where player is
       playerX = 25;
       playerY = 7300;
     } else if (playerX < 0) {
@@ -446,10 +438,10 @@ function movePlayerThroughLandscape() {
     }
 
   }
+  //Some landStates are limited horizontally, some vertically
   if (landState === 0 || landState == 1 || landState == 2 || landState == 3 || landState == 4) {
     playerY = constrain(playerY, 0, height - 100);
   }
-
   if (landState == 6 || landState == 7 || landState == 8) {
     playerX = constrain(playerX, 0, width - 75);
     if (landState == 8) {
@@ -457,12 +449,10 @@ function movePlayerThroughLandscape() {
     }
   }
 }
-
 //landState0Display
 //
 //This displays game objects in the first landstate that arent loaded through Planet class
 function landState0Display() {
-
 }
 
 //landState1Display
@@ -472,12 +462,10 @@ function landState1Display() {
   //Set dog coordinate
   dogX = 300;
   dogY = 500;
-
   // Dog is present if this condition, which is true by default, is true. ie. Dog is present
   if (firstDogAppear === true) {
     image(dogImage, dogX, dogY);
   }
-
   // Check player to dog
   checkDistanceDog();
 }
@@ -486,61 +474,51 @@ function landState1Display() {
 //
 //This displays game objects in the third landstate that arent loaded through Planet class
 function landState2Display() {
-  // // Create formula for sin oscillation based on radius
-  // let growth2 = sin(angle) * (radius / 8);
-  // // Display relevant NPC images
-  // image(menImage, 600, 500, menWidth, 86 + growth2);
-  // image(menImage, 650, 450, menWidth, 86 + growth2);
-  // image(menImage, 550, 400, menWidth, 86 + growth2);
-  // // Update angle every frame to create oscillation
-  // angle += 0.05;
-  //Check player distance to NPC and if close enough display text
-  let d = dist(playerX, playerY, 550, 500);
-  if (d < playerWidth + menWidth) {
-    textSpeech = "SMALL CHORUS: nonononononoonononononono";
-  }
 }
-
+//Display 4th landstate
 function landState3Display() {
   textSpeech = "landstate3";
 }
-
+//Display 5th landstate
 function landState4Display() {
   //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
   textSpeech = "landstate4";
-
 }
-
+//Display 6th landstate
 function landState5Display() {
   textSpeech = "landstate5";
-  let volume = map(playerY, height, 0, 0, 1); // map playerY's distance from top to a range from 5-10
-  volume = constrain(volume, 0, 0.3); // (unnecessary but they showed this on the website)
+  //Map volume increase to player's vertical movement
+  let volume = map(playerY, height, 0, 0, 1);
+  volume = constrain(volume, 0, 0.3);
   tropicalSound.amp(volume);
+  //Display flamingo legs
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
-
+//Display 7th landstate
 function landState6Display() {
   textSpeech = "landstate6";
+  //Map volume increase to player's vertical movement
   let volume1 = map(playerY, height, 0, 0, 1);
   volume1 = constrain(volume1, 0.3, 0.6);
   tropicalSound.amp(volume1);
+  //Display flamingo legs
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 
 function landState7Display() {
   textSpeech = "landstate7";
 
-  tropicalSound.setVolume(5);
-
+//Map volume increase to player's vertical movement
   let volume2 = map(playerY, height, 0, 0, 1);
   volume2 = constrain(volume2, 0.6, 0.9);
   tropicalSound.amp(volume2);
+  //Display flamingo legs
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 
 function landState8Display() {
   textSpeech = "landstate8";
-
+//Display sound at its maximum
   tropicalSound.amp(1);
 }
 //callClassObjects
@@ -618,7 +596,6 @@ function displayPlayer() {
 function checkDistanceDog() {
   let d = dist(playerX, playerY, dogX, dogY);
   if (d < playerWidth + planetWidth + 10) {
-    //play chime
     textSpeech = "DOG: HEY YOU! I'M SUPER BORED SO I'M GOING TO FOLLOW YOU!\n" + "DOG: I MEAN, BARK BARK, WOOF.";
     if (keyIsDown(SHIFT)) {
       textSpeech = "SHUT UP, DOG";
@@ -629,21 +606,11 @@ function checkDistanceDog() {
     }
   }
 }
-
-// triggerAnimationPlanet1
-//
-// // trigger the animation of the planet objects by calling the function from the Planet class
-// function triggerAnimationPlanet1() {
-//   for (let i = 0; i < planetsArray.length; i++) {
-//     planetsArray[i].triggerAnimation();
-//   }
-// }
 //mousePressed
 //
 // If the player clicks, depending on gamestate, different things can happen
 function mousePressed() {
   //If game hasn't started, music starts, and clicking cycles through the menu image array
-
   if (gameState === 0) {
     backgroundSound.loop();
     backgroundSound.setVolume(0.1);
@@ -652,12 +619,11 @@ function mousePressed() {
       gameState = 1;
     }
   }
-  // If game has started, player can basically 'print'  stars by clicking mouse
+  // If game has started, player can basically 'print'  a star by clicking mouse
   if (gameState === 1) {
-
     starObject = new Star(mouseX, mouseY);
   }
-  //If game has ended, restart game
+//If game has ended, restart game so reload some values.
   if (gameState === 2) {
     menuImageIndex = 0;
     menuArrayIndex = 0;

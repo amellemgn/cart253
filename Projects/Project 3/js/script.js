@@ -117,7 +117,7 @@ function preload() {
   resourceSetup();
   // // Call .playmode function which prevents this sound from being played until before it's playtime has elapsed
   // // ie. my sound was really slowing down my project and this prevents calling my sound 5million times/minute
-  // walkSound.playMode('untilDone');
+  walkSound.playMode('untilDone');
 }
 //setup
 //
@@ -208,7 +208,7 @@ for (let i = 0; i <=6; i++){
   flamingoImage = loadImage("assets/images/flamingo.png");
   backgroundSound = loadSound("assets/sounds/shortAmbiance.wav");
   eatSound = loadSound("assets/sounds/applecrunch.wav");
-  walkSound = loadSound("assets/sounds/applecrunch.wav");
+  walkSound = loadSound("assets/sounds/deepbass.wav");
   textSound = loadSound("assets/sounds/electrobass.wav");
   crumbs = loadImage("assets/images/crumbs.png");
   flamingoTopImage = loadImage("assets/images/flamingotop.png");
@@ -533,29 +533,35 @@ textSpeech = "landstate3";
 function landState4Display() {
   //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
   textSpeech = "landstate4";
-  tropicalSound.setVolume(5);
+
 }
 function landState5Display() {
   textSpeech = "landstate5";
   let volume = map(playerY, height, 0, 0, 1); // map playerY's distance from top to a range from 5-10
-  volume = constrain(volume, 0, 1); // (unnecessary but they showed this on the website)
+  volume = constrain(volume, 0, 0.3); // (unnecessary but they showed this on the website)
   tropicalSound.amp(volume);
   image(flamingoMidImage, 500, 0, flamingoMidImage.width, flamingoMidImage.height);
 }
 function landState6Display() {
   textSpeech = "landstate6";
-  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
-  tropicalSound.setVolume(5);
+  let volume1 = map(playerY, height, 0, 0, 1);
+  volume1 = constrain(volume1, 0.3, 0.6);
+  tropicalSound.amp(volume1);
+
 }
 function landState7Display() {
   textSpeech = "landstate7";
-  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
+
   tropicalSound.setVolume(5);
+
+  let volume2 = map(playerY, height, 0, 0, 1);
+  volume2 = constrain(volume2, 0.6, 0.9);
+  tropicalSound.amp(volume2);
 }
 function landState8Display() {
   textSpeech = "landstate8";
-  //image(flamingoTopImage, 300, 100, flamingoTopImage.width, flamingoTopImage.height);
-  tropicalSound.setVolume(5);
+
+  tropicalSound.amp(1);
 }
 //callClassObjects
 //

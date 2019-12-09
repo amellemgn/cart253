@@ -347,7 +347,7 @@ function handleInput() {
 //
 // Move player according to velocity.
 function move() {
-  console.log(landState, playerX, playerY);
+  // console.log(landState, playerX, playerY);
   playerX += playerVX;
   playerY += playerVY;
   // If the player has velocity, play a sound

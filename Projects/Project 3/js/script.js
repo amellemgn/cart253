@@ -107,6 +107,9 @@ let playerObject;
 
 let menArray = [];
 let messageSound;
+let subFlamingoImage;
+
+let subflamingoArray = [];
 //preload
 //
 //Loads linked resources.
@@ -199,7 +202,7 @@ for (let i = 0; i <=6; i++){
   flamingoArray.push(flamingoImage);
 }
 
-for(let i = 1; i<= 6; i++){
+for(let i = 1; i<= 7; i++){
   let menPath = "assets/images/men/men" + i + ".png";
   let menImage = loadImage(menPath);
   menArray.push(menImage);
@@ -216,6 +219,7 @@ for(let i = 1; i<= 6; i++){
   crumbs = loadImage("assets/images/crumbs.png");
   flamingoTopImage = loadImage("assets/images/flamingotop.png");
   flamingoMidImage = loadImage("assets/images/flamingomedium.png");
+  subFlamingoImage = loadImage("assets/images/subflamingo.png");
 
   tropicalSound = loadSound("assets/sounds/tropical.wav");
   messageSound = loadSound("assets/sounds/shortelectronic.wav");
@@ -292,10 +296,16 @@ function draw() {
     }
     for (let i = 0; i < charactersArray.length; i++) {
       charactersArray[i].move();
-      charactersArray[i].draw(landState, flamingoObject);
+      charactersArray[i].draw(landState);
       charactersArray[i].handleWrapping();
       charactersArray[i].checkDistance(playerX, playerY, playerWidth);
       charactersArray[i].checkTextSpeech(playerX, playerY, playerWidth, textSpeech);
+    }
+
+    for (let i =0; i < subflamingoArray.length; i++){
+      subflamingoArray[i].draw(landState, flamingoObject);
+      subflamingoArray[i].move();
+      subflamingoArray[i].handleWrapping();
     }
     starObject.draw();
     flamingoObject.draw(landState);
@@ -601,7 +611,7 @@ function callClassObjects() {
   characterObject8 = new Character(700, 350, menArray, 2, messageSound, 0.3, "GAH");
   characterObject9 = new Character(650, 320, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
   characterObject10 = new Character(620, 310, menArray, 2, messageSound, 0.2, "FAREWELL SWEET PRINCE");
-  
+
   charactersArray.push(characterObject1);
   charactersArray.push(characterObject2);
   charactersArray.push(characterObject3);
@@ -612,6 +622,18 @@ function callClassObjects() {
   charactersArray.push(characterObject8);
   charactersArray.push(characterObject9);
   charactersArray.push(characterObject10);
+
+  subflamingoObject1 = new Subflamingo(100,100, subFlamingoImage, 7, 4);
+  subflamingoObject2 = new Subflamingo(100,230, subFlamingoImage, 7, 4);
+  subflamingoObject3 = new Subflamingo(200,120, subFlamingoImage, 7, 4);
+  subflamingoObject4 = new Subflamingo(230,100, subFlamingoImage, 7, 4);
+  subflamingoObject5 = new Subflamingo(100,120, subFlamingoImage, 7, 4);
+
+  subflamingoArray.push(subflamingoObject1);
+  subflamingoArray.push(subflamingoObject2);
+  subflamingoArray.push(subflamingoObject3);
+  subflamingoArray.push(subflamingoObject4);
+  subflamingoArray.push(subflamingoObject5);
 
 }
 //displayPlayer

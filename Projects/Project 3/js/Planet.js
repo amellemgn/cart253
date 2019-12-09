@@ -31,13 +31,13 @@ class Planet {
   // draw
   //
   // check where the player is. if it's the correct landstate, display image
-  draw(landState, flamingoObject) {
+  draw(landState, /*flamingoObject*/) {
     if (landState != this.landState) {
       return;
     }
-    if(flamingoObject.killSwitch === true){
-      return;
-    }
+    // if(flamingoObject.killSwitch === true){
+    //   return;
+    // }
     if (this.playGif === true) // this needs to switch back eventually
     {
       if (this.currentArrayIndex < this.spaceArray.length - 1) {
